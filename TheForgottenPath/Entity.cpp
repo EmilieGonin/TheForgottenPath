@@ -7,12 +7,12 @@ Entity::Entity()
 	m_icon = ' ';
 }
 
-inline float Entity::GetStat(Stat stat)
+float Entity::GetStat(Stat stat)
 {
 	return m_stats[stat];
 }
 
-inline char Entity::GetIcon()
+char Entity::GetIcon() const
 {
 	return m_icon;
 }
