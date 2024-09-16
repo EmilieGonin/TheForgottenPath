@@ -46,9 +46,7 @@ void Dungeon::InitWalls()
 
 void Dungeon::SpawnMonsters() 
 {
-    GameManager gm;
-
-    for (Monster m : gm.GetMonsters())
+    for (Monster m : m_gm->GetMonsters())
     {
         m_grid[m.GetPos().first][m.GetPos().second] = m.GetIcon();
     }
@@ -57,6 +55,30 @@ void Dungeon::SpawnMonsters()
 void Dungeon::SpawnPlayer()
 {
     m_grid[m_gm->GetPlayer()->GetPos().first][m_gm->GetPlayer()->GetPos().second] = m_gm->GetPlayer()->GetIcon();
+}
+
+void Dungeon::RenderPlayerStats()
+{
+    for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
+    {
+        e.first;
+        //std::cout << e.first << ' ';
+    }
+}
+
+void Dungeon::RenderMonsterStats()
+{
+
+}
+
+void Dungeon::RenderAvailableActions()
+{
+
+}
+
+void Dungeon::RenderGameMessage()
+{
+
 }
 
 void Dungeon::Display() const
