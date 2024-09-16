@@ -23,9 +23,10 @@ using std::cout;
 
 Dungeon::Dungeon() : m_grid(kHeight, std::vector<char>(kWidth, kEmpty)) 
 {
+    m_gm = GameManager::GetInstance();
     InitWalls();
     SpawnMonsters();
-    //SpawnPlayer();
+    SpawnPlayer();
     Display();
 }
 
@@ -53,9 +54,9 @@ void Dungeon::SpawnMonsters()
     }
 }
 
-void Dungeon::SpawnPlayer(Player* player)
+void Dungeon::SpawnPlayer()
 {
-    m_grid[player->GetPos().first][player->GetPos().second] = player->GetIcon();
+    m_grid[m_gm->GetPlayer()->GetPos().first][m_gm->GetPlayer()->GetPos().second] = m_gm->GetPlayer()->GetIcon();
 }
 
 void Dungeon::Display() const
@@ -71,15 +72,15 @@ void Dungeon::Display() const
 }
 
 // Marquer les cases de déplacement valides autour du héros
-void Dungeon::MovementRange(Player* player) 
+void Dungeon::MovementRange() 
 {
     const int range = 2;
     for (int dx = -range; dx <= range; ++dx) 
     {
         for (int dy = -range; dy <= range; ++dy) 
         {
-            int new_x = player->GetPos().first + dx;
-            int new_y = player->GetPos().second + dy;
+            int new_x = m_gm->GetPlayer()->GetPos().first + dx;
+            int new_y = m_gm->GetPlayer()->GetPos().second + dy;
             if (new_x >= 0 && new_x < kHeight && new_y >= 0 && new_y < kWidth && m_grid[new_x][new_y] == kEmpty) 
             {
                 m_grid[new_x][new_y] = kValidMove;

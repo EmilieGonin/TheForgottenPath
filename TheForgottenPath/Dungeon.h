@@ -10,10 +10,10 @@ using std::vector;
 class Dungeon 
 {
 public:
-    Dungeon(Player*);
+    Dungeon();
 
     void Display() const;
-    void MovementRange(Player*);
+    void MovementRange();
 
 private:
     static const int kWidth = 15;
@@ -27,5 +27,7 @@ private:
 
     void InitWalls();
     void SpawnMonsters();
-    void SpawnPlayer(Player*);
+    void SpawnPlayer();
+
+    GameManager* m_gm;
 };
