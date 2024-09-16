@@ -11,8 +11,13 @@ GameManager::GameManager()
 
 Monster GameManager::GetRandomMonster()
 {
-    std::srand(static_cast<unsigned>(std::time(0))); // Seed for random number generation
+    std::srand(static_cast<unsigned>(std::time(0)));
     int randomChoice = std::rand() % m_monsters.size();
 
 	return m_monsters[randomChoice];
+}
+
+std::vector<Monster> GameManager::GetMonsters()
+{
+	return std::vector<Monster>();
 }
