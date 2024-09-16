@@ -7,5 +7,5 @@ class Reaper : public Monster
 public:
 	Reaper();
 
-	void specialAttack() const override;
+	void SpecialAttack() const override;
 };

@@ -6,7 +6,7 @@ Reaper::Reaper() // Faucheur
 	m_icon = 'F';
 }
 
-void Reaper::specialAttack() const
+void Reaper::SpecialAttack() const
 {
 	//
 }

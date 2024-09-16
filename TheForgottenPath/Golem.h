@@ -7,5 +7,5 @@ class Golem : public Monster
 public:
 	Golem();
 
-	void specialAttack() const override;
+	void SpecialAttack() const override;
 };
