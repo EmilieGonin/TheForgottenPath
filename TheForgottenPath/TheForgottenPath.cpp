@@ -1,10 +1,10 @@
 #include "GameManager.h"
-#include "dungeon.h"
+#include "Dungeon.h"
 
 int main()
 {
-    GameManager gm;
-    Dungeon dungeon(gm.GetPlayer());
+    GameManager* gm = new GameManager();
+    Dungeon dungeon(gm->GetPlayer());
 
     dungeon.MovementRange(gm.GetPlayer());
 
