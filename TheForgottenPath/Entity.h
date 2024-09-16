@@ -23,6 +23,8 @@ public:
 
 	pair<int, int> GetPos();
 
+	std::map<Stat, float> GetStats();
+
 protected:
 	std::map<Stat, float> m_stats;
 	char m_icon;

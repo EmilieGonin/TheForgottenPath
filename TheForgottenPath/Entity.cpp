@@ -21,3 +21,8 @@ pair<int, int> Entity::GetPos()
 {
 	return m_pos;
 }
+
+std::map<Stat, float> Entity::GetStats()
+{
+	return m_stats;
+}

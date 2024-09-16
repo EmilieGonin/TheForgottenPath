@@ -28,6 +28,10 @@ private:
     void InitWalls();
     void SpawnMonsters();
     void SpawnPlayer();
+    void RenderPlayerStats();
+    void RenderMonsterStats();
+    void RenderAvailableActions();
+    void RenderGameMessage();
 
     GameManager* m_gm;
 };

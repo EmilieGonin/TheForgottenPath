@@ -46,9 +46,7 @@ void Dungeon::InitWalls()
 
 void Dungeon::SpawnMonsters() 
 {
-    GameManager gm;
-
-    for (Monster m : gm.GetMonsters())
+    for (Monster m : m_gm->GetMonsters())
     {
         m_grid[m.GetPos().first][m.GetPos().second] = m.GetIcon();
     }
@@ -59,15 +57,51 @@ void Dungeon::SpawnPlayer()
     m_grid[m_gm->GetPlayer()->GetPos().first][m_gm->GetPlayer()->GetPos().second] = m_gm->GetPlayer()->GetIcon();
 }
 
+void Dungeon::RenderPlayerStats()
+{
+    for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
+    {
+        e.first;
+        //std::cout << e.first << ' ';
+    }
+}
+
+void Dungeon::RenderMonsterStats()
+{
+
+}
+
+void Dungeon::RenderAvailableActions()
+{
+
+}
+
+void Dungeon::RenderGameMessage()
+{
+
+}
+
 void Dungeon::Display() const
 {
-    for (const auto& row : m_grid)
-    {
-        for (char cell : row)
-        {
-            cout << cell << ' ';
+    // Récupérer la taille actuelle de la console
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    int console_width = 80; // Valeur par défaut
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+        console_width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+    }
+
+    // Calculer les marges (espaces à gauche) pour centrer la grille
+    int margin_left = (console_width - kWidth * 2) / 2; // *2 car chaque cellule est suivie d'un espace
+
+    for (const auto& row : m_grid) {
+        for (int i = 0; i < margin_left; ++i) {
+            std::cout << ' ';
         }
-        cout << std::endl;
+
+        for (char cell : row) {
+            std::cout << cell << ' ';
+        }
+        std::cout << std::endl;
     }
 }
 
