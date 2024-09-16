@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <vector>
 
@@ -13,8 +13,8 @@ public:
     void MarkValidMoves(int hero_x, int hero_y);
 
 private:
-    static const int kWidth = 105;
-    static const int kHeight = 40;
+    static const int kWidth = 15;
+    static const int kHeight = 15;
 
     static const char kEmpty = '.';
     static const char kHero = '@';

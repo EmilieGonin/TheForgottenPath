@@ -51,8 +51,8 @@ void Dungeon::PlaceWalls()
 void Dungeon::PlaceMonsters() 
 {
     m_grid[7][3] = kGolem;
-    m_grid[5][12] = kSpectre;
-    m_grid[16][7] = kFaucheur;
+    m_grid[5][5] = kSpectre;
+    m_grid[7][7] = kFaucheur;
 }
 
 void Dungeon::Display() const 
