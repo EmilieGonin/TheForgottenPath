@@ -1,6 +1,7 @@
 #include "dungeon.h"
 
-int main() {
+int main()
+{
     Dungeon dungeon;
 
     dungeon.MarkValidMoves(1, 1);
