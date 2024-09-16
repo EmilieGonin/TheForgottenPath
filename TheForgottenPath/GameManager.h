@@ -12,6 +12,7 @@ class GameManager
 {
 public:
 	GameManager();
+	static GameManager* GetInstance();
 
 	Player* GetPlayer();
 	Monster GetRandomMonster();
@@ -20,4 +21,5 @@ public:
 private:
 	Player* m_player;
 	std::vector<Monster> m_monsters;
+	static GameManager* m_instance;
 };
