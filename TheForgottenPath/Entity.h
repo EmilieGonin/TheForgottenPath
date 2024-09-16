@@ -17,7 +17,7 @@ public:
 	Entity();
 
 	float GetStat(Stat);
-	char GetIcon();
+	char GetIcon() const;
 
 protected:
 	std::map<Stat, float> m_stats;

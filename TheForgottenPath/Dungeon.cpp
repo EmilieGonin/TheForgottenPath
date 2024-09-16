@@ -29,8 +29,7 @@ Dungeon::Dungeon(Player* player) : m_grid(kHeight, vector<char>(kWidth, kEmpty))
     Initialize();
 
     // Placement du héros dans la grille
-    m_grid[player->GetPos().first][player->GetPos().second] = '@';
-    //m_grid[player->GetPos().first][player->GetPos().second] = player->GetIcon();
+    m_grid[player->GetPos().first][player->GetPos().second] = player->GetIcon();
 }
 
 Dungeon::Dungeon()
