@@ -1,12 +1,20 @@
 #include "GameManager.h"
+
 #include <cstdlib>
 #include <ctime>
 
 GameManager::GameManager()
 {
+	m_player = new Player();
+
 	m_monsters.push_back(Golem());
 	m_monsters.push_back(Reaper());
 	m_monsters.push_back(Wraith());
+}
+
+Player* GameManager::GetPlayer()
+{
+	return m_player;
 }
 
 Monster GameManager::GetRandomMonster()
