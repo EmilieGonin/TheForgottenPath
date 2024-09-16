@@ -12,10 +12,10 @@ using std::vector;
 enum ConsoleColor 
 {
     DEFAULT_COLOR = 7,  // Couleur par défaut (blanc sur noir)
-    VALID_MOVE_COLOR = 10, // Vert clair pour les déplacements valides
-    GOLEM_COLOR = 14,    // Jaune pour le Golem
-    SPECTRE_COLOR = 11,  // Bleu clair pour le Spectre
-    Faucheur_COLOR = 12  // Rouge pour le Faucheur
+    VALID_MOVE_COLOR = 10, // Vert 
+    GOLEM_COLOR = 14,    // Jaune
+    WRAITH_SPECTRE_COLOR = 11,  // Bleu clair 
+    REAPER_COLOR = 12  // Rouge 
 };
 
 void SetConsoleColor(ConsoleColor color) 
@@ -74,12 +74,12 @@ void Dungeon::Display() const
                 SetConsoleColor(DEFAULT_COLOR);
                 break;
             case kSpectre:
-                SetConsoleColor(SPECTRE_COLOR);
+                SetConsoleColor(WRAITH_SPECTRE_COLOR);
                 cout << cell << ' ';
                 SetConsoleColor(DEFAULT_COLOR);
                 break;
             case kFaucheur:
-                SetConsoleColor(Faucheur_COLOR);
+                SetConsoleColor(REAPER_COLOR);
                 cout << cell << ' ';
                 SetConsoleColor(DEFAULT_COLOR);
                 break;
