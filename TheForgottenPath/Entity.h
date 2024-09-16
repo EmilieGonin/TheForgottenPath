@@ -19,7 +19,7 @@ public:
 	Entity();
 
 	float GetStat(Stat);
-	char GetIcon();
+	char GetIcon() const;
 
 	pair<int, int> GetPos();
 
