@@ -6,8 +6,8 @@ class Battle;
 class BattleState
 {
 public:
-	virtual void enter(Battle*) = 0;
-	virtual void toggle(Battle*) = 0;
-	virtual void exit(Battle*) = 0;
+	virtual void Enter(Battle*) = 0;
+	virtual void Toggle(Battle*) = 0;
+	virtual void Exit(Battle*) = 0;
 	virtual ~BattleState() {}
 };
