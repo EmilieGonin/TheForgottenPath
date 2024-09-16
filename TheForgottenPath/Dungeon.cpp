@@ -2,18 +2,22 @@
 #include <iostream>
 #include <algorithm>
 #include <windows.h>
+#include <vector>
 
 using std::fill;
 using std::cout;
 using std::endl;
+using std::vector;
 
 enum ConsoleColor 
 {
     DEFAULT_COLOR = 7,  // Couleur par défaut (blanc sur noir)
-    VALID_MOVE_COLOR = 10, // Vert clair pour les déplacements valides lorsqu'activé
+    VALID_MOVE_COLOR = 10, // Vert clair pour les déplacements valides
+    GOLEM_COLOR = 14,    // Jaune pour le Golem
+    SPECTRE_COLOR = 11,  // Bleu clair pour le Spectre
+    Faucheur_COLOR = 12  // Rouge pour le Faucheur
 };
 
-// Change la couleur du texte dans la console
 void SetConsoleColor(ConsoleColor color) 
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -51,7 +55,8 @@ void Dungeon::PlaceMonsters()
     m_grid[16][7] = kFaucheur;
 }
 
-void Dungeon::Display() const {
+void Dungeon::Display() const 
+{
     for (int row = 0; row < kHeight; ++row) 
     {
         for (int col = 0; col < kWidth; ++col) 
@@ -59,12 +64,32 @@ void Dungeon::Display() const {
             char cell = m_grid[row][col];
             switch (cell) 
             {
-            case kValidMove:
-                SetConsoleColor(VALID_MOVE_COLOR); // Définit la couleur pour les cases de déplacement valide
+            case kHero:
+                SetConsoleColor(DEFAULT_COLOR);
                 cout << cell << ' ';
-                SetConsoleColor(DEFAULT_COLOR); // Réinitialise la couleur par défaut
+                break;
+            case kGolem:
+                SetConsoleColor(GOLEM_COLOR);
+                cout << cell << ' ';
+                SetConsoleColor(DEFAULT_COLOR);
+                break;
+            case kSpectre:
+                SetConsoleColor(SPECTRE_COLOR);
+                cout << cell << ' ';
+                SetConsoleColor(DEFAULT_COLOR);
+                break;
+            case kFaucheur:
+                SetConsoleColor(Faucheur_COLOR);
+                cout << cell << ' ';
+                SetConsoleColor(DEFAULT_COLOR);
+                break;
+            case kValidMove:
+                SetConsoleColor(VALID_MOVE_COLOR);
+                cout << cell << ' ';
+                SetConsoleColor(DEFAULT_COLOR);
                 break;
             default:
+                SetConsoleColor(DEFAULT_COLOR);
                 cout << cell << ' ';
                 break;
             }
@@ -72,7 +97,6 @@ void Dungeon::Display() const {
         cout << endl;
     }
 }
-
 
 // Marquer les cases de déplacement valides autour du héros
 void Dungeon::MarkValidMoves(int hero_x, int hero_y) 
