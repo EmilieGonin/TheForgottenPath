@@ -2,6 +2,8 @@
 
 #include <map>
 
+using std::pair;
+
 enum class Stat
 {
 	HP,
@@ -19,7 +21,12 @@ public:
 	float GetStat(Stat);
 	char GetIcon() const;
 
+	pair<int, int> GetPos();
+
 protected:
 	std::map<Stat, float> m_stats;
 	char m_icon;
+
+	pair<int, int> m_pos;
+
 };

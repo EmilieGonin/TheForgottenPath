@@ -4,10 +4,7 @@
 #include <windows.h>
 #include <vector>
 
-using std::fill;
 using std::cout;
-using std::endl;
-using std::vector;
 
 //enum ConsoleColor 
 //{
@@ -24,66 +21,66 @@ using std::vector;
 //    SetConsoleTextAttribute(hConsole, color);
 //}
 
-Dungeon::Dungeon(Player* player) : m_grid(kHeight, vector<char>(kWidth, kEmpty)) 
+Dungeon::Dungeon() : m_grid(kHeight, std::vector<char>(kWidth, kEmpty)) 
 {
-    Initialize();
-
-    // Placement du héros dans la grille
-    m_grid[player->GetPos().first][player->GetPos().second] = player->GetIcon();
+    m_gm = GameManager::GetInstance();
+    InitWalls();
+    SpawnMonsters();
+    SpawnPlayer();
+    Display();
 }
 
-Dungeon::Dungeon()
-{
-}
-
-void Dungeon::Initialize() 
-{
-    PlaceWalls();
-    PlaceMonsters();
-}
-
-void Dungeon::PlaceWalls() 
-{
-    fill(m_grid[0].begin(), m_grid[0].end(), kWall);                       // Mur du haut
-    fill(m_grid[kHeight - 1].begin(), m_grid[kHeight - 1].end(), kWall);   // Mur du bas
-    for (int i = 0; i < kHeight; ++i) 
-    {
-        m_grid[i][0] = kWall;                                              // Mur gauche
-        m_grid[i][kWidth - 1] = kWall;                                     // Mur droit
-    }
-}
-
-void Dungeon::PlaceMonsters() 
-{
-    m_grid[7][3] = kGolem;
-    m_grid[5][5] = kSpectre;
-    m_grid[7][7] = kFaucheur;
-}
-
-void Dungeon::Display() const
+void Dungeon::InitWalls()
 {
     for (int row = 0; row < kHeight; ++row)
     {
         for (int col = 0; col < kWidth; ++col)
         {
-            char cell = m_grid[row][col];
-            cout << cell << ' ';
+            if (row == 0 || row == kHeight - 1 || col == 0 || col == kWidth - 1)
+            {
+                m_grid[row][col] = kWall;
+            }
         }
-        cout << endl;
     }
 }
 
+void Dungeon::SpawnMonsters() 
+{
+    GameManager gm;
+
+    for (Monster m : gm.GetMonsters())
+    {
+        m_grid[m.GetPos().first][m.GetPos().second] = m.GetIcon();
+    }
+}
+
+void Dungeon::SpawnPlayer()
+{
+    m_grid[m_gm->GetPlayer()->GetPos().first][m_gm->GetPlayer()->GetPos().second] = m_gm->GetPlayer()->GetIcon();
+}
+
+void Dungeon::Display() const
+{
+    for (const auto& row : m_grid)
+    {
+        for (char cell : row)
+        {
+            cout << cell << ' ';
+        }
+        cout << std::endl;
+    }
+}
 
 // Marquer les cases de déplacement valides autour du héros
-void Dungeon::MarkValidMoves(int hero_x, int hero_y) 
+void Dungeon::MovementRange() 
 {
     const int range = 2;
     for (int dx = -range; dx <= range; ++dx) 
     {
         for (int dy = -range; dy <= range; ++dy) 
         {
-            int new_x = hero_x + dx;
-            int new_y = hero_y + dy;
+            int new_x = m_gm->GetPlayer()->GetPos().first + dx;
+            int new_y = m_gm->GetPlayer()->GetPos().second + dy;
             if (new_x >= 0 && new_x < kHeight && new_y >= 0 && new_y < kWidth && m_grid[new_x][new_y] == kEmpty) 
             {
                 m_grid[new_x][new_y] = kValidMove;

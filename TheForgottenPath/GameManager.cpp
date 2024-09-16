@@ -39,5 +39,5 @@ Monster GameManager::GetRandomMonster()
 
 std::vector<Monster> GameManager::GetMonsters()
 {
-	return std::vector<Monster>();
+	return m_monsters;
 }

@@ -4,11 +4,9 @@
 int main()
 {
     GameManager* gm = new GameManager();
-    Dungeon dungeon(gm->GetPlayer());
+    Dungeon dungeon;
 
-    dungeon.MarkValidMoves(1, 1);
-
-    dungeon.Display();
+    dungeon.MovementRange();
 
     return 0;
 }
