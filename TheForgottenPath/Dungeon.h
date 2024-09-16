@@ -1,11 +1,11 @@
-#ifndef DUNGEON_H
-#define DUNGEON_H
+#pragma once
 
 #include <vector>
 
 using std::vector;
 
-class Dungeon {
+class Dungeon 
+{
 public:
     Dungeon();
 
@@ -32,5 +32,3 @@ private:
     void PlaceWalls();
     void PlaceMonsters();
 };
-
-#endif
