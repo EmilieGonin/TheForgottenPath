@@ -6,7 +6,7 @@ Golem::Golem()
 	m_icon = 'G';
 }
 
-void Golem::specialAttack() const
+void Golem::SpecialAttack() const
 {
 	//
 }

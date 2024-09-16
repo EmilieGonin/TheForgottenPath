@@ -6,7 +6,7 @@ Wraith::Wraith() // Spectre
 	m_icon = 'S';
 }
 
-void Wraith::specialAttack() const
+void Wraith::SpecialAttack() const
 {
 	//
 }
