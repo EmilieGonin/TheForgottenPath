@@ -19,7 +19,7 @@ public:
 	std::vector<Monster> GetMonsters();
 
 private:
+	static GameManager* m_instance;
 	Player* m_player;
 	std::vector<Monster> m_monsters;
-	static GameManager* m_instance;
 };
