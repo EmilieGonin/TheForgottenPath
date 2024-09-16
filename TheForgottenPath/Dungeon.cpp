@@ -52,10 +52,13 @@ void Dungeon::PlaceMonsters()
 }
 
 void Dungeon::Display() const {
-    for (int row = 0; row < kHeight; ++row) {
-        for (int col = 0; col < kWidth; ++col) {
+    for (int row = 0; row < kHeight; ++row) 
+    {
+        for (int col = 0; col < kWidth; ++col) 
+        {
             char cell = m_grid[row][col];
-            switch (cell) {
+            switch (cell) 
+            {
             case kValidMove:
                 SetConsoleColor(VALID_MOVE_COLOR); // Définit la couleur pour les cases de déplacement valide
                 cout << cell << ' ';
@@ -72,13 +75,17 @@ void Dungeon::Display() const {
 
 
 // Marquer les cases de déplacement valides autour du héros
-void Dungeon::MarkValidMoves(int hero_x, int hero_y) {
+void Dungeon::MarkValidMoves(int hero_x, int hero_y) 
+{
     const int range = 2;
-    for (int dx = -range; dx <= range; ++dx) {
-        for (int dy = -range; dy <= range; ++dy) {
+    for (int dx = -range; dx <= range; ++dx) 
+    {
+        for (int dy = -range; dy <= range; ++dy) 
+        {
             int new_x = hero_x + dx;
             int new_y = hero_y + dy;
-            if (new_x >= 0 && new_x < kHeight && new_y >= 0 && new_y < kWidth && m_grid[new_x][new_y] == kEmpty) {
+            if (new_x >= 0 && new_x < kHeight && new_y >= 0 && new_y < kWidth && m_grid[new_x][new_y] == kEmpty) 
+            {
                 m_grid[new_x][new_y] = kValidMove;
             }
         }
