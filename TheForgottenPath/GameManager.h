@@ -13,6 +13,7 @@ public:
 	GameManager();
 
 	Monster GetRandomMonster();
+	std::vector<Monster> GetMonsters();
 
 private:
 	std::vector<Monster> m_monsters;
