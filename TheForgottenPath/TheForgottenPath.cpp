@@ -1,6 +1,6 @@
 #include "dungeon.h"
 
-int main() 
+int main()
 {
     Dungeon dungeon;
 

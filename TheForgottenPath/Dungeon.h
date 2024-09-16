@@ -24,9 +24,9 @@ private:
     static const char kWall = '#';
     static const char kValidMove = '*';
 
-    vector<vector<char>> grid;
-    int hero_x_;
-    int hero_y_;
+    vector<vector<char>> m_grid;
+    int m_hero_x_;
+    int m_hero_y_;
 
     void Initialize();
     void PlaceWalls();
