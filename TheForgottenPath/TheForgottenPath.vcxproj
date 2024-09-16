@@ -127,7 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="TheForgottenPath.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Dungeon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
