@@ -2,6 +2,8 @@
 
 #include <vector>
 #include "Player.h"
+#include "Monster.h"
+#include "GameManager.h"
 
 using std::vector;
 
@@ -9,7 +11,6 @@ class Dungeon
 {
 public:
     Dungeon(Player*);
-    Dungeon();
 
     void Display() const;
     void MarkValidMoves(int hero_x, int hero_y);
@@ -19,9 +20,6 @@ private:
     static const int kHeight = 15;
 
     static const char kEmpty = '.';
-    static const char kGolem = 'G';
-    static const char kSpectre = 'S';
-    static const char kFaucheur = 'F';
     static const char kWall = '#';
     static const char kValidMove = '*';
 

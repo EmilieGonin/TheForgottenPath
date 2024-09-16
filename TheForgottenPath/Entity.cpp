@@ -16,3 +16,8 @@ inline char Entity::GetIcon()
 {
 	return m_icon;
 }
+
+pair<int, int> Entity::GetPos()
+{
+	return m_pos;
+}

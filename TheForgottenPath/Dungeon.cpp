@@ -33,41 +33,43 @@ Dungeon::Dungeon(Player* player) : m_grid(kHeight, vector<char>(kWidth, kEmpty))
     //m_grid[player->GetPos().first][player->GetPos().second] = player->GetIcon();
 }
 
-Dungeon::Dungeon()
-{
-}
-
 void Dungeon::Initialize() 
 {
     PlaceWalls();
     PlaceMonsters();
 }
 
-void Dungeon::PlaceWalls() 
-{
-    fill(m_grid[0].begin(), m_grid[0].end(), kWall);                       // Mur du haut
-    fill(m_grid[kHeight - 1].begin(), m_grid[kHeight - 1].end(), kWall);   // Mur du bas
-    for (int i = 0; i < kHeight; ++i) 
-    {
-        m_grid[i][0] = kWall;                                              // Mur gauche
-        m_grid[i][kWidth - 1] = kWall;                                     // Mur droit
-    }
-}
-
-void Dungeon::PlaceMonsters() 
-{
-    m_grid[7][3] = kGolem;
-    m_grid[5][5] = kSpectre;
-    m_grid[7][7] = kFaucheur;
-}
-
-void Dungeon::Display() const
+void Dungeon::PlaceWalls()
 {
     for (int row = 0; row < kHeight; ++row)
     {
         for (int col = 0; col < kWidth; ++col)
         {
-            char cell = m_grid[row][col];
+            if (row == 0 || row == kHeight - 1 || col == 0 || col == kWidth - 1)
+            {
+                m_grid[row][col] = kWall;
+            }
+        }
+    }
+}
+
+void Dungeon::PlaceMonsters() 
+{
+    GameManager gm;
+
+    for (Monster m : gm.GetMonsters())
+    {
+        m_grid[m.GetPos().first][m.GetPos().second] = m.GetIcon();
+    }
+
+}
+
+void Dungeon::Display() const
+{
+    for (const auto& row : m_grid)
+    {
+        for (char cell : row)
+        {
             cout << cell << ' ';
         }
         cout << endl;
