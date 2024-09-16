@@ -7,5 +7,5 @@ class Monster : public Entity
 public:
 	Monster();
 
-	virtual void SpecialAttack() const = 0;
+	virtual void SpecialAttack() const;
 };
