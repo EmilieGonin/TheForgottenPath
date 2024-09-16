@@ -1,7 +1,9 @@
+#include "GameManager.h"
 #include "dungeon.h"
 
 int main()
 {
+    GameManager gm;
     Dungeon dungeon;
 
     dungeon.MarkValidMoves(1, 1);
