@@ -6,4 +6,7 @@ class Player : public Entity
 {
 public:
 	Player();
+
+	bool CanMove();
+	void Move();
 };
