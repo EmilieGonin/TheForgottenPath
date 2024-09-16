@@ -4,7 +4,7 @@
 int main()
 {
     GameManager gm;
-    Dungeon dungeon;
+    Dungeon dungeon(gm.GetPlayer());
 
     dungeon.MarkValidMoves(1, 1);
 

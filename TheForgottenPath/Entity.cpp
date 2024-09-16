@@ -12,7 +12,7 @@ inline float Entity::GetStat(Stat stat)
 	return m_stats[stat];
 }
 
-inline char Entity::GetIcon() const
+inline char Entity::GetIcon()
 {
 	return m_icon;
 }
