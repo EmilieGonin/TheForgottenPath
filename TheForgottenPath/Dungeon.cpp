@@ -26,19 +26,13 @@ using std::vector;
 
 Dungeon::Dungeon(Player* player) : m_grid(kHeight, vector<char>(kWidth, kEmpty)) 
 {
-    Initialize();
-
-    // Placement du héros dans la grille
-    m_grid[player->GetPos().first][player->GetPos().second] = player->GetIcon();
+    InitWalls();
+    SpawnMonsters();
+    //SpawnPlayer();
+    Display();
 }
 
-void Dungeon::Initialize() 
-{
-    PlaceWalls();
-    PlaceMonsters();
-}
-
-void Dungeon::PlaceWalls()
+void Dungeon::InitWalls()
 {
     for (int row = 0; row < kHeight; ++row)
     {
@@ -52,7 +46,7 @@ void Dungeon::PlaceWalls()
     }
 }
 
-void Dungeon::PlaceMonsters() 
+void Dungeon::SpawnMonsters() 
 {
     GameManager gm;
 
@@ -60,7 +54,11 @@ void Dungeon::PlaceMonsters()
     {
         m_grid[m.GetPos().first][m.GetPos().second] = m.GetIcon();
     }
+}
 
+void Dungeon::SpawnPlayer(Player* player)
+{
+    m_grid[player->GetPos().first][player->GetPos().second] = player->GetIcon();
 }
 
 void Dungeon::Display() const
@@ -74,7 +72,6 @@ void Dungeon::Display() const
         cout << endl;
     }
 }
-
 
 // Marquer les cases de déplacement valides autour du héros
 void Dungeon::MarkValidMoves(int hero_x, int hero_y) 

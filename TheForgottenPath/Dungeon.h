@@ -25,7 +25,7 @@ private:
 
     vector<vector<char>> m_grid;
 
-    void Initialize();
-    void PlaceWalls();
-    void PlaceMonsters();
+    void InitWalls();
+    void SpawnMonsters();
+    void SpawnPlayer(Player*);
 };
