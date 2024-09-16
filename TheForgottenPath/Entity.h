@@ -14,6 +14,8 @@ enum class Stat
 class Entity
 {
 public:
+	Entity();
+
 	float stat(Stat);
 	char icon();
 
