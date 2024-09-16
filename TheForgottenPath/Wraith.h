@@ -7,5 +7,5 @@ class Wraith : public Monster
 public:
 	Wraith();
 
-	void specialAttack() const override;
+	void SpecialAttack() const override;
 };

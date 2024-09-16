@@ -4,14 +4,15 @@ Entity::Entity()
 {
 	m_stats[Stat::PA] = 5;
 	m_stats[Stat::PM] = 0;
+	m_icon = ' ';
 }
 
-inline float Entity::stat(Stat stat)
+inline float Entity::GetStat(Stat stat)
 {
 	return m_stats[stat];
 }
 
-inline char Entity::icon()
+inline char Entity::GetIcon() const
 {
 	return m_icon;
 }
