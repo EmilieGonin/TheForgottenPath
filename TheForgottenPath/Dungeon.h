@@ -13,7 +13,7 @@ public:
     Dungeon(Player*);
 
     void Display() const;
-    void MarkValidMoves(int hero_x, int hero_y);
+    void MovementRange(Player*);
 
 private:
     static const int kWidth = 15;

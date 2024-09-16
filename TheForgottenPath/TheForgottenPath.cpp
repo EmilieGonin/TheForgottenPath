@@ -6,7 +6,7 @@ int main()
     GameManager gm;
     Dungeon dungeon(gm.GetPlayer());
 
-    dungeon.MarkValidMoves(1, 1);
+    dungeon.MovementRange(gm.GetPlayer());
 
     return 0;
 }

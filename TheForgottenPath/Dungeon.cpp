@@ -4,10 +4,7 @@
 #include <windows.h>
 #include <vector>
 
-using std::fill;
 using std::cout;
-using std::endl;
-using std::vector;
 
 //enum ConsoleColor 
 //{
@@ -24,7 +21,7 @@ using std::vector;
 //    SetConsoleTextAttribute(hConsole, color);
 //}
 
-Dungeon::Dungeon(Player* player) : m_grid(kHeight, vector<char>(kWidth, kEmpty)) 
+Dungeon::Dungeon() : m_grid(kHeight, std::vector<char>(kWidth, kEmpty)) 
 {
     InitWalls();
     SpawnMonsters();
@@ -69,20 +66,20 @@ void Dungeon::Display() const
         {
             cout << cell << ' ';
         }
-        cout << endl;
+        cout << std::endl;
     }
 }
 
 // Marquer les cases de déplacement valides autour du héros
-void Dungeon::MarkValidMoves(int hero_x, int hero_y) 
+void Dungeon::MovementRange(Player* player) 
 {
     const int range = 2;
     for (int dx = -range; dx <= range; ++dx) 
     {
         for (int dy = -range; dy <= range; ++dy) 
         {
-            int new_x = hero_x + dx;
-            int new_y = hero_y + dy;
+            int new_x = player->GetPos().first + dx;
+            int new_y = player->GetPos().second + dy;
             if (new_x >= 0 && new_x < kHeight && new_y >= 0 && new_y < kWidth && m_grid[new_x][new_y] == kEmpty) 
             {
                 m_grid[new_x][new_y] = kValidMove;
