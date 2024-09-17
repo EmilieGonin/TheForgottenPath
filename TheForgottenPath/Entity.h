@@ -32,6 +32,7 @@ public:
 	bool CanMove();
 	void Move(int, int);
 	void OnEndTurn();
+	void StopTurnEarly();
 
 protected:
 	std::map<Stat, float> m_stats;

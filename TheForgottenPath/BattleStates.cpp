@@ -12,6 +12,7 @@ void PlayerTurn::Update(Battle* battle)
 		battle->SetState(EnemyTurn::GetInstance());
 	}
 
+	// Vérifier si un ennemi est à proximité
 	if (GetAsyncKeyState(VK_EXECUTE) & 0x8000)
 	{
 		//
@@ -26,7 +27,14 @@ BattleState& PlayerTurn::GetInstance()
 
 void EnemyTurn::Enter(Battle* battle)
 {
-	// vérifier si le joueur est à proximité
+	Monster* m = battle->GetTurnMonster();
+
+	do
+	{
+		bool isPlayerClose = battle->GetRenderer()->GetCloseEntity(m) == battle->GetGM()->GetPlayer();
+		if (isPlayerClose) break;
+		if (m->CanMove()) battle->GetRenderer()->MoveMonster(m);
+	} while (m->CanMove());
 
 	if (battle->TurnIsOver())
 	{

@@ -13,7 +13,7 @@ public:
 	ConsoleRenderer* GetRenderer() const { return m_renderer; }
 	GameManager* GetGM() const { return m_gm; }
 
-	Monster GetTurnMonster();
+	Monster* GetTurnMonster();
 
 	void SetState(BattleState& newState);
 	void Update();

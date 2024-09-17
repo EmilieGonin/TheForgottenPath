@@ -10,7 +10,7 @@ Battle::Battle()
 	m_turnIndex = 1;
 }
 
-Monster Battle::GetTurnMonster()
+Monster* Battle::GetTurnMonster()
 {
 	return m_gm->GetMonsters()[m_turnIndex - 1];
 }
@@ -45,7 +45,7 @@ bool Battle::TurnIsOver()
 	{
 		m_turnIndex = 1;
 		m_gm->GetPlayer()->OnEndTurn();
-		for (Monster m : m_gm->GetMonsters()) m.OnEndTurn();
+		for (Monster* m : m_gm->GetMonsters()) m->OnEndTurn();
 		return true;
 	}
 
