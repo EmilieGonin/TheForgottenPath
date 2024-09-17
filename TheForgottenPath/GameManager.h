@@ -11,9 +11,10 @@ public:
 	GameManager();
 	static GameManager* GetInstance();
 
-	Player* GetPlayer();
+	Player* GetPlayer() const { return m_player; }
+	std::vector<Monster*> GetMonsters() const { return m_monsters; }
+
 	Monster* GetRandomMonster();
-	std::vector<Monster*> GetMonsters();
 	bool GameIsOver();
 
 private:
