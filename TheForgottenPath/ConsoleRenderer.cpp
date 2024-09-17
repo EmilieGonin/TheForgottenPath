@@ -85,16 +85,16 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
     switch (d)
     {
     case Direction::Up:
-        m_grid[x][y - 1] = e->GetIcon();
-        break;
-    case Direction::Down:
-        m_grid[x][y + 1] = e->GetIcon();
-        break;
-    case Direction::Right:
         m_grid[x - 1][y] = e->GetIcon();
         break;
-    case Direction::Left:
+    case Direction::Down:
         m_grid[x + 1][y] = e->GetIcon();
+        break;
+    case Direction::Right:
+        m_grid[x][y + 1] = e->GetIcon();
+        break;
+    case Direction::Left:
+        m_grid[x][y - 1] = e->GetIcon();
         break;
     break;
     }
@@ -158,20 +158,20 @@ void ConsoleRenderer::ClearConsole()
     std::system("cls");
 }
 
-// Marquer les cases de déplacement valides autour du héros
-void ConsoleRenderer::MovementRange() 
-{
-    const int range = 2;
-    for (int dx = -range; dx <= range; ++dx) 
-    {
-        for (int dy = -range; dy <= range; ++dy) 
-        {
-            int new_x = m_gm->GetPlayer()->GetPos().first + dx;
-            int new_y = m_gm->GetPlayer()->GetPos().second + dy;
-            if (new_x >= 0 && new_x < kHeight && new_y >= 0 && new_y < kWidth && m_grid[new_x][new_y] == kEmpty) 
-            {
-                m_grid[new_x][new_y] = kValidMove;
-            }
-        }
-    }
-}
+//// Marquer les cases de déplacement valides autour du héros
+//void ConsoleRenderer::MovementRange() 
+//{
+//    const int range = 2;
+//    for (int dx = -range; dx <= range; ++dx) 
+//    {
+//        for (int dy = -range; dy <= range; ++dy) 
+//        {
+//            int new_x = m_gm->GetPlayer()->GetPos().first + dx;
+//            int new_y = m_gm->GetPlayer()->GetPos().second + dy;
+//            if (new_x >= 0 && new_x < kHeight && new_y >= 0 && new_y < kWidth && m_grid[new_x][new_y] == kEmpty) 
+//            {
+//                m_grid[new_x][new_y] = kValidMove;
+//            }
+//        }
+//    }
+//}
