@@ -53,7 +53,7 @@ private:
 
     std::map<int, bool> m_keyStates;
 
-    const std::map<Stat, std::string> m_statsTitle = {
+    std::map<Stat, std::string> m_statsTitle {
     { Stat::HP, "HP" },
     { Stat::ATK, "ATK" },
     { Stat::DEF, "DEF" },
@@ -61,7 +61,6 @@ private:
     { Stat::PM, "PM" }
     };
 
-    //cout << m_statsTitle[e.first] << " : " << e.second
 
     void InitWalls();
     void SpawnMonsters();
@@ -69,7 +68,7 @@ private:
 
     void MoveEntity(Direction, Entity*);
 
-    void RenderPlayerStats() const;
+    void RenderPlayerStats();
     void RenderMonsterStats();
     void RenderAvailableActions();
     void RenderGameMessage();

@@ -22,7 +22,6 @@ ConsoleRenderer::ConsoleRenderer() : m_grid(kGridHeight, std::vector<char>(kGrid
     SpawnMonsters();
     SpawnPlayer();
 
-    RenderPlayerStats();
 
     Display();
 }
@@ -99,11 +98,8 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
     Display();
 }
 
-void ConsoleRenderer::RenderPlayerStats() const
+void ConsoleRenderer::RenderPlayerStats()
 {
-    // Déterminer la position en bas de la grille
-    //const int startX = 1; // Position en colonne (ajustez si nécessaire)
-    //const int startY = kGridHeight + 1; // Position en ligne juste après la grille
 
     //std::string stats;
 
@@ -115,12 +111,10 @@ void ConsoleRenderer::RenderPlayerStats() const
 
     //cout << stats;
 
-    //for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
-    //{
-    //    e.first;
-    //    //cout << e.first << ' ';
-    //    //cout << e.first.ToString() << ' ';
-    //}
+    for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
+    {
+        cout << m_statsTitle[e.first] << " : " << e.second;
+    }
 }
 
 void ConsoleRenderer::RenderMonsterStats()
@@ -142,28 +136,6 @@ void ConsoleRenderer::Display()
 {
     ClearConsole();
 
-    //HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    //for (const auto& row : m_grid)
-    //{
-    //    for (char cell : row)
-    //    {
-    //        // Trouver l'entité correspondant au caractère
-    //        Entity* entity = FindEntity(cell); // Implémentez FindEntity pour retrouver l'entité par son icône
-    //        if (entity)
-    //        {
-    //            SetConsoleColor(entity->GetColor());
-    //            std::cout << entity->GetIcon() << ' ';
-    //            SetConsoleColor(7); // Remettre la couleur par défaut
-    //        }
-    //        else
-    //        {
-    //            std::cout << cell << ' ';
-    //        }
-    //    }
-    //    std::cout << std::endl;
-    //}
-
     // Récupérer la taille actuelle de la console
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     int console_width = 80; // Valeur par défaut
@@ -184,6 +156,9 @@ void ConsoleRenderer::Display()
         }
         cout << std::endl;
     }
+
+    RenderPlayerStats();
+
 }
 
 void ConsoleRenderer::ClearConsole()
