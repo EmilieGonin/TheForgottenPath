@@ -17,7 +17,8 @@ enum class Direction
     Up,
     Down,
     Right,
-    Left
+    Left,
+    None
 };
 
 class ConsoleRenderer 
@@ -28,7 +29,7 @@ public:
     void MovementRange();
 
     void Display() const;
-    bool PlayerController();
+    void PlayerController();
 
 
 private:

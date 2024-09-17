@@ -2,7 +2,10 @@
 
 void PlayerTurn::Update(Battle* battle)
 {
-	battle->GetRenderer()->PlayerController();
+	if (m_gm->GetPlayer()->CanMove())
+	{
+		battle->GetRenderer()->PlayerController();
+	}
 }
 
 BattleState& PlayerTurn::GetInstance()

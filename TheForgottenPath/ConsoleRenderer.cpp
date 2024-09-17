@@ -52,35 +52,24 @@ void ConsoleRenderer::SpawnPlayer()
     m_grid[m_gm->GetPlayer()->GetPos().first][m_gm->GetPlayer()->GetPos().second] = m_gm->GetPlayer()->GetIcon();
 }
 
-bool ConsoleRenderer::PlayerController()
+void ConsoleRenderer::PlayerController()
 {
-    if (GetAsyncKeyState(VK_UP) & 0x8000) 
-    {
-        MoveEntity(Direction::Up, m_gm->GetPlayer());
-        return true;
-    }
-    if (GetAsyncKeyState(VK_DOWN) & 0x8000) 
-    {
-       MoveEntity(Direction::Down, m_gm->GetPlayer());
-        return true;
-    }
-    if (GetAsyncKeyState(VK_LEFT) & 0x8000) 
-    {
-        MoveEntity(Direction::Left, m_gm->GetPlayer());       
-        return true;
-    }
-    if (GetAsyncKeyState(VK_RIGHT) & 0x8000) 
-    {
-        MoveEntity(Direction::Right, m_gm->GetPlayer());   
-        return true;
-    }
-    return false;
+    Direction d = Direction::None;
+
+    if (GetAsyncKeyState(VK_UP) & 0x8000) d = Direction::Up;
+    else if (GetAsyncKeyState(VK_DOWN) & 0x8000) d = Direction::Down;
+    else if (GetAsyncKeyState(VK_LEFT) & 0x8000) d = Direction::Left;
+    else if (GetAsyncKeyState(VK_RIGHT) & 0x8000) d = Direction::Right;
+
+    if (d != Direction::None) MoveEntity(d, m_gm->GetPlayer());
 }
 
 void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
 {
     int x = e->GetPos().first;
     int y = e->GetPos().second;
+    
+    e->Move();
 
     switch (d)
     {
