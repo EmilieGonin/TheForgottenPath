@@ -38,7 +38,9 @@ bool Entity::CanMove()
 	return m_stats[Stat::PM] > 0;
 }
 
-void Entity::Move()
+void Entity::Move(int x, int y)
 {
 	m_stats[Stat::PM]--;
+	m_pos.first = x;
+	m_pos.second = y;
 }

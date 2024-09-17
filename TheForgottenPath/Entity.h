@@ -27,7 +27,7 @@ public:
 	std::map<Stat, float> GetStats();
 
 	bool CanMove();
-	void Move();
+	void Move(int, int);
 
 protected:
 	std::map<Stat, float> m_stats;

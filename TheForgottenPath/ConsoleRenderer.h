@@ -29,7 +29,7 @@ public:
     //void MovementRange();
 
     void Display();
-    bool PlayerController();
+    void PlayerController();
 
 
 private:
@@ -41,6 +41,15 @@ private:
     static const char kValidMove = '*';
 
     vector<vector<char>> m_grid;
+
+    std::map<int, Direction> m_keyDirections{
+        { VK_UP, Direction::Up },
+        { VK_DOWN, Direction::Down },
+        { VK_LEFT, Direction::Left },
+        { VK_RIGHT, Direction::Right }
+    };
+
+    std::map<int, bool> m_keyStates;
 
     void InitWalls();
     void SpawnMonsters();
