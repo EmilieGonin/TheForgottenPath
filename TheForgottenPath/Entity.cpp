@@ -4,7 +4,9 @@ Entity::Entity()
 	:m_color(7) //Blanc
 {
 	m_stats[Stat::PA] = 5;
-	m_stats[Stat::PM] = 0;
+	m_stats[Stat::MAXPA] = 5;
+	m_stats[Stat::PM] = 3;
+	m_stats[Stat::MAXPM] = 3;
 	m_icon = ' ';
 }
 
@@ -43,4 +45,14 @@ void Entity::Move(int x, int y)
 	m_stats[Stat::PM]--;
 	m_pos.first = x;
 	m_pos.second = y;
+}
+
+void Entity::OnEndTurn()
+{
+	m_stats[Stat::PM] = m_stats[Stat::MAXPM];
+}
+
+void Entity::StopTurnEarly()
+{
+	m_stats[Stat::PM] = 0;
 }

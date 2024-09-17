@@ -33,9 +33,9 @@ void ConsoleRenderer::InitWalls()
 
 void ConsoleRenderer::SpawnMonsters() 
 {
-    for (Monster m : m_gm->GetMonsters())
+    for (Monster* m : m_gm->GetMonsters())
     {
-        m_grid[m.GetPos().first][m.GetPos().second] = m.GetIcon();
+        m_grid[m->GetPos().first][m->GetPos().second] = m->GetIcon();
     }
 }
 
@@ -55,17 +55,17 @@ void ConsoleRenderer::DisplayValidMovementCells()
     //{
     //    for (int offsetY = -pm; offsetY <= pm; ++offsetY)
     //    {
-    //        // Calcule les nouvelles coordonnées autour du joueur
+    //        // Calcule les nouvelles coordonnï¿½es autour du joueur
     //        int newX = m_gm->GetPlayer()->GetPos().first + offsetX;
     //        int newY = m_gm->GetPlayer()->GetPos().second + offsetY;
 
-    //        // Vérifie que les coordonnées sont valides et que la cellule est à l'intérieur de la grille
+    //        // Vï¿½rifie que les coordonnï¿½es sont valides et que la cellule est ï¿½ l'intï¿½rieur de la grille
     //        if (newX >= 0 && newX < kGridWidth && newY >= 0 && newY < kGridHeight)
     //        {
-    //            // Calcule la distance de déplacement
+    //            // Calcule la distance de dï¿½placement
     //            if (abs(offsetX) + abs(offsetY) <= pm)
     //            {
-    //                // Marque la cellule comme valide uniquement si elle est vide ou contient l'icône du joueur
+    //                // Marque la cellule comme valide uniquement si elle est vide ou contient l'icï¿½ne du joueur
     //                if (m_grid[newY][newX] == kEmpty || m_grid[newY][newX] == m_gm->GetPlayer()->GetIcon())
     //                {
     //                    m_grid[newY][newX] = kValidMove;
@@ -87,17 +87,17 @@ void ConsoleRenderer::DisplayValidMovementCells()
     {
         for (int offsetY = -pm; offsetY <= pm; ++offsetY)
         {
-            // Calcule les nouvelles coordonnées autour du joueur
+            // Calcule les nouvelles coordonnï¿½es autour du joueur
             int newX = playerX + offsetX;
             int newY = playerY + offsetY;
 
-            // Vérifie que les coordonnées sont valides et que la cellule est à l'intérieur de la grille
+            // Vï¿½rifie que les coordonnï¿½es sont valides et que la cellule est ï¿½ l'intï¿½rieur de la grille
             if (newX >= 0 && newX < kGridWidth && newY >= 0 && newY < kGridHeight)
             {
-                // Calcule la distance de déplacement
+                // Calcule la distance de dï¿½placement
                 if (abs(offsetX) + abs(offsetY) <= pm)
                 {
-                    // Marque la cellule comme valide uniquement si elle est vide ou contient l'icône du joueur
+                    // Marque la cellule comme valide uniquement si elle est vide ou contient l'icï¿½ne du joueur
                     if (m_grid[newY][newX] == kEmpty || m_grid[newY][newX] == m_gm->GetPlayer()->GetIcon())
                     {
                         m_grid[newY][newX] = kValidMove;
@@ -111,12 +111,12 @@ void ConsoleRenderer::DisplayValidMovementCells()
 void ConsoleRenderer::ResetValidMovementCells()
 {
 
-    // Réinitialise les cellules valides, en conservant les autres éléments
+    // Rï¿½initialise les cellules valides, en conservant les autres ï¿½lï¿½ments
     for (int row = 0; row < kGridHeight; ++row)
     {
         for (int col = 0; col < kGridWidth; ++col)
         {
-            // Réinitialise uniquement les cellules marquées comme valides
+            // Rï¿½initialise uniquement les cellules marquï¿½es comme valides
             if (m_grid[row][col] == kValidMove)
             {
                {
@@ -143,33 +143,85 @@ void ConsoleRenderer::PlayerController()
     if (d != Direction::None) MoveEntity(d, m_gm->GetPlayer());
 }
 
+void ConsoleRenderer::MoveMonster(Entity* e)
+{
+    MoveEntity(GetPathToPlayer(e->GetPos(), false), e);
+}
+
+Direction ConsoleRenderer::GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse)
+{
+    std::pair<int, int> playerPos = m_gm->GetPlayer()->GetPos();
+
+    int diffX = reverse ? playerPos.second - monsterPos.second : playerPos.first - monsterPos.first;
+    int diffY = reverse ? playerPos.first - monsterPos.first : playerPos.second - monsterPos.second;
+
+    if (std::abs(diffX) > std::abs(diffY))
+    {
+        return (diffX > 0) ? Direction::Down : Direction::Up;
+    }
+    else
+    {
+        return (diffY > 0) ? Direction::Right : Direction::Left;
+    }
+}
+
 void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
 {
-    int x = e->GetPos().first;
-    int y = e->GetPos().second;
+    std::pair<int, int> previousPos = e->GetPos();
+    bool canMove = true;
 
-    m_grid[y][x] = kEmpty;
+    std::pair<int, int> nextDestination = GetNextDestination(d, e->GetPos());
+    int x = nextDestination.first;
+    int y = nextDestination.second;
+
+    if (m_grid[x][y] != kEmpty)
+    {
+        if (e != m_gm->GetPlayer())
+        {
+            nextDestination = GetNextDestination(GetPathToPlayer(e->GetPos(), true), e->GetPos());
+            x = nextDestination.first;
+            y = nextDestination.second;
+            if (m_grid[x][y] != kEmpty) canMove = false;
+        }
+        else return;
+    }
+
+    if (canMove)
+    {
+        m_grid[previousPos.first][previousPos.second] = kEmpty;
+        m_grid[x][y] = e->GetIcon();
+        e->Move(x, y);
+    }
+    else
+    {
+        e->StopTurnEarly();
+    }
+
+    Display();
+}
+
+std::pair<int, int> ConsoleRenderer::GetNextDestination(Direction d, std::pair<int, int> pos)
+{
+    int x = pos.first;
+    int y = pos.second;
 
     switch (d)
     {
     case Direction::Up:
-        y -= 1;
+        x -= 1;
         break;
     case Direction::Down:
-        y += 1;
-        break;
-    case Direction::Right:
         x += 1;
         break;
+    case Direction::Right:
+        y += 1;
+        break;
     case Direction::Left:
-        x -= 1;
+        y -= 1;
         break;
     }
 
-    m_grid[y][x] = e->GetIcon();
-    e->Move(x, y);
-
-    Display();
+    return std::make_pair(x, y);
 }
 
 void ConsoleRenderer::RenderPlayerStats()
@@ -195,20 +247,60 @@ void ConsoleRenderer::RenderGameMessage()
 
 }
 
+Entity* ConsoleRenderer::GetCloseEntity(Entity* entityChecking)
+{
+    std::pair<int, int> posToCheck = entityChecking->GetPos();
+
+    const std::pair<int, int> directions[] = {
+        { 0, 1 },  // droite
+        { 1, 0 },  // bas
+        { 0, -1 }, // gauche
+        { -1, 0 }, // haut
+    };
+
+    for (const auto& direction : directions)
+    {
+        int newX = posToCheck.first + direction.first;
+        int newY = posToCheck.second + direction.second;
+
+        if (newX >= 0 && newY >= 0 && newX < m_grid.size() && newY < m_grid[0].size())
+        {
+            char cellIcon = m_grid[newX][newY];
+            char playerIcon = m_gm->GetPlayer()->GetIcon();
+
+            if (entityChecking != m_gm->GetPlayer() && cellIcon == m_gm->GetPlayer()->GetIcon())
+            {
+                return m_gm->GetPlayer();
+            }
+            
+            if (cellIcon != kEmpty) {
+                for (Monster* m : m_gm->GetMonsters())
+                {
+                    if (cellIcon == m->GetIcon()) {
+                        return m;
+                    }
+                }
+            }
+        }
+    }
+
+    return nullptr;
+}
+
 void ConsoleRenderer::Display()
 {
     ClearConsole();
 
     DisplayValidMovementCells();
 
-    // Récupérer la taille actuelle de la console
+    // Rï¿½cupï¿½rer la taille actuelle de la console
     CONSOLE_SCREEN_BUFFER_INFO csbi;
-    int console_width = 80; // Valeur par défaut
+    int console_width = 80; // Valeur par dï¿½faut
     if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
         console_width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
     }
 
-    // Calculer les marges (espaces à gauche) pour centrer la grille
+    // Calculer les marges (espaces ï¿½ gauche) pour centrer la grille
     int margin_left = (console_width - kGridWidth * 2) / 2; // *2 car chaque cellule est suivie d'un espace
 
     for (const auto& row : m_grid) {

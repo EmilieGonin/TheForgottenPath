@@ -8,6 +8,7 @@
 #include <iostream>
 #include <algorithm>
 #include <windows.h>
+#include <cmath>
 
 using std::vector;
 using std::cout;
@@ -26,8 +27,12 @@ class ConsoleRenderer
 public:
     ConsoleRenderer();
 
+    //void MovementRange();
+    Entity* GetCloseEntity(Entity*);
+
     void Display();
     void PlayerController();
+    void MoveMonster(Entity*);
 
 private:
     static const int kGridWidth = 15;
@@ -60,10 +65,12 @@ private:
     void SpawnMonsters();
     void SpawnPlayer();
 
+    Direction GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse);
     void DisplayValidMovementCells();
     void ResetValidMovementCells();
 
     void MoveEntity(Direction, Entity*);
+    std::pair<int, int> GetNextDestination(Direction d, std::pair<int, int> pos);
 
     void RenderPlayerStats();
     void RenderMonsterStats();

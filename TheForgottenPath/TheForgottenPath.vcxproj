@@ -128,7 +128,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Battle.cpp" />
-    <ClCompile Include="BattleState.cpp" />
     <ClCompile Include="BattleStates.cpp" />
     <ClCompile Include="ConsoleRenderer.cpp" />
     <ClCompile Include="Monsters.cpp" />
