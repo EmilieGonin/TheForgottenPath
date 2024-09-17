@@ -18,7 +18,7 @@ Reaper::Reaper() // Faucheur
 {
 	m_stats[Stat::ATK] = 10;
 	m_icon = 'F';
-	m_color = 7;
+	m_color = 4;
 	m_pos.first = 7;
 	m_pos.second = 7;
 }
