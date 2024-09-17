@@ -1,12 +1,12 @@
 #include "GameManager.h"
-#include "Dungeon.h"
+#include "ConsoleRenderer.h"
 
 int main()
 {
     bool playerTurn = true;
 
     GameManager* gm = new GameManager();
-    Dungeon dungeon;
+    ConsoleRenderer dungeon;
 
     dungeon.MovementRange();
 
