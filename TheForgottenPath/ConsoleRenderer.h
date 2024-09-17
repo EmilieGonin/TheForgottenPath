@@ -60,6 +60,9 @@ private:
     void SpawnMonsters();
     void SpawnPlayer();
 
+    void DisplayValidMovementCells();
+    void ResetValidMovementCells();
+
     void MoveEntity(Direction, Entity*);
 
     void RenderPlayerStats();

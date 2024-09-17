@@ -44,6 +44,89 @@ void ConsoleRenderer::SpawnPlayer()
     m_grid[m_gm->GetPlayer()->GetPos().first][m_gm->GetPlayer()->GetPos().second] = m_gm->GetPlayer()->GetIcon();
 }
 
+void ConsoleRenderer::DisplayValidMovementCells()
+{
+    //ResetValidMovementCells();
+
+    //int pm = m_gm->GetPlayer()->GetStat(Stat::PM);
+
+    //// Boucle pour parcourir les cases autour du joueur
+    //for (int offsetX = -pm; offsetX <= pm; ++offsetX)
+    //{
+    //    for (int offsetY = -pm; offsetY <= pm; ++offsetY)
+    //    {
+    //        // Calcule les nouvelles coordonnées autour du joueur
+    //        int newX = m_gm->GetPlayer()->GetPos().first + offsetX;
+    //        int newY = m_gm->GetPlayer()->GetPos().second + offsetY;
+
+    //        // Vérifie que les coordonnées sont valides et que la cellule est à l'intérieur de la grille
+    //        if (newX >= 0 && newX < kGridWidth && newY >= 0 && newY < kGridHeight)
+    //        {
+    //            // Calcule la distance de déplacement
+    //            if (abs(offsetX) + abs(offsetY) <= pm)
+    //            {
+    //                // Marque la cellule comme valide uniquement si elle est vide ou contient l'icône du joueur
+    //                if (m_grid[newY][newX] == kEmpty || m_grid[newY][newX] == m_gm->GetPlayer()->GetIcon())
+    //                {
+    //                    m_grid[newY][newX] = kValidMove;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
+    ResetValidMovementCells();
+
+    int pm = m_gm->GetPlayer()->GetStat(Stat::PM);
+
+    int playerX = m_gm->GetPlayer()->GetPos().first;
+    int playerY = m_gm->GetPlayer()->GetPos().second;
+
+    // Boucle pour parcourir les cases autour du joueur
+    for (int offsetX = -pm; offsetX <= pm; ++offsetX)
+    {
+        for (int offsetY = -pm; offsetY <= pm; ++offsetY)
+        {
+            // Calcule les nouvelles coordonnées autour du joueur
+            int newX = playerX + offsetX;
+            int newY = playerY + offsetY;
+
+            // Vérifie que les coordonnées sont valides et que la cellule est à l'intérieur de la grille
+            if (newX >= 0 && newX < kGridWidth && newY >= 0 && newY < kGridHeight)
+            {
+                // Calcule la distance de déplacement
+                if (abs(offsetX) + abs(offsetY) <= pm)
+                {
+                    // Marque la cellule comme valide uniquement si elle est vide ou contient l'icône du joueur
+                    if (m_grid[newY][newX] == kEmpty || m_grid[newY][newX] == m_gm->GetPlayer()->GetIcon())
+                    {
+                        m_grid[newY][newX] = kValidMove;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void ConsoleRenderer::ResetValidMovementCells()
+{
+
+    // Réinitialise les cellules valides, en conservant les autres éléments
+    for (int row = 0; row < kGridHeight; ++row)
+    {
+        for (int col = 0; col < kGridWidth; ++col)
+        {
+            // Réinitialise uniquement les cellules marquées comme valides
+            if (m_grid[row][col] == kValidMove)
+            {
+               {
+                    m_grid[row][col] = kEmpty;
+                }
+            }
+        }
+    }
+}
+
 void ConsoleRenderer::PlayerController()
 {
     Direction d = Direction::None;
@@ -65,25 +148,25 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
     int x = e->GetPos().first;
     int y = e->GetPos().second;
 
-    m_grid[x][y] = kEmpty;
+    m_grid[y][x] = kEmpty;
 
     switch (d)
     {
     case Direction::Up:
-        x -= 1;
+        y -= 1;
         break;
     case Direction::Down:
-        x += 1;
-        break;
-    case Direction::Right:
         y += 1;
         break;
+    case Direction::Right:
+        x += 1;
+        break;
     case Direction::Left:
-        y -= 1;
+        x -= 1;
         break;
     }
 
-    m_grid[x][y] = e->GetIcon();
+    m_grid[y][x] = e->GetIcon();
     e->Move(x, y);
 
     Display();
@@ -116,6 +199,8 @@ void ConsoleRenderer::Display()
 {
     ClearConsole();
 
+    DisplayValidMovementCells();
+
     // Récupérer la taille actuelle de la console
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     int console_width = 80; // Valeur par défaut
@@ -138,7 +223,6 @@ void ConsoleRenderer::Display()
     }
 
     RenderPlayerStats();
-
 }
 
 void ConsoleRenderer::ClearConsole()
