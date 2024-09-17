@@ -1,10 +1,4 @@
 #include "ConsoleRenderer.h"
-#include <iostream>
-#include <algorithm>
-#include <windows.h>
-#include <vector>
-
-using std::cout;
 
 //enum ConsoleColor 
 //{
@@ -27,6 +21,7 @@ ConsoleRenderer::ConsoleRenderer() : m_grid(kHeight, std::vector<char>(kWidth, k
     InitWalls();
     SpawnMonsters();
     SpawnPlayer();
+
     Display();
 }
 
@@ -57,12 +52,54 @@ void ConsoleRenderer::SpawnPlayer()
     m_grid[m_gm->GetPlayer()->GetPos().first][m_gm->GetPlayer()->GetPos().second] = m_gm->GetPlayer()->GetIcon();
 }
 
+bool ConsoleRenderer::PlayerController()
+{
+    if (GetAsyncKeyState(VK_UP) & 0x8000) 
+    {
+        MoveEntity(Direction::Up, m_gm->GetPlayer());
+        return true;
+    }
+    if (GetAsyncKeyState(VK_DOWN) & 0x8000) 
+    {
+       MoveEntity(Direction::Down, m_gm->GetPlayer());
+        return true;
+    }
+    if (GetAsyncKeyState(VK_LEFT) & 0x8000) 
+    {
+        MoveEntity(Direction::Left, m_gm->GetPlayer());       
+        return true;
+    }
+    if (GetAsyncKeyState(VK_RIGHT) & 0x8000) 
+    {
+        MoveEntity(Direction::Right, m_gm->GetPlayer());   
+        return true;
+    }
+    return false;
+}
+
+void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
+{
+    switch (d)
+    {
+    case Direction::Up:
+        m_grid[e->GetPos().second - 1];
+    case Direction::Down:
+        m_grid[e->GetPos().second + 1];
+    case Direction::Right:
+        m_grid[e->GetPos().first - 1];
+    case Direction::Left:
+        m_grid[e->GetPos().first + 1];
+    break;
+    }
+}
+
 void ConsoleRenderer::RenderPlayerStats()
 {
     for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
     {
         e.first;
         //std::cout << e.first << ' ';
+        //std::cout << e.first.ToString() << ' ';
     }
 }
 
