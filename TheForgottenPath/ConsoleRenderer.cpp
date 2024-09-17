@@ -29,6 +29,7 @@ void ConsoleRenderer::SpawnMonsters()
 {
     for (Monster* m : m_gm->GetMonsters())
     {
+        if (m->IsDead()) continue;
         m_grid[m->GetPos().first][m->GetPos().second] = m->GetIcon();
     }
 }

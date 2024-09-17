@@ -39,9 +39,10 @@ int main()
 
     while (!gm->GameIsOver())
     {
-        Battle battle;
+        Battle* battle = new Battle();
 
-        while (!battle.BattleIsOver()) battle.Update();
+        while (!battle->BattleIsOver()) battle->Update();
+        delete battle;
     }
 
     delete gm;

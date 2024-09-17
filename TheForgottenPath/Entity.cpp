@@ -11,6 +11,11 @@ Entity::Entity()
 	m_behaviour = Behaviour::Follow;
 }
 
+bool Entity::IsDead()
+{
+	return m_stats[Stat::HP] <= 0;
+}
+
 bool Entity::CanMove()
 {
 	return m_stats[Stat::PM] > 0;
@@ -31,4 +36,10 @@ void Entity::OnEndTurn()
 void Entity::StopTurnEarly()
 {
 	m_stats[Stat::PM] = 0;
+}
+
+void Entity::TakeDamage(int damage)
+{
+	m_stats[Stat::HP] = -damage;
+	if (m_stats[Stat::HP] < 0) m_stats[Stat::HP] = 0;
 }

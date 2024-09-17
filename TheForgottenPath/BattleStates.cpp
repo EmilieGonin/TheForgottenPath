@@ -9,7 +9,7 @@ void PlayerTurn::Update(Battle* battle)
 
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
-		battle->SetState(EnemyTurn::GetInstance());
+		battle->SetState(EndCheck::GetInstance());
 	}
 
 	// Vérifier si un ennemi est à proximité
@@ -29,19 +29,23 @@ void EnemyTurn::Enter(Battle* battle)
 {
 	Monster* m = battle->GetTurnMonster();
 
-	do
+	if (!m->IsDead())
 	{
-		bool isPlayerClose = battle->GetRenderer()->GetCloseEntity(m) == battle->GetGM()->GetPlayer();
-		if (isPlayerClose) break;
-		if (m->CanMove()) battle->GetRenderer()->MoveMonster(m);
-	} while (m->CanMove());
+		do
+		{
+			bool isPlayerClose = battle->GetRenderer()->GetCloseEntity(m) == battle->GetGM()->GetPlayer();
 
-	if (battle->TurnIsOver())
-	{
-		battle->SetState(PlayerTurn::GetInstance());
+			if (isPlayerClose)
+			{
+				//
+				break;
+			}
+
+			if (m->CanMove()) battle->GetRenderer()->MoveMonster(m);
+		} while (m->CanMove());
 	}
 
-	else battle->SetState(EnemyTurn::GetInstance());
+	battle->SetState(EndCheck::GetInstance());
 }
 
 void EnemyTurn::Exit(Battle* battle)
@@ -52,6 +56,48 @@ void EnemyTurn::Exit(Battle* battle)
 BattleState& EnemyTurn::GetInstance()
 {
 	static EnemyTurn singleton;
+	return singleton;
+}
+
+void EndCheck::Enter(Battle* battle)
+{
+	if (battle->GetGM()->GetPlayer()->IsDead())
+	{
+		battle->SetState(Lose::GetInstance());
+		return;
+	}
+	else
+	{
+		bool win = true;
+
+		for (Monster* m : battle->GetGM()->GetMonsters())
+		{
+			if (!m->IsDead())
+			{
+				win = false;
+				break;
+			}
+		}
+
+		if (win)
+		{
+			battle->SetState(Win::GetInstance());
+			return;
+		}
+	}
+	
+	
+	if (battle->TurnIsOver())
+	{
+		battle->SetState(PlayerTurn::GetInstance());
+	}
+
+	else battle->SetState(EnemyTurn::GetInstance());
+}
+
+BattleState& EndCheck::GetInstance()
+{
+	static EndCheck singleton;
 	return singleton;
 }
 

@@ -23,6 +23,16 @@ public:
 	static BattleState& GetInstance();
 };
 
+class EndCheck : public BattleState
+{
+public:
+	void Enter(Battle* battle);
+	void Update(Battle* battle) { }
+	void Toggle(Battle* battle) { }
+	void Exit(Battle* battle) { }
+	static BattleState& GetInstance();
+};
+
 class Win : public BattleState
 {
 public:
