@@ -29,7 +29,7 @@ public:
     //void MovementRange();
 
     void Display();
-    bool PlayerController();
+    void PlayerController();
 
 
 private:
