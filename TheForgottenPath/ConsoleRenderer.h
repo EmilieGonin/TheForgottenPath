@@ -51,6 +51,16 @@ private:
 
     std::map<int, bool> m_keyStates;
 
+    const std::map<Stat, std::string> m_statsTitle = {
+    { Stat::HP, "HP" },
+    { Stat::ATK, "ATK" },
+    { Stat::DEF, "DEF" },
+    { Stat::PA, "PA" },
+    { Stat::PM, "PM" }
+    };
+
+    //cout << m_statsTitle[e.first] << " : " << e.second
+
     void InitWalls();
     void SpawnMonsters();
     void SpawnPlayer();
