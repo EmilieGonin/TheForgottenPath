@@ -44,5 +44,6 @@ int main()
         while (!battle.BattleIsOver()) battle.Update();
     }
 
+    delete gm;
     return 0;
 }
