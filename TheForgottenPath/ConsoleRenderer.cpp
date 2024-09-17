@@ -208,16 +208,16 @@ std::pair<int, int> ConsoleRenderer::GetNextDestination(Direction d, std::pair<i
     switch (d)
     {
     case Direction::Up:
-        y -= 1;
+        x -= 1;
         break;
     case Direction::Down:
-        y += 1;
-        break;
-    case Direction::Right:
         x += 1;
         break;
+    case Direction::Right:
+        y += 1;
+        break;
     case Direction::Left:
-        x -= 1;
+        y -= 1;
         break;
     }
 
