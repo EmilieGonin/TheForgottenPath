@@ -7,16 +7,21 @@ void PlayerTurn::Update(Battle* battle)
 		battle->GetRenderer()->PlayerController();
 	}
 
-	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	bool isSpacePressed = GetAsyncKeyState(VK_SPACE) & 0x8000;
+	bool wasSpacePressed = m_actionsKeys[VK_SPACE];
+
+	bool isEnterPressed = GetAsyncKeyState(VK_EXECUTE) & 0x8000;
+	bool wasEnterPressed = m_actionsKeys[VK_EXECUTE];
+
+	if (!isSpacePressed && wasSpacePressed) battle->SetState(EndCheck::GetInstance());
+
+	if (!isEnterPressed && wasEnterPressed)
 	{
-		battle->SetState(EnemyTurn::GetInstance());
+		// Attaque
 	}
 
-	// Vérifier si un ennemi est à proximité
-	if (GetAsyncKeyState(VK_EXECUTE) & 0x8000)
-	{
-		//
-	}
+	m_actionsKeys[VK_SPACE] = isSpacePressed;
+	m_actionsKeys[VK_EXECUTE] = isEnterPressed;
 }
 
 BattleState& PlayerTurn::GetInstance()
@@ -28,20 +33,25 @@ BattleState& PlayerTurn::GetInstance()
 void EnemyTurn::Enter(Battle* battle)
 {
 	Monster* m = battle->GetTurnMonster();
+	Player* p = battle->GetGM()->GetPlayer();
 
-	do
+	if (!m->IsDead())
 	{
-		bool isPlayerClose = battle->GetRenderer()->GetCloseEntity(m) == battle->GetGM()->GetPlayer();
-		if (isPlayerClose) break;
-		if (m->CanMove()) battle->GetRenderer()->MoveMonster(m);
-	} while (m->CanMove());
+		do
+		{
+			bool isPlayerClose = battle->GetRenderer()->GetCloseEntity(m) == p;
 
-	if (battle->TurnIsOver())
-	{
-		battle->SetState(PlayerTurn::GetInstance());
+			if (isPlayerClose)
+			{
+				p->TakeDamage(m->GetStat(Stat::ATK));
+				break;
+			}
+
+			if (m->CanMove()) battle->GetRenderer()->MoveMonster(m);
+		} while (m->CanMove());
 	}
 
-	else battle->SetState(EnemyTurn::GetInstance());
+	battle->SetState(EndCheck::GetInstance());
 }
 
 void EnemyTurn::Exit(Battle* battle)
@@ -52,6 +62,48 @@ void EnemyTurn::Exit(Battle* battle)
 BattleState& EnemyTurn::GetInstance()
 {
 	static EnemyTurn singleton;
+	return singleton;
+}
+
+void EndCheck::Enter(Battle* battle)
+{
+	if (battle->GetGM()->GetPlayer()->IsDead())
+	{
+		battle->SetState(Lose::GetInstance());
+		return;
+	}
+	else
+	{
+		bool win = true;
+
+		for (Monster* m : battle->GetGM()->GetMonsters())
+		{
+			if (!m->IsDead())
+			{
+				win = false;
+				break;
+			}
+		}
+
+		if (win)
+		{
+			battle->SetState(Win::GetInstance());
+			return;
+		}
+	}
+	
+	
+	if (battle->TurnIsOver())
+	{
+		battle->SetState(PlayerTurn::GetInstance());
+	}
+
+	else battle->SetState(EnemyTurn::GetInstance());
+}
+
+BattleState& EndCheck::GetInstance()
+{
+	static EndCheck singleton;
 	return singleton;
 }
 

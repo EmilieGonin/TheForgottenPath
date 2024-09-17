@@ -35,10 +35,13 @@ public:
 	Behaviour GetBehaviour() const { return m_behaviour; }
 	pair<int, int> GetPos() const { return m_pos; }
 
+	bool IsDead();
 	bool CanMove();
 	void Move(int, int);
 	void OnEndTurn();
 	void StopTurnEarly();
+	void TakeDamage(int damage);
+
 	virtual ~Entity() { }
 
 protected:
