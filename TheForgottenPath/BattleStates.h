@@ -11,6 +11,9 @@ public:
 	void Toggle(Battle* battle) { }
 	void Exit(Battle* battle) { }
 	static BattleState& GetInstance();
+
+private:
+	std::map<int, bool> m_actionsKeys;
 };
 
 class EnemyTurn : public BattleState

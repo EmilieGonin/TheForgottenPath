@@ -40,6 +40,6 @@ void Entity::StopTurnEarly()
 
 void Entity::TakeDamage(int damage)
 {
-	m_stats[Stat::HP] = -damage;
+	m_stats[Stat::HP] -= damage;
 	if (m_stats[Stat::HP] < 0) m_stats[Stat::HP] = 0;
 }

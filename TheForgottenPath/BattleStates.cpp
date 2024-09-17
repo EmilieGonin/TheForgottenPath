@@ -7,16 +7,21 @@ void PlayerTurn::Update(Battle* battle)
 		battle->GetRenderer()->PlayerController();
 	}
 
-	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	bool isSpacePressed = GetAsyncKeyState(VK_SPACE) & 0x8000;
+	bool wasSpacePressed = m_actionsKeys[VK_SPACE];
+
+	bool isEnterPressed = GetAsyncKeyState(VK_EXECUTE) & 0x8000;
+	bool wasEnterPressed = m_actionsKeys[VK_EXECUTE];
+
+	if (!isSpacePressed && wasSpacePressed) battle->SetState(EndCheck::GetInstance());
+
+	if (!isEnterPressed && wasEnterPressed)
 	{
-		battle->SetState(EndCheck::GetInstance());
+		// Attaque
 	}
 
-	// Vérifier si un ennemi est à proximité
-	if (GetAsyncKeyState(VK_EXECUTE) & 0x8000)
-	{
-		//
-	}
+	m_actionsKeys[VK_SPACE] = isSpacePressed;
+	m_actionsKeys[VK_EXECUTE] = isEnterPressed;
 }
 
 BattleState& PlayerTurn::GetInstance()
@@ -28,16 +33,17 @@ BattleState& PlayerTurn::GetInstance()
 void EnemyTurn::Enter(Battle* battle)
 {
 	Monster* m = battle->GetTurnMonster();
+	Player* p = battle->GetGM()->GetPlayer();
 
 	if (!m->IsDead())
 	{
 		do
 		{
-			bool isPlayerClose = battle->GetRenderer()->GetCloseEntity(m) == battle->GetGM()->GetPlayer();
+			bool isPlayerClose = battle->GetRenderer()->GetCloseEntity(m) == p;
 
 			if (isPlayerClose)
 			{
-				//
+				p->TakeDamage(m->GetStat(Stat::ATK));
 				break;
 			}
 
