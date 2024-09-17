@@ -25,7 +25,7 @@ class ConsoleRenderer
 public:
     ConsoleRenderer();
 
-    void MovementRange();
+    //void MovementRange();
 
     void Display();
     bool PlayerController();

@@ -9,11 +9,11 @@
 //    REAPER_COLOR = 12  // Rouge 
 //};
 
-//void SetConsoleColor(ConsoleColor color) 
-//{
-//    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-//    SetConsoleTextAttribute(hConsole, color);
-//}
+void SetConsoleColor(int color)
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
+}
 
 ConsoleRenderer::ConsoleRenderer() : m_grid(kHeight, std::vector<char>(kWidth, kEmpty)) 
 {
@@ -82,6 +82,8 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
     int x = e->GetPos().first;
     int y = e->GetPos().second;
 
+    m_grid[x][y] = kEmpty;
+
     switch (d)
     {
     case Direction::Up:
@@ -130,6 +132,28 @@ void ConsoleRenderer::RenderGameMessage()
 void ConsoleRenderer::Display()
 {
     ClearConsole();
+
+    //HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    //for (const auto& row : m_grid)
+    //{
+    //    for (char cell : row)
+    //    {
+    //        // Trouver l'entité correspondant au caractère
+    //        Entity* entity = FindEntity(cell); // Implémentez FindEntity pour retrouver l'entité par son icône
+    //        if (entity)
+    //        {
+    //            SetConsoleColor(entity->GetColor());
+    //            std::cout << entity->GetIcon() << ' ';
+    //            SetConsoleColor(7); // Remettre la couleur par défaut
+    //        }
+    //        else
+    //        {
+    //            std::cout << cell << ' ';
+    //        }
+    //    }
+    //    std::cout << std::endl;
+    //}
 
     // Récupérer la taille actuelle de la console
     CONSOLE_SCREEN_BUFFER_INFO csbi;
