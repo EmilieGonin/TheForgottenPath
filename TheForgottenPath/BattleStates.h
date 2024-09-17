@@ -16,7 +16,7 @@ public:
 class EnemyTurn : public BattleState
 {
 public:
-	void Enter(Battle* battle) { }
+	void Enter(Battle* battle);
 	void Update(Battle* battle) { }
 	void Toggle(Battle* battle) { }
 	void Exit(Battle* battle) { }

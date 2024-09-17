@@ -6,12 +6,27 @@ void PlayerTurn::Update(Battle* battle)
 	{
 		battle->GetRenderer()->PlayerController();
 	}
+
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		battle->SetState(EnemyTurn::GetInstance());
+	}
+
+	if (GetAsyncKeyState(VK_EXECUTE) & 0x8000)
+	{
+		//
+	}
 }
 
 BattleState& PlayerTurn::GetInstance()
 {
 	static PlayerTurn singleton;
 	return singleton;
+}
+
+void EnemyTurn::Enter(Battle* battle)
+{
+	// vérifier si le joueur est à proximité
 }
 
 BattleState& EnemyTurn::GetInstance()
