@@ -26,17 +26,12 @@ class ConsoleRenderer
 public:
     ConsoleRenderer();
 
-    //void MovementRange();
-
     void Display();
     void PlayerController();
-
 
 private:
     static const int kGridWidth = 15;
     static const int kGridHeight = 15;
-    static const int kPlayerStatsX = 1;
-    static const int kPlayerStatsY = kGridHeight + 1;
 
     static const char kEmpty = '.';
     static const char kWall = '#';
@@ -60,7 +55,6 @@ private:
     { Stat::PA, "PA" },
     { Stat::PM, "PM" }
     };
-
 
     void InitWalls();
     void SpawnMonsters();

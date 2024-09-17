@@ -1,14 +1,5 @@
 #include "ConsoleRenderer.h"
 
-//enum ConsoleColor 
-//{
-//    DEFAULT_COLOR = 7,  // Couleur par défaut (blanc sur noir)
-//    VALID_MOVE_COLOR = 10, // Vert 
-//    GOLEM_COLOR = 14,    // Jaune
-//    WRAITH_SPECTRE_COLOR = 11,  // Bleu clair 
-//    REAPER_COLOR = 12  // Rouge 
-//};
-
 void SetConsoleColor(int color)
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -100,21 +91,10 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
 
 void ConsoleRenderer::RenderPlayerStats()
 {
-
-    //std::string stats;
-
-    //stats += "HP " + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::HP))) + "/" + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::HP))) + "    ";
-    //stats += "ATK " + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::ATK))) + "\n";
-
-    //stats += "PM " + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::PM))) + "/" + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::PM))) + "      ";
-    //stats += "PA " + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::PA))) + "/" + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::PA))) + "\n";
-
-    //cout << stats;
-
-    for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
-    {
-        cout << m_statsTitle[e.first] << " : " << e.second;
-    }
+    cout << m_statsTitle[Stat::HP] << " : " << m_gm->GetPlayer()->GetStat(Stat::HP) << "/" << "50" << "    ";
+    cout << m_statsTitle[Stat::ATK] << " : " << m_gm->GetPlayer()->GetStat(Stat::ATK) << "\n";
+    cout << m_statsTitle[Stat::PM] << " : " << m_gm->GetPlayer()->GetStat(Stat::PM) << "/" << "3" << "      ";
+    cout << m_statsTitle[Stat::PA] << " : " << m_gm->GetPlayer()->GetStat(Stat::PA) << "/" << "5";
 }
 
 void ConsoleRenderer::RenderMonsterStats()
@@ -165,21 +145,3 @@ void ConsoleRenderer::ClearConsole()
 {
     std::system("cls");
 }
-
-//// Marquer les cases de déplacement valides autour du héros
-//void ConsoleRenderer::MovementRange() 
-//{
-//    const int range = 2;
-//    for (int dx = -range; dx <= range; ++dx) 
-//    {
-//        for (int dy = -range; dy <= range; ++dy) 
-//        {
-//            int new_x = m_gm->GetPlayer()->GetPos().first + dx;
-//            int new_y = m_gm->GetPlayer()->GetPos().second + dy;
-//            if (new_x >= 0 && new_x < kHeight && new_y >= 0 && new_y < kWidth && m_grid[new_x][new_y] == kEmpty) 
-//            {
-//                m_grid[new_x][new_y] = kValidMove;
-//            }
-//        }
-//    }
-//}
