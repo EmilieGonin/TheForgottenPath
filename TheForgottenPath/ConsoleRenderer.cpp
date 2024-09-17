@@ -1,11 +1,5 @@
 #include "ConsoleRenderer.h"
 
-void SetConsoleColor(int color)
-{
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, color);
-}
-
 ConsoleRenderer::ConsoleRenderer() : m_grid(kGridHeight, std::vector<char>(kGridWidth, kEmpty)) 
 {
     m_gm = GameManager::GetInstance();
@@ -331,9 +325,26 @@ void ConsoleRenderer::Display()
             {
                 SetConsoleColor(kColorValidMove);
             }
-            else {
+            else if (cell == m_gm->GetPlayer()->GetIcon())
+            {
+                SetConsoleColor(m_gm->GetPlayer()->GetColor());
+
+            }
+            else if (cell != kEmpty && cell != kWall)
+            {
+                for (Monster* m : m_gm->GetMonsters())
+                {
+                    if (cell == m->GetIcon())
+                    {
+                        SetConsoleColor(m->GetColor());
+                    }
+                }
+            }
+            else
+            {
                 SetConsoleColor(kColorDefault);
             }
+
             cout << cell << ' ';
         }
         cout << std::endl;
