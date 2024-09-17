@@ -26,17 +26,12 @@ class ConsoleRenderer
 public:
     ConsoleRenderer();
 
-    //void MovementRange();
-
     void Display();
     void PlayerController();
-
 
 private:
     static const int kGridWidth = 15;
     static const int kGridHeight = 15;
-    static const int kPlayerStatsX = 1;
-    static const int kPlayerStatsY = kGridHeight + 1;
 
     static const char kEmpty = '.';
     static const char kWall = '#';
@@ -53,7 +48,7 @@ private:
 
     std::map<int, bool> m_keyStates;
 
-    const std::map<Stat, std::string> m_statsTitle = {
+    std::map<Stat, std::string> m_statsTitle {
     { Stat::HP, "HP" },
     { Stat::ATK, "ATK" },
     { Stat::DEF, "DEF" },
@@ -61,15 +56,16 @@ private:
     { Stat::PM, "PM" }
     };
 
-    //cout << m_statsTitle[e.first] << " : " << e.second
-
     void InitWalls();
     void SpawnMonsters();
     void SpawnPlayer();
 
+    void DisplayValidMovementCells();
+    void ResetValidMovementCells();
+
     void MoveEntity(Direction, Entity*);
 
-    void RenderPlayerStats() const;
+    void RenderPlayerStats();
     void RenderMonsterStats();
     void RenderAvailableActions();
     void RenderGameMessage();
