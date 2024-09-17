@@ -69,6 +69,8 @@ private:
     void SpawnPlayer();
 
     Direction GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse);
+    Direction GetPathAwayFromPlayer(std::pair<int, int> monsterPos, bool reverse);
+
     void DisplayValidMovementCells();
     void ResetValidMovementCells();
 
