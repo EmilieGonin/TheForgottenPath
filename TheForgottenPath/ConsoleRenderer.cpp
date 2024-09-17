@@ -107,8 +107,8 @@ void ConsoleRenderer::RenderPlayerStats()
     for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
     {
         e.first;
-        //std::cout << e.first << ' ';
-        //std::cout << e.first.ToString() << ' ';
+        //cout << e.first << ' ';
+        //cout << e.first.ToString() << ' ';
     }
 }
 
@@ -127,8 +127,10 @@ void ConsoleRenderer::RenderGameMessage()
 
 }
 
-void ConsoleRenderer::Display() const
+void ConsoleRenderer::Display()
 {
+    ClearConsole();
+
     // Récupérer la taille actuelle de la console
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     int console_width = 80; // Valeur par défaut
@@ -141,14 +143,19 @@ void ConsoleRenderer::Display() const
 
     for (const auto& row : m_grid) {
         for (int i = 0; i < margin_left; ++i) {
-            std::cout << ' ';
+            cout << ' ';
         }
 
         for (char cell : row) {
-            std::cout << cell << ' ';
+            cout << cell << ' ';
         }
-        std::cout << std::endl;
+        cout << std::endl;
     }
+}
+
+void ConsoleRenderer::ClearConsole()
+{
+    std::system("cls");
 }
 
 // Marquer les cases de déplacement valides autour du héros

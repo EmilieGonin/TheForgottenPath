@@ -27,7 +27,7 @@ public:
 
     void MovementRange();
 
-    void Display() const;
+    void Display();
     bool PlayerController();
 
 
@@ -51,6 +51,8 @@ private:
     void RenderMonsterStats();
     void RenderAvailableActions();
     void RenderGameMessage();
+
+    void ClearConsole();
 
     GameManager* m_gm;
 };
