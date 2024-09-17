@@ -215,26 +215,35 @@ std::pair<int, int> ConsoleRenderer::GetNextDestination(Direction d, std::pair<i
 
 void ConsoleRenderer::RenderEntityStats(Entity* e)
 {
-
     cout << "                                             ";
-    cout << e->GetIcon() << "       ";
-    cout << m_statsTitle[Stat::HP] << " : " << e->GetStat(Stat::HP) << "/" << e->GetStat(Stat::MAXHP) << "    ";
+    cout << "+---------------------------+" << "\n";
+    cout << "                                            ";
+    cout << "    " << e->GetIcon() << "  ";
+    cout << m_statsTitle[Stat::HP] << " : " << e->GetStat(Stat::HP) << "/" << e->GetStat(Stat::MAXHP) << "   ";
     cout << m_statsTitle[Stat::ATK] << " : " << e->GetStat(Stat::ATK) << "\n" << "       ";
+    cout << "                                            ";
+    cout << m_statsTitle[Stat::PM] << " : " << e->GetStat(Stat::PM) << "/" << e->GetStat(Stat::MAXPM) << "     ";
+    cout << m_statsTitle[Stat::PA] << " : " << e->GetStat(Stat::PA) << "/" << e->GetStat(Stat::MAXPA) << "\n";
     cout << "                                             ";
-    cout << m_statsTitle[Stat::PM] << " : " << e->GetStat(Stat::PM) << "/" << e->GetStat(Stat::MAXPM) << "      ";
-    cout << m_statsTitle[Stat::PA] << " : " << e->GetStat(Stat::PA) << "/" << e->GetStat(Stat::MAXPA);
-
-    /*  cout << "                                             ";
-    cout << m_gm->GetMonsters()->GetIcon() << "       ";
-    cout << m_statsTitle[Stat::HP] << " : " << m_gm->GetMonsters()->GetStat(Stat::HP) << "/" << m_gm->GetMonsters()->GetStat(Stat::MAXHP) << "    ";
-    cout << m_statsTitle[Stat::ATK] << " : " << m_gm->GetMonsters()->GetStat(Stat::ATK) << "\n" << "       ";*/
-
+    cout << "+---------------------------+" << "\n";
 }
 
 
-void ConsoleRenderer::RenderAvailableActions()
+void ConsoleRenderer::RenderAvailableActions(Entity* monster)
 {
+    cout << "                                                " << "End Turn";
+    cout << "   " << ">>>" << "    " << "SPACE" << "\n";
 
+    monster = GetCloseEntity(m_gm->GetPlayer());
+
+    if (monster != nullptr)
+    {
+        cout << "                                                 " << "Attack";
+        cout << "    " << ">>>" << "    " << "ENTER" << "\n";
+    }
+
+    cout << "                                             ";
+    cout << "+---------------------------+" << "\n";
 }
 
 void ConsoleRenderer::RenderGameMessage()
@@ -293,10 +302,11 @@ void ConsoleRenderer::Display()
     if (monster != nullptr)
     {
         RenderEntityStats(monster);
-        cout << "\n";
     }
     else
     {
+        cout << "\n";
+        cout << "\n";
         cout << "\n";
         cout << "\n";
     }
@@ -350,8 +360,10 @@ void ConsoleRenderer::Display()
         cout << std::endl;
     }
 
-    cout << "\n";
     RenderEntityStats(m_gm->GetPlayer());
+    //cout << "\n";
+    //cout << "\n";
+    RenderAvailableActions(monster);
 }
 
 void ConsoleRenderer::SetConsoleColor(int color)
