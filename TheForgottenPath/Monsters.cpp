@@ -3,6 +3,8 @@
 Golem::Golem()
 {
 	m_stats[Stat::ATK] = 5;
+	m_stats[Stat::PM] = 0;
+	m_stats[Stat::MAXPM] = 0;
 	m_icon = 'G';
 	m_color = 6;
 	m_pos.first = 5;
