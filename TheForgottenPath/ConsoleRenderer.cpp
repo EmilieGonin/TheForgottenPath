@@ -174,8 +174,12 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
 
 void ConsoleRenderer::RenderPlayerStats()
 {
+    cout << "\n";
+    cout << "                                             ";
+    cout << m_gm->GetPlayer()->GetIcon() << "       ";
     cout << m_statsTitle[Stat::HP] << " : " << m_gm->GetPlayer()->GetStat(Stat::HP) << "/" << "50" << "    ";
-    cout << m_statsTitle[Stat::ATK] << " : " << m_gm->GetPlayer()->GetStat(Stat::ATK) << "\n";
+    cout << m_statsTitle[Stat::ATK] << " : " << m_gm->GetPlayer()->GetStat(Stat::ATK) << "\n" << "       ";
+    cout << "                                             ";
     cout << m_statsTitle[Stat::PM] << " : " << m_gm->GetPlayer()->GetStat(Stat::PM) << "/" << "3" << "      ";
     cout << m_statsTitle[Stat::PA] << " : " << m_gm->GetPlayer()->GetStat(Stat::PA) << "/" << "5";
 }
@@ -217,12 +221,24 @@ void ConsoleRenderer::Display()
         }
 
         for (char cell : row) {
+            if (cell == kValidMove) {
+                SetConsoleColor(kColorValidMove);
+            }
+            else {
+                SetConsoleColor(kColorDefault);
+            }
             cout << cell << ' ';
         }
         cout << std::endl;
     }
 
     RenderPlayerStats();
+}
+
+void ConsoleRenderer::SetConsoleColor(int color)
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
 }
 
 void ConsoleRenderer::ClearConsole()

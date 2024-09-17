@@ -37,6 +37,9 @@ private:
     static const char kWall = '#';
     static const char kValidMove = '*';
 
+    const int kColorValidMove = 14; // Jaune clair
+    const int kColorDefault = 7; // Couleur par défaut (gris clair)
+
     vector<vector<char>> m_grid;
 
     std::map<int, Direction> m_keyDirections{
@@ -70,6 +73,7 @@ private:
     void RenderAvailableActions();
     void RenderGameMessage();
 
+    void SetConsoleColor(int color);
     void ClearConsole();
 
     GameManager* m_gm;
