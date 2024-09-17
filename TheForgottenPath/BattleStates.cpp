@@ -2,7 +2,7 @@
 
 void PlayerTurn::Update(Battle* battle)
 {
-	if (m_gm->GetPlayer()->CanMove())
+	if (battle->GetGM()->GetPlayer()->CanMove())
 	{
 		battle->GetRenderer()->PlayerController();
 	}
@@ -27,6 +27,18 @@ BattleState& PlayerTurn::GetInstance()
 void EnemyTurn::Enter(Battle* battle)
 {
 	// vérifier si le joueur est à proximité
+
+	if (battle->TurnIsOver())
+	{
+		battle->SetState(PlayerTurn::GetInstance());
+	}
+
+	else battle->SetState(EnemyTurn::GetInstance());
+}
+
+void EnemyTurn::Exit(Battle* battle)
+{
+	//
 }
 
 BattleState& EnemyTurn::GetInstance()

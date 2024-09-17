@@ -10,7 +10,10 @@ enum class Stat
 	ATK,
 	DEF,
 	PA,		// Points d'action
-	PM		// Points de déplacement
+	PM,		// Points de déplacement
+	MAXHP,
+	MAXPA,
+	MAXPM
 };
 
 class Entity
@@ -28,6 +31,7 @@ public:
 
 	bool CanMove();
 	void Move(int, int);
+	void OnEndTurn();
 
 protected:
 	std::map<Stat, float> m_stats;

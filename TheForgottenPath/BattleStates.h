@@ -19,7 +19,7 @@ public:
 	void Enter(Battle* battle);
 	void Update(Battle* battle) { }
 	void Toggle(Battle* battle) { }
-	void Exit(Battle* battle) { }
+	void Exit(Battle* battle);
 	static BattleState& GetInstance();
 };
 
