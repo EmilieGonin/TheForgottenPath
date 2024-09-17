@@ -9,9 +9,9 @@ GameManager::GameManager()
 {
 	m_player = new Player();
 
-	m_monsters.push_back(Golem());
-	m_monsters.push_back(Reaper());
-	m_monsters.push_back(Wraith());
+	m_monsters.push_back(new Golem());
+	m_monsters.push_back(new Reaper());
+	m_monsters.push_back(new Wraith());
 
 	m_levelsRemaining = 3;
 }
@@ -31,7 +31,7 @@ Player* GameManager::GetPlayer()
 	return m_player;
 }
 
-Monster GameManager::GetRandomMonster()
+Monster* GameManager::GetRandomMonster()
 {
     std::srand(static_cast<unsigned>(std::time(0)));
     int randomChoice = std::rand() % m_monsters.size();
@@ -39,7 +39,7 @@ Monster GameManager::GetRandomMonster()
 	return m_monsters[randomChoice];
 }
 
-std::vector<Monster> GameManager::GetMonsters()
+std::vector<Monster*> GameManager::GetMonsters()
 {
 	return m_monsters;
 }
