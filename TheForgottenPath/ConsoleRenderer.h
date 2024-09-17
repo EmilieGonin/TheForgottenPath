@@ -17,7 +17,8 @@ enum class Direction
     Up,
     Down,
     Right,
-    Left
+    Left,
+    None
 };
 
 class ConsoleRenderer 

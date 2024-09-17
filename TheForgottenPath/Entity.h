@@ -26,6 +26,9 @@ public:
 
 	std::map<Stat, float> GetStats();
 
+	bool CanMove();
+	void Move();
+
 protected:
 	std::map<Stat, float> m_stats;
 	char m_icon;

@@ -32,3 +32,13 @@ std::map<Stat, float> Entity::GetStats()
 {
 	return m_stats;
 }
+
+bool Entity::CanMove()
+{
+	return m_stats[Stat::PM] > 0;
+}
+
+void Entity::Move()
+{
+	m_stats[Stat::PM]--;
+}
