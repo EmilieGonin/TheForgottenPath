@@ -17,7 +17,8 @@ enum class Direction
     Up,
     Down,
     Right,
-    Left
+    Left,
+    None
 };
 
 class ConsoleRenderer 
@@ -28,7 +29,7 @@ public:
     //void MovementRange();
 
     void Display();
-    bool PlayerController();
+    void PlayerController();
 
 
 private:
@@ -42,6 +43,25 @@ private:
     static const char kValidMove = '*';
 
     vector<vector<char>> m_grid;
+
+    std::map<int, Direction> m_keyDirections{
+        { VK_UP, Direction::Up },
+        { VK_DOWN, Direction::Down },
+        { VK_LEFT, Direction::Left },
+        { VK_RIGHT, Direction::Right }
+    };
+
+    std::map<int, bool> m_keyStates;
+
+    const std::map<Stat, std::string> m_statsTitle = {
+    { Stat::HP, "HP" },
+    { Stat::ATK, "ATK" },
+    { Stat::DEF, "DEF" },
+    { Stat::PA, "PA" },
+    { Stat::PM, "PM" }
+    };
+
+    //cout << m_statsTitle[e.first] << " : " << e.second
 
     void InitWalls();
     void SpawnMonsters();
