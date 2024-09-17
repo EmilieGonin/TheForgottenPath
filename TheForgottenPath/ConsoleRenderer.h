@@ -28,6 +28,7 @@ public:
     void MovementRange();
 
     void Display() const;
+    bool PlayerController();
 
 
 private:
@@ -44,7 +45,6 @@ private:
     void SpawnMonsters();
     void SpawnPlayer();
 
-    bool PlayerController();
     void MoveEntity(Direction, Entity*);
 
     void RenderPlayerStats();

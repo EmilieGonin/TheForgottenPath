@@ -2,7 +2,7 @@
 
 void PlayerTurn::Update(Battle* battle)
 {
-	//
+	battle->GetRenderer()->PlayerController();
 }
 
 BattleState& PlayerTurn::GetInstance()

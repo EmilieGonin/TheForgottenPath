@@ -1,5 +1,7 @@
 #pragma once
+
 #include "BattleState.h"
+#include "Battle.h"
 
 class PlayerTurn : public BattleState
 {
