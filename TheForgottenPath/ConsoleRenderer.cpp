@@ -15,23 +15,25 @@ void SetConsoleColor(int color)
     SetConsoleTextAttribute(hConsole, color);
 }
 
-ConsoleRenderer::ConsoleRenderer() : m_grid(kHeight, std::vector<char>(kWidth, kEmpty)) 
+ConsoleRenderer::ConsoleRenderer() : m_grid(kGridHeight, std::vector<char>(kGridWidth, kEmpty)) 
 {
     m_gm = GameManager::GetInstance();
     InitWalls();
     SpawnMonsters();
     SpawnPlayer();
 
+    RenderPlayerStats();
+
     Display();
 }
 
 void ConsoleRenderer::InitWalls()
 {
-    for (int row = 0; row < kHeight; ++row)
+    for (int row = 0; row < kGridHeight; ++row)
     {
-        for (int col = 0; col < kWidth; ++col)
+        for (int col = 0; col < kGridWidth; ++col)
         {
-            if (row == 0 || row == kHeight - 1 || col == 0 || col == kWidth - 1)
+            if (row == 0 || row == kGridHeight - 1 || col == 0 || col == kGridWidth - 1)
             {
                 m_grid[row][col] = kWall;
             }
@@ -104,14 +106,28 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
     Display();
 }
 
-void ConsoleRenderer::RenderPlayerStats()
+void ConsoleRenderer::RenderPlayerStats() const
 {
-    for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
-    {
-        e.first;
-        //cout << e.first << ' ';
-        //cout << e.first.ToString() << ' ';
-    }
+    // Déterminer la position en bas de la grille
+    //const int startX = 1; // Position en colonne (ajustez si nécessaire)
+    //const int startY = kGridHeight + 1; // Position en ligne juste après la grille
+
+    //std::string stats;
+
+    //stats += "HP " + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::HP))) + "/" + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::HP))) + "    ";
+    //stats += "ATK " + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::ATK))) + "\n";
+
+    //stats += "PM " + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::PM))) + "/" + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::PM))) + "      ";
+    //stats += "PA " + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::PA))) + "/" + std::to_string(static_cast<int>(m_gm->GetPlayer()->GetStat(Stat::PA))) + "\n";
+
+    //cout << stats;
+
+    //for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
+    //{
+    //    e.first;
+    //    //cout << e.first << ' ';
+    //    //cout << e.first.ToString() << ' ';
+    //}
 }
 
 void ConsoleRenderer::RenderMonsterStats()
@@ -163,7 +179,7 @@ void ConsoleRenderer::Display()
     }
 
     // Calculer les marges (espaces à gauche) pour centrer la grille
-    int margin_left = (console_width - kWidth * 2) / 2; // *2 car chaque cellule est suivie d'un espace
+    int margin_left = (console_width - kGridWidth * 2) / 2; // *2 car chaque cellule est suivie d'un espace
 
     for (const auto& row : m_grid) {
         for (int i = 0; i < margin_left; ++i) {
