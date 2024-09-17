@@ -4,9 +4,7 @@
 #include <memory>
 
 #include "Player.h"
-#include "Golem.h"
-#include "Reaper.h"
-#include "Wraith.h"
+#include "Monsters.h"
 
 class GameManager
 {
@@ -17,9 +15,11 @@ public:
 	Player* GetPlayer();
 	Monster GetRandomMonster();
 	std::vector<Monster> GetMonsters();
+	bool GameIsOver();
 
 private:
 	static GameManager* m_instance;
 	Player* m_player;
 	std::vector<Monster> m_monsters;
+	int m_levelsRemaining;
 };

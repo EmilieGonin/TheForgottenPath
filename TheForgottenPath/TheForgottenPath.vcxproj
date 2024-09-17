@@ -129,27 +129,25 @@
   <ItemGroup>
     <ClCompile Include="Battle.cpp" />
     <ClCompile Include="BattleState.cpp" />
+    <ClCompile Include="BattleStates.cpp" />
     <ClCompile Include="ConsoleRenderer.cpp" />
+    <ClCompile Include="Monsters.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="Golem.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Reaper.cpp" />
     <ClCompile Include="TheForgottenPath.cpp" />
-    <ClCompile Include="Wraith.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Battle.h" />
     <ClInclude Include="BattleState.h" />
+    <ClInclude Include="BattleStates.h" />
     <ClInclude Include="ConsoleRenderer.h" />
+    <ClInclude Include="Monsters.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="Golem.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Reaper.h" />
-    <ClInclude Include="Wraith.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
