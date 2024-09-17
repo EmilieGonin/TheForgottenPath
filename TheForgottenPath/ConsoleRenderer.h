@@ -75,8 +75,7 @@ private:
     void MoveEntity(Direction, Entity*);
     std::pair<int, int> GetNextDestination(Direction d, std::pair<int, int> pos);
 
-    void RenderPlayerStats();
-    void RenderMonsterStats();
+    void RenderEntityStats(Entity*);
     void RenderAvailableActions();
     void RenderGameMessage();
 
