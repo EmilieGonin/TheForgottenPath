@@ -1,4 +1,4 @@
-#include "dungeon.h"
+#include "ConsoleRenderer.h"
 #include <iostream>
 #include <algorithm>
 #include <windows.h>
@@ -21,7 +21,7 @@ using std::cout;
 //    SetConsoleTextAttribute(hConsole, color);
 //}
 
-Dungeon::Dungeon() : m_grid(kHeight, std::vector<char>(kWidth, kEmpty)) 
+ConsoleRenderer::ConsoleRenderer() : m_grid(kHeight, std::vector<char>(kWidth, kEmpty)) 
 {
     m_gm = GameManager::GetInstance();
     InitWalls();
@@ -30,7 +30,7 @@ Dungeon::Dungeon() : m_grid(kHeight, std::vector<char>(kWidth, kEmpty))
     Display();
 }
 
-void Dungeon::InitWalls()
+void ConsoleRenderer::InitWalls()
 {
     for (int row = 0; row < kHeight; ++row)
     {
@@ -44,7 +44,7 @@ void Dungeon::InitWalls()
     }
 }
 
-void Dungeon::SpawnMonsters() 
+void ConsoleRenderer::SpawnMonsters() 
 {
     for (Monster m : m_gm->GetMonsters())
     {
@@ -52,12 +52,12 @@ void Dungeon::SpawnMonsters()
     }
 }
 
-void Dungeon::SpawnPlayer()
+void ConsoleRenderer::SpawnPlayer()
 {
     m_grid[m_gm->GetPlayer()->GetPos().first][m_gm->GetPlayer()->GetPos().second] = m_gm->GetPlayer()->GetIcon();
 }
 
-void Dungeon::RenderPlayerStats()
+void ConsoleRenderer::RenderPlayerStats()
 {
     for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
     {
@@ -66,22 +66,22 @@ void Dungeon::RenderPlayerStats()
     }
 }
 
-void Dungeon::RenderMonsterStats()
+void ConsoleRenderer::RenderMonsterStats()
 {
 
 }
 
-void Dungeon::RenderAvailableActions()
+void ConsoleRenderer::RenderAvailableActions()
 {
 
 }
 
-void Dungeon::RenderGameMessage()
+void ConsoleRenderer::RenderGameMessage()
 {
 
 }
 
-void Dungeon::Display() const
+void ConsoleRenderer::Display() const
 {
     // Récupérer la taille actuelle de la console
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -106,7 +106,7 @@ void Dungeon::Display() const
 }
 
 // Marquer les cases de déplacement valides autour du héros
-void Dungeon::MovementRange() 
+void ConsoleRenderer::MovementRange() 
 {
     const int range = 2;
     for (int dx = -range; dx <= range; ++dx) 

@@ -7,10 +7,10 @@
 
 using std::vector;
 
-class Dungeon 
+class ConsoleRenderer 
 {
 public:
-    Dungeon();
+    ConsoleRenderer();
 
     void Display() const;
     void MovementRange();
