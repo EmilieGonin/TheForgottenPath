@@ -46,41 +46,12 @@ void ConsoleRenderer::SpawnPlayer()
 
 void ConsoleRenderer::DisplayValidMovementCells()
 {
-    //ResetValidMovementCells();
-
-    //int pm = m_gm->GetPlayer()->GetStat(Stat::PM);
-
-    //// Boucle pour parcourir les cases autour du joueur
-    //for (int offsetX = -pm; offsetX <= pm; ++offsetX)
-    //{
-    //    for (int offsetY = -pm; offsetY <= pm; ++offsetY)
-    //    {
-    //        // Calcule les nouvelles coordonn�es autour du joueur
-    //        int newX = m_gm->GetPlayer()->GetPos().first + offsetX;
-    //        int newY = m_gm->GetPlayer()->GetPos().second + offsetY;
-
-    //        // V�rifie que les coordonn�es sont valides et que la cellule est � l'int�rieur de la grille
-    //        if (newX >= 0 && newX < kGridWidth && newY >= 0 && newY < kGridHeight)
-    //        {
-    //            // Calcule la distance de d�placement
-    //            if (abs(offsetX) + abs(offsetY) <= pm)
-    //            {
-    //                // Marque la cellule comme valide uniquement si elle est vide ou contient l'ic�ne du joueur
-    //                if (m_grid[newY][newX] == kEmpty || m_grid[newY][newX] == m_gm->GetPlayer()->GetIcon())
-    //                {
-    //                    m_grid[newY][newX] = kValidMove;
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
     ResetValidMovementCells();
 
     int pm = m_gm->GetPlayer()->GetStat(Stat::PM);
 
-    int playerX = m_gm->GetPlayer()->GetPos().first;
-    int playerY = m_gm->GetPlayer()->GetPos().second;
+    int playerY = m_gm->GetPlayer()->GetPos().first;
+    int playerX = m_gm->GetPlayer()->GetPos().second;
 
     // Boucle pour parcourir les cases autour du joueur
     for (int offsetX = -pm; offsetX <= pm; ++offsetX)
@@ -97,8 +68,8 @@ void ConsoleRenderer::DisplayValidMovementCells()
                 // Calcule la distance de d�placement
                 if (abs(offsetX) + abs(offsetY) <= pm)
                 {
-                    // Marque la cellule comme valide uniquement si elle est vide ou contient l'ic�ne du joueur
-                    if (m_grid[newY][newX] == kEmpty || m_grid[newY][newX] == m_gm->GetPlayer()->GetIcon())
+                    // Marque la cellule comme valide uniquement
+                    if (m_grid[newY][newX] == kEmpty)
                     {
                         m_grid[newY][newX] = kValidMove;
                     }
@@ -174,14 +145,14 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
     int x = nextDestination.first;
     int y = nextDestination.second;
 
-    if (m_grid[x][y] != kEmpty)
+    if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove)
     {
         if (e != m_gm->GetPlayer())
         {
             nextDestination = GetNextDestination(GetPathToPlayer(e->GetPos(), true), e->GetPos());
             x = nextDestination.first;
             y = nextDestination.second;
-            if (m_grid[x][y] != kEmpty) canMove = false;
+            if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove) canMove = false;
         }
         else return;
     }
@@ -224,18 +195,24 @@ std::pair<int, int> ConsoleRenderer::GetNextDestination(Direction d, std::pair<i
     return std::make_pair(x, y);
 }
 
-void ConsoleRenderer::RenderPlayerStats()
-{
-    cout << m_statsTitle[Stat::HP] << " : " << m_gm->GetPlayer()->GetStat(Stat::HP) << "/" << "50" << "    ";
-    cout << m_statsTitle[Stat::ATK] << " : " << m_gm->GetPlayer()->GetStat(Stat::ATK) << "\n";
-    cout << m_statsTitle[Stat::PM] << " : " << m_gm->GetPlayer()->GetStat(Stat::PM) << "/" << "3" << "      ";
-    cout << m_statsTitle[Stat::PA] << " : " << m_gm->GetPlayer()->GetStat(Stat::PA) << "/" << "5";
-}
-
-void ConsoleRenderer::RenderMonsterStats()
+void ConsoleRenderer::RenderEntityStats(Entity* e)
 {
 
+    cout << "                                             ";
+    cout << e->GetIcon() << "       ";
+    cout << m_statsTitle[Stat::HP] << " : " << e->GetStat(Stat::HP) << "/" << e->GetStat(Stat::MAXHP) << "    ";
+    cout << m_statsTitle[Stat::ATK] << " : " << e->GetStat(Stat::ATK) << "\n" << "       ";
+    cout << "                                             ";
+    cout << m_statsTitle[Stat::PM] << " : " << e->GetStat(Stat::PM) << "/" << e->GetStat(Stat::MAXPM) << "      ";
+    cout << m_statsTitle[Stat::PA] << " : " << e->GetStat(Stat::PA) << "/" << e->GetStat(Stat::MAXPA);
+
+    /*  cout << "                                             ";
+    cout << m_gm->GetMonsters()->GetIcon() << "       ";
+    cout << m_statsTitle[Stat::HP] << " : " << m_gm->GetMonsters()->GetStat(Stat::HP) << "/" << m_gm->GetMonsters()->GetStat(Stat::MAXHP) << "    ";
+    cout << m_statsTitle[Stat::ATK] << " : " << m_gm->GetMonsters()->GetStat(Stat::ATK) << "\n" << "       ";*/
+
 }
+
 
 void ConsoleRenderer::RenderAvailableActions()
 {
@@ -273,7 +250,8 @@ Entity* ConsoleRenderer::GetCloseEntity(Entity* entityChecking)
                 return m_gm->GetPlayer();
             }
             
-            if (cellIcon != kEmpty) {
+            if (cellIcon != kEmpty) 
+            {
                 for (Monster* m : m_gm->GetMonsters())
                 {
                     if (cellIcon == m->GetIcon()) {
@@ -290,31 +268,61 @@ Entity* ConsoleRenderer::GetCloseEntity(Entity* entityChecking)
 void ConsoleRenderer::Display()
 {
     ClearConsole();
-
     DisplayValidMovementCells();
+
+    Entity* monster = GetCloseEntity(m_gm->GetPlayer());
+
+    if (monster != nullptr)
+    {
+        RenderEntityStats(monster);
+        cout << "\n";
+    }
+    else
+    {
+        cout << "\n";
+        cout << "\n";
+    }
 
     // R�cup�rer la taille actuelle de la console
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     int console_width = 80; // Valeur par d�faut
-    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) 
+    {
         console_width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
     }
 
     // Calculer les marges (espaces � gauche) pour centrer la grille
     int margin_left = (console_width - kGridWidth * 2) / 2; // *2 car chaque cellule est suivie d'un espace
 
-    for (const auto& row : m_grid) {
-        for (int i = 0; i < margin_left; ++i) {
+    for (const auto& row : m_grid) 
+    {
+        for (int i = 0; i < margin_left; ++i) 
+        {
             cout << ' ';
         }
 
-        for (char cell : row) {
+        for (char cell : row) 
+        {
+            if (cell == kValidMove) 
+            {
+                SetConsoleColor(kColorValidMove);
+            }
+            else {
+                SetConsoleColor(kColorDefault);
+            }
             cout << cell << ' ';
         }
         cout << std::endl;
     }
 
-    RenderPlayerStats();
+    cout << "\n";
+    RenderEntityStats(m_gm->GetPlayer());
+}
+
+void ConsoleRenderer::SetConsoleColor(int color)
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
 }
 
 void ConsoleRenderer::ClearConsole()

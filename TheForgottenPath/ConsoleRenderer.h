@@ -42,6 +42,9 @@ private:
     static const char kWall = '#';
     static const char kValidMove = '*';
 
+    const int kColorValidMove = 14; // Jaune clair
+    const int kColorDefault = 7; // Couleur par défaut (gris clair)
+
     vector<vector<char>> m_grid;
 
     std::map<int, Direction> m_keyDirections{
@@ -72,11 +75,11 @@ private:
     void MoveEntity(Direction, Entity*);
     std::pair<int, int> GetNextDestination(Direction d, std::pair<int, int> pos);
 
-    void RenderPlayerStats();
-    void RenderMonsterStats();
+    void RenderEntityStats(Entity*);
     void RenderAvailableActions();
     void RenderGameMessage();
 
+    void SetConsoleColor(int color);
     void ClearConsole();
 
     GameManager* m_gm;
