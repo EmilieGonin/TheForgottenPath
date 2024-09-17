@@ -33,8 +33,10 @@ public:
 
 
 private:
-    static const int kWidth = 15;
-    static const int kHeight = 15;
+    static const int kGridWidth = 15;
+    static const int kGridHeight = 15;
+    static const int kPlayerStatsX = 1;
+    static const int kPlayerStatsY = kGridHeight + 1;
 
     static const char kEmpty = '.';
     static const char kWall = '#';
@@ -67,7 +69,7 @@ private:
 
     void MoveEntity(Direction, Entity*);
 
-    void RenderPlayerStats();
+    void RenderPlayerStats() const;
     void RenderMonsterStats();
     void RenderAvailableActions();
     void RenderGameMessage();
