@@ -1,19 +1,34 @@
 ﻿#pragma once
 
-#include <vector>
 #include "Player.h"
 #include "Monster.h"
 #include "GameManager.h"
 
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <windows.h>
+
 using std::vector;
+using std::cout;
+
+enum class Direction
+{
+    Up,
+    Down,
+    Right,
+    Left
+};
 
 class ConsoleRenderer 
 {
 public:
     ConsoleRenderer();
 
-    void Display() const;
     void MovementRange();
+
+    void Display() const;
+
 
 private:
     static const int kWidth = 15;
@@ -28,6 +43,10 @@ private:
     void InitWalls();
     void SpawnMonsters();
     void SpawnPlayer();
+
+    bool PlayerController();
+    void MoveEntity(Direction, Entity*);
+
     void RenderPlayerStats();
     void RenderMonsterStats();
     void RenderAvailableActions();
