@@ -35,8 +35,8 @@ public:
     void MoveMonster(Entity*);
 
 private:
-    static const int kWidth = 15;
-    static const int kHeight = 15;
+    static const int kGridWidth = 15;
+    static const int kGridHeight = 15;
 
     static const char kEmpty = '.';
     static const char kWall = '#';
@@ -53,7 +53,7 @@ private:
 
     std::map<int, bool> m_keyStates;
 
-    const std::map<Stat, std::string> m_statsTitle = {
+    std::map<Stat, std::string> m_statsTitle {
     { Stat::HP, "HP" },
     { Stat::ATK, "ATK" },
     { Stat::DEF, "DEF" },
@@ -61,13 +61,14 @@ private:
     { Stat::PM, "PM" }
     };
 
-    //cout << m_statsTitle[e.first] << " : " << e.second
-
     void InitWalls();
     void SpawnMonsters();
     void SpawnPlayer();
 
     Direction GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse);
+    void DisplayValidMovementCells();
+    void ResetValidMovementCells();
+
     void MoveEntity(Direction, Entity*);
     std::pair<int, int> GetNextDestination(Direction d, std::pair<int, int> pos);
 
