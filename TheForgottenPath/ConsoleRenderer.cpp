@@ -79,18 +79,27 @@ bool ConsoleRenderer::PlayerController()
 
 void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
 {
+    int x = e->GetPos().first;
+    int y = e->GetPos().second;
+
     switch (d)
     {
     case Direction::Up:
-        m_grid[e->GetPos().second - 1];
+        m_grid[x][y - 1] = e->GetIcon();
+        break;
     case Direction::Down:
-        m_grid[e->GetPos().second + 1];
+        m_grid[x][y + 1] = e->GetIcon();
+        break;
     case Direction::Right:
-        m_grid[e->GetPos().first - 1];
+        m_grid[x - 1][y] = e->GetIcon();
+        break;
     case Direction::Left:
-        m_grid[e->GetPos().first + 1];
+        m_grid[x + 1][y] = e->GetIcon();
+        break;
     break;
     }
+
+    Display();
 }
 
 void ConsoleRenderer::RenderPlayerStats()
