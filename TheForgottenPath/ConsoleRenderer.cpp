@@ -56,10 +56,14 @@ void ConsoleRenderer::PlayerController()
 {
     Direction d = Direction::None;
 
-    if (GetAsyncKeyState(VK_UP) & 0x8000) d = Direction::Up;
-    else if (GetAsyncKeyState(VK_DOWN) & 0x8000) d = Direction::Down;
-    else if (GetAsyncKeyState(VK_LEFT) & 0x8000) d = Direction::Left;
-    else if (GetAsyncKeyState(VK_RIGHT) & 0x8000) d = Direction::Right;
+    for (const auto& pair : m_keyDirections) {
+        bool isKeyPressed = GetAsyncKeyState(pair.first) & 0x8000;
+        bool wasKeyPressed = m_keyStates[pair.first];
+
+        if (isKeyPressed && !wasKeyPressed) d = pair.second;
+
+        m_keyStates[pair.first] = isKeyPressed;
+    }
 
     if (d != Direction::None) MoveEntity(d, m_gm->GetPlayer());
 }
@@ -68,27 +72,27 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
 {
     int x = e->GetPos().first;
     int y = e->GetPos().second;
-    
-    e->Move();
 
     m_grid[x][y] = kEmpty;
 
     switch (d)
     {
     case Direction::Up:
-        m_grid[x - 1][y] = e->GetIcon();
+        x -= 1;
         break;
     case Direction::Down:
-        m_grid[x + 1][y] = e->GetIcon();
+        x += 1;
         break;
     case Direction::Right:
-        m_grid[x][y + 1] = e->GetIcon();
+        y += 1;
         break;
     case Direction::Left:
-        m_grid[x][y - 1] = e->GetIcon();
+        y -= 1;
         break;
-    break;
     }
+
+    m_grid[x][y] = e->GetIcon();
+    e->Move(x, y);
 
     Display();
 }
