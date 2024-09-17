@@ -116,7 +116,14 @@ void ConsoleRenderer::PlayerController()
 
 void ConsoleRenderer::MoveMonster(Entity* e)
 {
-    MoveEntity(GetPathToPlayer(e->GetPos(), false), e);
+    if (e->GetBehaviour() == Behaviour::Follow)
+    {
+        MoveEntity(GetPathToPlayer(e->GetPos(), false), e);
+    }
+    else if (e->GetBehaviour() == Behaviour::Flee)
+    {
+        MoveEntity(GetPathAwayFromPlayer(e->GetPos(), false), e);
+    }
 }
 
 Direction ConsoleRenderer::GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse)
@@ -133,6 +140,23 @@ Direction ConsoleRenderer::GetPathToPlayer(std::pair<int, int> monsterPos, bool 
     else
     {
         return (diffY > 0) ? Direction::Right : Direction::Left;
+    }
+}
+
+Direction ConsoleRenderer::GetPathAwayFromPlayer(std::pair<int, int> monsterPos, bool reverse)
+{
+    std::pair<int, int> playerPos = m_gm->GetPlayer()->GetPos();
+
+    int diffX = reverse ? monsterPos.first - playerPos.first : playerPos.first - monsterPos.first;
+    int diffY = reverse ? monsterPos.second - playerPos.second : playerPos.second - monsterPos.second;
+
+    if (std::abs(diffX) > std::abs(diffY))
+    {
+        return (diffX > 0) ? Direction::Right : Direction::Left;
+    }
+    else
+    {
+        return (diffY > 0) ? Direction::Down : Direction::Up;
     }
 }
 
