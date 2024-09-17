@@ -76,7 +76,7 @@ private:
     std::pair<int, int> GetNextDestination(Direction d, std::pair<int, int> pos);
 
     void RenderEntityStats(Entity*);
-    void RenderAvailableActions();
+    void RenderAvailableActions(Entity*);
     void RenderGameMessage();
 
     void SetConsoleColor(int color);
