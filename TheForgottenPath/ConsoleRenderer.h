@@ -26,10 +26,10 @@ class ConsoleRenderer
 public:
     ConsoleRenderer();
 
-    void MovementRange();
+    //void MovementRange();
 
-    void Display() const;
-    void PlayerController();
+    void Display();
+    bool PlayerController();
 
 
 private:
@@ -52,6 +52,8 @@ private:
     void RenderMonsterStats();
     void RenderAvailableActions();
     void RenderGameMessage();
+
+    void ClearConsole();
 
     GameManager* m_gm;
 };

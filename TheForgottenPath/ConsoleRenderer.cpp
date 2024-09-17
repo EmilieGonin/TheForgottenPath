@@ -9,11 +9,11 @@
 //    REAPER_COLOR = 12  // Rouge 
 //};
 
-//void SetConsoleColor(ConsoleColor color) 
-//{
-//    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-//    SetConsoleTextAttribute(hConsole, color);
-//}
+void SetConsoleColor(int color)
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
+}
 
 ConsoleRenderer::ConsoleRenderer() : m_grid(kHeight, std::vector<char>(kWidth, kEmpty)) 
 {
@@ -71,19 +71,21 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
     
     e->Move();
 
+    m_grid[x][y] = kEmpty;
+
     switch (d)
     {
     case Direction::Up:
-        m_grid[x][y - 1] = e->GetIcon();
-        break;
-    case Direction::Down:
-        m_grid[x][y + 1] = e->GetIcon();
-        break;
-    case Direction::Right:
         m_grid[x - 1][y] = e->GetIcon();
         break;
-    case Direction::Left:
+    case Direction::Down:
         m_grid[x + 1][y] = e->GetIcon();
+        break;
+    case Direction::Right:
+        m_grid[x][y + 1] = e->GetIcon();
+        break;
+    case Direction::Left:
+        m_grid[x][y - 1] = e->GetIcon();
         break;
     break;
     }
@@ -96,8 +98,8 @@ void ConsoleRenderer::RenderPlayerStats()
     for (std::pair<Stat, float> e : m_gm->GetPlayer()->GetStats())
     {
         e.first;
-        //std::cout << e.first << ' ';
-        //std::cout << e.first.ToString() << ' ';
+        //cout << e.first << ' ';
+        //cout << e.first.ToString() << ' ';
     }
 }
 
@@ -116,8 +118,32 @@ void ConsoleRenderer::RenderGameMessage()
 
 }
 
-void ConsoleRenderer::Display() const
+void ConsoleRenderer::Display()
 {
+    ClearConsole();
+
+    //HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    //for (const auto& row : m_grid)
+    //{
+    //    for (char cell : row)
+    //    {
+    //        // Trouver l'entité correspondant au caractère
+    //        Entity* entity = FindEntity(cell); // Implémentez FindEntity pour retrouver l'entité par son icône
+    //        if (entity)
+    //        {
+    //            SetConsoleColor(entity->GetColor());
+    //            std::cout << entity->GetIcon() << ' ';
+    //            SetConsoleColor(7); // Remettre la couleur par défaut
+    //        }
+    //        else
+    //        {
+    //            std::cout << cell << ' ';
+    //        }
+    //    }
+    //    std::cout << std::endl;
+    //}
+
     // Récupérer la taille actuelle de la console
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     int console_width = 80; // Valeur par défaut
@@ -130,30 +156,35 @@ void ConsoleRenderer::Display() const
 
     for (const auto& row : m_grid) {
         for (int i = 0; i < margin_left; ++i) {
-            std::cout << ' ';
+            cout << ' ';
         }
 
         for (char cell : row) {
-            std::cout << cell << ' ';
+            cout << cell << ' ';
         }
-        std::cout << std::endl;
+        cout << std::endl;
     }
 }
 
-// Marquer les cases de déplacement valides autour du héros
-void ConsoleRenderer::MovementRange() 
+void ConsoleRenderer::ClearConsole()
 {
-    const int range = 2;
-    for (int dx = -range; dx <= range; ++dx) 
-    {
-        for (int dy = -range; dy <= range; ++dy) 
-        {
-            int new_x = m_gm->GetPlayer()->GetPos().first + dx;
-            int new_y = m_gm->GetPlayer()->GetPos().second + dy;
-            if (new_x >= 0 && new_x < kHeight && new_y >= 0 && new_y < kWidth && m_grid[new_x][new_y] == kEmpty) 
-            {
-                m_grid[new_x][new_y] = kValidMove;
-            }
-        }
-    }
+    std::system("cls");
 }
+
+//// Marquer les cases de déplacement valides autour du héros
+//void ConsoleRenderer::MovementRange() 
+//{
+//    const int range = 2;
+//    for (int dx = -range; dx <= range; ++dx) 
+//    {
+//        for (int dy = -range; dy <= range; ++dy) 
+//        {
+//            int new_x = m_gm->GetPlayer()->GetPos().first + dx;
+//            int new_y = m_gm->GetPlayer()->GetPos().second + dy;
+//            if (new_x >= 0 && new_x < kHeight && new_y >= 0 && new_y < kWidth && m_grid[new_x][new_y] == kEmpty) 
+//            {
+//                m_grid[new_x][new_y] = kValidMove;
+//            }
+//        }
+//    }
+//}

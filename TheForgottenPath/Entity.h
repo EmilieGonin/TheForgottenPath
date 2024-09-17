@@ -20,6 +20,7 @@ public:
 
 	float GetStat(Stat);
 	char GetIcon() const;
+	int GetColor() const;
 
 	pair<int, int> GetPos();
 
@@ -31,6 +32,7 @@ public:
 protected:
 	std::map<Stat, float> m_stats;
 	char m_icon;
+	int m_color;
 
 	pair<int, int> m_pos;
 

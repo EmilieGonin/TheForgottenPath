@@ -1,6 +1,7 @@
 #include "Entity.h"
 
 Entity::Entity()
+	:m_color(7) //Blanc
 {
 	m_stats[Stat::PA] = 5;
 	m_stats[Stat::PM] = 0;
@@ -15,6 +16,11 @@ float Entity::GetStat(Stat stat)
 char Entity::GetIcon() const
 {
 	return m_icon;
+}
+
+int Entity::GetColor() const
+{
+	return m_color;
 }
 
 pair<int, int> Entity::GetPos()
