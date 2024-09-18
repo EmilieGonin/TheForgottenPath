@@ -249,7 +249,7 @@ void ConsoleRenderer::RenderAvailableActions(Entity* monster)
 
 void ConsoleRenderer::RenderGameMessage(Entity* e)
 {
-    cout << "                                              ";
+    cout << "                                               ";
     cout << e->GetIcon() << " attaque " << e->GetIcon();
 }
 
