@@ -58,9 +58,9 @@ public:
 	bool HasEnoughPM() { return m_stats[Stat::PM] > 0; }
 
 	void Move(int, int);
-	virtual void OnEndTurn();
 	void StopTurnEarly();
-	void TakeDamage(int damage);
+	virtual void OnEndTurn();
+	virtual int TakeDamage(int damage);
 
 	virtual ~Entity() { }
 

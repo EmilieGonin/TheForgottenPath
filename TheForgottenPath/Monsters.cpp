@@ -18,9 +18,11 @@ Golem::Golem()
 	m_pos.second = 8;
 }
 
-void Golem::SpecialAttack() const
+int Golem::TakeDamage(int damage)
 {
-	//
+	int rand = std::rand() % 100;
+	if (rand > 20) return Entity::TakeDamage(damage);
+	return 0;
 }
 
 Reaper::Reaper() // Faucheur
@@ -40,11 +42,6 @@ Reaper::Reaper() // Faucheur
 	m_pos.second = 7;
 }
 
-void Reaper::SpecialAttack() const
-{
-	//
-}
-
 Wraith::Wraith() // Spectre
 {
 	m_name = "Wraith";
@@ -60,9 +57,4 @@ Wraith::Wraith() // Spectre
 	m_color = 3;
 	m_pos.first = 8;
 	m_pos.second = 2;
-}
-
-void Wraith::SpecialAttack() const
-{
-	//
 }

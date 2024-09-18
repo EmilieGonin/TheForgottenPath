@@ -30,8 +30,9 @@ void Entity::StopTurnEarly()
 	m_stats[Stat::PM] = 0;
 }
 
-void Entity::TakeDamage(int damage)
+int Entity::TakeDamage(int damage)
 {
 	m_stats[Stat::HP] -= damage;
 	if (m_stats[Stat::HP] < 0) m_stats[Stat::HP] = 0;
+	return damage;
 }

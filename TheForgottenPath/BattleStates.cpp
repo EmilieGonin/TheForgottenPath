@@ -22,9 +22,9 @@ void PlayerTurn::Update(Battle* battle)
 
 		if (target != nullptr)
 		{
-			target->TakeDamage(p->GetStat(Stat::ATK));
+			int damage = target->TakeDamage(p->GetStat(Stat::ATK));
 			if (target->IsDead()) battle->GetRenderer()->RemoveEntity(target);
-			std::string s = " " + p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + "  it loses " + std::to_string(static_cast<int>(p->GetStat(Stat::ATK))) + " HP";
+			std::string s = " " + p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + "  it loses " + std::to_string(static_cast<int>(damage)) + " HP";
 			battle->GetRenderer()->SetLog(s);
 			battle->GetRenderer()->Display();
 			std::this_thread::sleep_for(std::chrono::milliseconds(500));
