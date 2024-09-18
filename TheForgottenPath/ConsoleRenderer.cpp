@@ -3,6 +3,8 @@
 ConsoleRenderer::ConsoleRenderer() : m_grid(kGridHeight, std::vector<char>(kGridWidth, kEmpty)) 
 {
     m_gm = GameManager::GetInstance();
+    m_entityRenderer = new EntityRenderer(this);
+
     InitWalls();
     RandomObstacles(20);
     RandomChest(5);
@@ -136,147 +138,9 @@ void ConsoleRenderer::ResetValidMovementCells()
     }
 }
 
-void ConsoleRenderer::PlayerController()
-{
-    Player* p = m_gm->GetPlayer();
-    Direction d = Direction::None;
-
-    for (const auto& pair : m_keyDirections) {
-        bool isKeyPressed = GetAsyncKeyState(pair.first) & 0x8000;
-        bool wasKeyPressed = m_keyStates[pair.first];
-
-        if (isKeyPressed && !wasKeyPressed) d = pair.second;
-
-        m_keyStates[pair.first] = isKeyPressed;
-    }
-
-    if (d == Direction::None) return;
-
-    MoveEntity(d, p);
-
-    if (p->GetPreviousDirection() == m_reverseDirections[d])
-    {
-        p->CancelLastMove();
-        Display();
-    }
-
-    p->SetPreviousDirection(d);
-}
-
-bool ConsoleRenderer::MoveMonster(Entity* e)
-{
-    if (e->GetBehaviour() == Behaviour::Follow)
-    {
-        return MoveEntity(GetPathToPlayer(e->GetPos(), false), e);
-    }
-    else if (e->GetBehaviour() == Behaviour::Flee)
-    {
-        return MoveEntity(GetPathAwayFromPlayer(e->GetPos(), false), e);
-    }
-
-    return false;
-}
-
-void ConsoleRenderer::RemoveEntity(Entity* e)
-{
-    m_grid[e->GetPos().first][e->GetPos().second] = kEmpty;
-}
-
 void ConsoleRenderer::SetLog(std::string s)
 {
     m_log = s;
-}
-
-Direction ConsoleRenderer::GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse)
-{
-    std::pair<int, int> playerPos = m_gm->GetPlayer()->GetPos();
-
-    int diffX = reverse ? playerPos.second - monsterPos.second : playerPos.first - monsterPos.first;
-    int diffY = reverse ? playerPos.first - monsterPos.first : playerPos.second - monsterPos.second;
-
-    if (std::abs(diffX) > std::abs(diffY))
-    {
-        return (diffX > 0) ? Direction::Down : Direction::Up;
-    }
-    else
-    {
-        return (diffY > 0) ? Direction::Right : Direction::Left;
-    }
-}
-
-Direction ConsoleRenderer::GetPathAwayFromPlayer(std::pair<int, int> monsterPos, bool reverse)
-{
-    std::pair<int, int> playerPos = m_gm->GetPlayer()->GetPos();
-
-    int diffX = reverse ? monsterPos.first - playerPos.first : playerPos.first - monsterPos.first;
-    int diffY = reverse ? monsterPos.second - playerPos.second : playerPos.second - monsterPos.second;
-
-    if (std::abs(diffX) > std::abs(diffY))
-    {
-        return (diffX > 0) ? Direction::Up : Direction::Down;
-    }
-    else
-    {
-        return (diffY > 0) ? Direction::Left : Direction::Right;
-    }
-}
-
-bool ConsoleRenderer::MoveEntity(Direction d, Entity* e)
-{
-    std::pair<int, int> previousPos = e->GetPos();
-    bool canMove = true;
-
-    std::pair<int, int> nextDestination = GetNextDestination(d, e->GetPos());
-    int x = nextDestination.first;
-    int y = nextDestination.second;
-
-    if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove && m_grid[x][y] != KChests)
-    {
-        if (e != m_gm->GetPlayer())
-        {
-            nextDestination = GetNextDestination(GetPathToPlayer(e->GetPos(), true), e->GetPos());
-            x = nextDestination.first;
-            y = nextDestination.second;
-            if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove && m_grid[x][y] != KChests) canMove = false;
-        }
-        else return false;
-    }
-
-    if (!canMove)
-    {
-        e->StopTurnEarly();
-        return false;
-    }
-
-    m_grid[previousPos.first][previousPos.second] = kEmpty;
-    m_grid[x][y] = e->GetIcon();
-    e->Move(x, y);
-    Display();
-    return true;
-}
-
-std::pair<int, int> ConsoleRenderer::GetNextDestination(Direction d, std::pair<int, int> pos)
-{
-    int x = pos.first;
-    int y = pos.second;
-
-    switch (d)
-    {
-    case Direction::Up:
-        x -= 1;
-        break;
-    case Direction::Down:
-        x += 1;
-        break;
-    case Direction::Right:
-        y += 1;
-        break;
-    case Direction::Left:
-        y -= 1;
-        break;
-    }
-
-    return std::make_pair(x, y);
 }
 
 void ConsoleRenderer::RenderEntityStats(Entity* e)
@@ -315,47 +179,6 @@ void ConsoleRenderer::RenderGameLog()
 {
     cout << "                                               ";
     cout << m_log;
-}
-
-Entity* ConsoleRenderer::GetCloseEntity(Entity* entityChecking)
-{
-    std::pair<int, int> posToCheck = entityChecking->GetPos();
-
-    const std::pair<int, int> directions[] = {
-        { 0, 1 },  // droite
-        { 1, 0 },  // bas
-        { 0, -1 }, // gauche
-        { -1, 0 }, // haut
-    };
-
-    for (const auto& direction : directions)
-    {
-        int newX = posToCheck.first + direction.first;
-        int newY = posToCheck.second + direction.second;
-
-        if (newX >= 0 && newY >= 0 && newX < m_grid.size() && newY < m_grid[0].size())
-        {
-            char cellIcon = m_grid[newX][newY];
-            char playerIcon = m_gm->GetPlayer()->GetIcon();
-
-            if (entityChecking != m_gm->GetPlayer() && cellIcon == m_gm->GetPlayer()->GetIcon())
-            {
-                return m_gm->GetPlayer();
-            }
-            
-            if (cellIcon != kEmpty) 
-            {
-                for (Monster* m : m_gm->GetMonsters())
-                {
-                    if (cellIcon == m->GetIcon()) {
-                        return m;
-                    }
-                }
-            }
-        }
-    }
-
-    return nullptr;
 }
 
 void ConsoleRenderer::Display()
