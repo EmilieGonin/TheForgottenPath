@@ -8,8 +8,10 @@ public:
 	Player();
 
 	Direction GetPreviousDirection() const { return m_previousDirection; }
+	void SetPreviousDirection(Direction d);
 
 	void OnEndTurn() override;
+	void CancelLastMove();
 
 private:
 	Direction m_previousDirection;

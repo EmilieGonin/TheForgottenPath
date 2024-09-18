@@ -17,7 +17,6 @@ Monster* Battle::GetTurnMonster()
 
 void Battle::SetState(BattleState& newState)
 {
-	m_currentState->Exit(this);
 	m_currentState = &newState;
 	m_currentState->Enter(this);
 }
@@ -41,7 +40,7 @@ bool Battle::TurnIsOver()
 		m_turnIndex = 1;
 		m_gm->GetPlayer()->OnEndTurn();
 		for (Monster* m : m_gm->GetMonsters()) m->OnEndTurn();
-		m_renderer->Display();
+		//m_renderer->Display();
 		return true;
 	}
 

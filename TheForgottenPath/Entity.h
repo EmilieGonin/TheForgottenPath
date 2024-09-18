@@ -53,8 +53,9 @@ public:
 	Behaviour GetBehaviour() const { return m_behaviour; }
 	pair<int, int> GetPos() const { return m_pos; }
 
-	bool IsDead();
-	bool HasEnoughPM();
+	bool IsDead() { return m_stats[Stat::HP] <= 0; }
+	bool HasEnoughPM() { return m_stats[Stat::PM] > 0; }
+
 	void Move(int, int);
 	virtual void OnEndTurn();
 	void StopTurnEarly();

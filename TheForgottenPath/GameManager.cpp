@@ -7,13 +7,7 @@ GameManager* GameManager::m_instance = nullptr;
 
 GameManager::GameManager()
 {
-	m_player = new Player();
-
-	m_monsters.push_back(new Golem());
-	m_monsters.push_back(new Reaper());
-	m_monsters.push_back(new Wraith());
-
-	m_levelsRemaining = 3;
+	StartNewGame();
 }
 
 GameManager* GameManager::GetInstance()
@@ -24,13 +18,26 @@ GameManager* GameManager::GetInstance()
 
 Monster* GameManager::GetRandomMonster()
 {
-    std::srand(static_cast<unsigned>(std::time(0)));
     int randomChoice = std::rand() % m_monsters.size();
-
 	return m_monsters[randomChoice];
 }
 
-bool GameManager::GameIsOver()
+void GameManager::StartNewGame()
 {
-	return m_levelsRemaining == 0;
+	m_player = new Player();
+	m_levelsRemaining = 3;
+	StartNewBattle();
+}
+
+void GameManager::StartNewBattle()
+{
+	m_monsters.clear();
+	m_monsters.push_back(new Golem());
+	m_monsters.push_back(new Reaper());
+	m_monsters.push_back(new Wraith());
+}
+
+void GameManager::WinBattle()
+{
+	m_levelsRemaining--;
 }

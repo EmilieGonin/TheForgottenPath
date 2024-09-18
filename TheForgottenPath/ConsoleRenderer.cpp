@@ -95,6 +95,7 @@ void ConsoleRenderer::ResetValidMovementCells()
 
 void ConsoleRenderer::PlayerController()
 {
+    Player* p = m_gm->GetPlayer();
     Direction d = Direction::None;
 
     for (const auto& pair : m_keyDirections) {
@@ -106,7 +107,17 @@ void ConsoleRenderer::PlayerController()
         m_keyStates[pair.first] = isKeyPressed;
     }
 
-    if (d != Direction::None) MoveEntity(d, m_gm->GetPlayer());
+    if (d == Direction::None) return;
+
+    MoveEntity(d, p);
+
+    if (p->GetPreviousDirection() == m_reverseDirections[d])
+    {
+        p->CancelLastMove();
+        Display();
+    }
+
+    p->SetPreviousDirection(d);
 }
 
 bool ConsoleRenderer::MoveMonster(Entity* e)
