@@ -16,7 +16,7 @@ bool Entity::IsDead()
 	return m_stats[Stat::HP] <= 0;
 }
 
-bool Entity::CanMove()
+bool Entity::HasEnoughPM()
 {
 	return m_stats[Stat::PM] > 0;
 }

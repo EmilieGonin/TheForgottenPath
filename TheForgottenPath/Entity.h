@@ -36,7 +36,7 @@ public:
 	pair<int, int> GetPos() const { return m_pos; }
 
 	bool IsDead();
-	bool CanMove();
+	bool HasEnoughPM();
 	void Move(int, int);
 	void OnEndTurn();
 	void StopTurnEarly();

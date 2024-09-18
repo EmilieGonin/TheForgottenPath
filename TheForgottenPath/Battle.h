@@ -17,7 +17,6 @@ public:
 
 	void SetState(BattleState& newState);
 	void Update();
-	void Toggle();
 
 	bool BattleIsOver();
 	bool TurnIsOver();
