@@ -21,6 +21,7 @@ enum class Stat
 	PM,		// Points de déplacement
 	MAXHP,
 	MAXATK,
+	MAXDEF,
 	MAXPA,
 	MAXPM
 };

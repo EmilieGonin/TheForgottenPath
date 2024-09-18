@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Battle.cpp" />
     <ClCompile Include="BattleStates.cpp" />
+    <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ConsoleRenderer.cpp" />
     <ClCompile Include="EntityRenderer.cpp" />
     <ClCompile Include="GridRenderer.cpp" />
@@ -138,11 +139,13 @@
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="TheForgottenPath.cpp" />
+    <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Battle.h" />
     <ClInclude Include="BattleState.h" />
     <ClInclude Include="BattleStates.h" />
+    <ClInclude Include="Chest.h" />
     <ClInclude Include="ConsoleRenderer.h" />
     <ClInclude Include="EntityRenderer.h" />
     <ClInclude Include="GridRenderer.h" />
@@ -151,6 +154,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

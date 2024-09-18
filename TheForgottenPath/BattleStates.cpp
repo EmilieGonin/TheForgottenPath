@@ -1,4 +1,5 @@
 #include "BattleStates.h"
+#include "Utilities.h"
 
 void PlayerTurn::Update(Battle* battle)
 {
@@ -33,7 +34,7 @@ void PlayerTurn::Update(Battle* battle)
 			std::string s = " " + p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + "  it loses " + std::to_string(static_cast<int>(damage)) + " HP";
 			battle->GetRenderer()->SetLog(s);
 			battle->GetRenderer()->Render();
-			std::this_thread::sleep_for(std::chrono::milliseconds(500));
+			Utilities::Wait(500);
 
 			battle->SetState(EndCheck::GetInstance());
 		}
@@ -71,7 +72,7 @@ void EnemyTurn::Enter(Battle* battle)
 			{
 				if (battle->GetRenderer()->MoveMonster(m))
 				{
-					std::this_thread::sleep_for(std::chrono::milliseconds(200));
+					Utilities::Wait(200);
 				}
 				else if (behaviour == Behaviour::Flee && isPlayerClose)
 				{
@@ -100,7 +101,7 @@ void EnemyTurn::Attack(Battle* battle)
 	std::string s = " " + m->GetName() + " attacks " + p->GetName() + "," + "\n" + "                                              " + "  it loses " + std::to_string(static_cast<int>(m->GetStat(Stat::ATK))) + " HP";
 	battle->GetRenderer()->SetLog(s);
 	battle->GetRenderer()->Render();
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	Utilities::Wait(500);
 }
 
 void EndCheck::Enter(Battle* battle)
@@ -150,7 +151,7 @@ void Win::Enter(Battle* battle)
 	std::string s = "You win !";
 	battle->GetRenderer()->SetLog(s);
 	battle->GetRenderer()->Render();
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	Utilities::Wait(500);
 	battle->GetGM()->WinBattle();
 
 	battle->GetGM()->StartNewBattle();
@@ -168,7 +169,7 @@ void Lose::Enter(Battle* battle)
 	std::string s = "You lose !";
 	battle->GetRenderer()->SetLog(s);
 	battle->GetRenderer()->Render();
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	Utilities::Wait(500);
 
 	battle->GetGM()->StartNewBattle();
 	battle->GetRenderer()->Render();

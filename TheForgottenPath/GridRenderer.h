@@ -4,6 +4,7 @@
 #include <map>
 
 #include "GameManager.h"
+#include "Chest.h"
 
 class ConsoleRenderer;
 
@@ -27,8 +28,9 @@ public:
 
     std::vector<std::vector<char>>& GetGrid() { return m_grid; }
     std::map<CellType, std::pair<char, int>> GetCellDatas() const { return m_cellDatas; }
+    std::map<std::pair<int, int>, Chest*> GetChests() const { return m_chests; }
 
-    bool IsMoveableCell(std::pair<int, int> coord);
+    bool IsBlockedCell(std::pair<int, int> coord);
     bool IsEntityIcon(char icon);
 
     void InitWalls();
@@ -48,6 +50,8 @@ private:
         { CellType::Chest, std::make_pair('=', 6) },        // Jaune foncé
         { CellType::Trap, std::make_pair('!', 12) }         // Rouge clair
     };
+
+    std::map<std::pair<int, int>, Chest*> m_chests;
 
     GameManager* m_gm;
     ConsoleRenderer* m_consoleRenderer;
