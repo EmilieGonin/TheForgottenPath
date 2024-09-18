@@ -18,8 +18,19 @@ Player::Player()
 	m_previousDirection = Direction::None;
 }
 
+void Player::SetPreviousDirection(Direction d)
+{
+	m_previousDirection = d;
+}
+
 void Player::OnEndTurn()
 {
 	Entity::OnEndTurn();
+	m_previousDirection = Direction::None;
+}
+
+void Player::CancelLastMove()
+{
+	m_stats[Stat::PM] += 2;
 	m_previousDirection = Direction::None;
 }

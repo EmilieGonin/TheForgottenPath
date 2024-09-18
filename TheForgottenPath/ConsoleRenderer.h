@@ -37,11 +37,20 @@ private:
 
     vector<vector<char>> m_grid;
 
-    std::map<int, Direction> m_keyDirections{
+    std::map<int, Direction> m_keyDirections
+    {
         { VK_UP, Direction::Up },
         { VK_DOWN, Direction::Down },
         { VK_LEFT, Direction::Left },
         { VK_RIGHT, Direction::Right }
+    };
+
+    std::map<Direction, Direction> m_reverseDirections
+    {
+        { Direction::Up, Direction::Down },
+        { Direction::Down, Direction::Up },
+        { Direction::Left, Direction::Right },
+        { Direction::Right, Direction::Left }
     };
 
     std::map<int, bool> m_keyStates;
