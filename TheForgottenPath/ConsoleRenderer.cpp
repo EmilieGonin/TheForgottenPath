@@ -134,6 +134,11 @@ bool ConsoleRenderer::MoveMonster(Entity* e)
     return false;
 }
 
+void ConsoleRenderer::RemoveEntity(Entity* e)
+{
+    m_grid[e->GetPos().first][e->GetPos().second] = kEmpty;
+}
+
 void ConsoleRenderer::SetLog(std::string s)
 {
     m_log = s;
