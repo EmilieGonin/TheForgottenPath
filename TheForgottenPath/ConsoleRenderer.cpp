@@ -230,14 +230,29 @@ bool ConsoleRenderer::MoveEntity(Direction d, Entity* e)
     int x = nextDestination.first;
     int y = nextDestination.second;
 
-    if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove && m_grid[x][y] != KChests)
+    if (m_grid[x][y] == KChests)
+    {
+        if (e != m_gm->GetPlayer())
+        {
+            if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove)
+            {
+                canMove = false;
+            }
+        }
+        else
+        {
+            m_grid[x][y] = kEmpty;
+        }
+    }
+
+    else if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove)
     {
         if (e != m_gm->GetPlayer())
         {
             nextDestination = GetNextDestination(GetPathToPlayer(e->GetPos(), true), e->GetPos());
             x = nextDestination.first;
             y = nextDestination.second;
-            if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove && m_grid[x][y] != KChests) canMove = false;
+            if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove) canMove = false;
         }
         else return false;
     }
