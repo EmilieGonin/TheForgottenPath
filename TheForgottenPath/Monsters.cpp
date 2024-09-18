@@ -15,7 +15,7 @@ Golem::Golem()
 	m_stats[Stat::MAXPA] = 1;
 	m_behaviour = Behaviour::Static;
 	m_icon = 'G';
-	m_color = 6;
+	m_color = 13;
 	m_pos.first = 5;
 	m_pos.second = 8;
 }
