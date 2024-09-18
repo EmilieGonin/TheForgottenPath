@@ -5,7 +5,7 @@ GridRenderer::GridRenderer(ConsoleRenderer* console)
     m_gm = GameManager::GetInstance();
     m_consoleRenderer = console;
 
-    m_grid = std::vector<std::vector<char>>(GRID_HEIGHT, std::vector<char>(GRID_WIDTH, m_cellIcons[CellType::Empty].first));
+    m_grid = std::vector<std::vector<char>>(GRID_HEIGHT, std::vector<char>(GRID_WIDTH, m_cellDatas[CellType::Empty].first));
 
     InitWalls();
     SpawnMonsters();
@@ -19,14 +19,14 @@ bool GridRenderer::IsMoveableCell(std::pair<int, int> coord)
     int x = coord.first;
     int y = coord.second;
 
-    return m_grid[x][y] != m_cellIcons[CellType::Empty].first
-        && m_grid[x][y] != m_cellIcons[CellType::ValidMove].first
-        && m_grid[x][y] != m_cellIcons[CellType::Chest].first;
+    return m_grid[x][y] != m_cellDatas[CellType::Empty].first
+        && m_grid[x][y] != m_cellDatas[CellType::ValidMove].first
+        && m_grid[x][y] != m_cellDatas[CellType::Chest].first;
 }
 
 bool GridRenderer::IsEntityIcon(char icon)
 {
-    for (auto cell : m_cellIcons)
+    for (auto cell : m_cellDatas)
     {
         if (icon == cell.second.first) return false;
     }
@@ -42,7 +42,7 @@ void GridRenderer::InitWalls()
         {
             if (row == 0 || row == GRID_HEIGHT - 1 || col == 0 || col == GRID_WIDTH - 1)
             {
-                m_grid[row][col] = m_cellIcons[CellType::Wall].first;
+                m_grid[row][col] = m_cellDatas[CellType::Wall].first;
             }
         }
     }
@@ -58,9 +58,9 @@ void GridRenderer::InitRandomElement(int nb, CellType type)
         int c = std::rand() % GRID_WIDTH;
 
         // Évite placement sur les murs, les monstres, le joueur ou les cases déjà occupées
-        if (m_grid[r][c] == m_cellIcons[CellType::Empty].first)
+        if (m_grid[r][c] == m_cellDatas[CellType::Empty].first)
         {
-            m_grid[r][c] = m_cellIcons[type].first;
+            m_grid[r][c] = m_cellDatas[type].first;
             ++elementAdded;
         }
     }

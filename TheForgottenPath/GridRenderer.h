@@ -25,7 +25,7 @@ public:
     GridRenderer(ConsoleRenderer* console);
 
     std::vector<std::vector<char>>& GetGrid() { return m_grid; }
-    std::map<CellType, std::pair<char, int>> GetCellDatas() const { return m_cellIcons; }
+    std::map<CellType, std::pair<char, int>> GetCellDatas() const { return m_cellDatas; }
 
     bool IsMoveableCell(std::pair<int, int> coord);
     bool IsEntityIcon(char icon);
@@ -38,7 +38,7 @@ public:
 private:
     std::vector<std::vector<char>> m_grid;
 
-    std::map<CellType, std::pair<char, int>> m_cellIcons // Icon & Color
+    std::map<CellType, std::pair<char, int>> m_cellDatas // Icon & Color
     {
         { CellType::Empty, std::make_pair('.', 7) },        // Couleur par défaut (gris clair)
         { CellType::Wall, std::make_pair('X', 7) },

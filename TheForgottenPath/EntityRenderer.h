@@ -13,21 +13,18 @@ class EntityRenderer
 public:
 	EntityRenderer(ConsoleRenderer* console);
 
-	void PlayerController();
-	Entity* GetCloseEntity(Entity*);
-	bool MoveMonster(Entity*);
+	void MovePlayer();
+    bool MoveMonster(Entity*);
+    bool MoveEntity(Direction, Entity*);
 	void RemoveEntity(Entity*);
 
-	bool MoveEntity(Direction, Entity*);
+    Entity* GetCloseEntity(Entity*);
 	std::pair<int, int> GetNextDestination(Direction d, std::pair<int, int> pos);
 
 	Direction GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse);
 	Direction GetPathAwayFromPlayer(std::pair<int, int> monsterPos, bool reverse);
 
 private:
-	GameManager* m_gm;
-	ConsoleRenderer* m_consoleRenderer;
-
     std::map<int, Direction> m_keyDirections
     {
         { VK_UP, Direction::Up },
@@ -45,4 +42,7 @@ private:
     };
 
     std::map<int, bool> m_keyStates;
+
+    GameManager* m_gm;
+    ConsoleRenderer* m_consoleRenderer;
 };

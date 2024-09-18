@@ -26,7 +26,7 @@ public:
     bool IsMoveableCell(std::pair<int, int> coord) { return m_gridRenderer->IsMoveableCell(coord); }
 
     // Entity Renderer Getters
-    void PlayerController() { m_entityRenderer->PlayerController(); }
+    void PlayerController() { m_entityRenderer->MovePlayer(); }
     Entity* GetCloseEntity(Entity* e) { return m_entityRenderer->GetCloseEntity(e); }
     bool MoveMonster(Entity* e) { return m_entityRenderer->MoveMonster(e); }
     void RemoveEntity(Entity* e) { m_entityRenderer->RemoveEntity(e); }

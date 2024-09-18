@@ -7,7 +7,7 @@ EntityRenderer::EntityRenderer(ConsoleRenderer* console)
     m_consoleRenderer = console;
 }
 
-void EntityRenderer::PlayerController()
+void EntityRenderer::MovePlayer()
 {
     Player* p = m_gm->GetPlayer();
     Direction d = Direction::None;
@@ -32,6 +32,60 @@ void EntityRenderer::PlayerController()
     }
 
     p->SetPreviousDirection(d);
+}
+
+bool EntityRenderer::MoveMonster(Entity* e)
+{
+    if (e->GetBehaviour() == Behaviour::Follow)
+    {
+        return MoveEntity(GetPathToPlayer(e->GetPos(), false), e);
+    }
+    else if (e->GetBehaviour() == Behaviour::Flee)
+    {
+        return MoveEntity(GetPathAwayFromPlayer(e->GetPos(), false), e);
+    }
+
+    return false;
+}
+
+bool EntityRenderer::MoveEntity(Direction d, Entity* e)
+{
+    std::pair<int, int> previousPos = e->GetPos();
+    bool canMove = true;
+
+    std::pair<int, int> nextDestination = GetNextDestination(d, e->GetPos());
+    int x = nextDestination.first;
+    int y = nextDestination.second;
+
+    if (m_consoleRenderer->IsMoveableCell(nextDestination))
+    {
+        if (e != m_gm->GetPlayer())
+        {
+            nextDestination = GetNextDestination(GetPathToPlayer(e->GetPos(), true), e->GetPos());
+            x = nextDestination.first;
+            y = nextDestination.second;
+
+            if (m_consoleRenderer->IsMoveableCell(nextDestination)) canMove = false;
+        }
+        else return false;
+    }
+
+    if (!canMove)
+    {
+        e->StopTurnEarly();
+        return false;
+    }
+
+    m_consoleRenderer->GetGrid()[previousPos.first][previousPos.second] = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
+    m_consoleRenderer->GetGrid()[x][y] = e->GetIcon();
+    e->Move(x, y);
+    m_consoleRenderer->Render();
+    return true;
+}
+
+void EntityRenderer::RemoveEntity(Entity* e)
+{
+    m_consoleRenderer->GetGrid()[e->GetPos().first][e->GetPos().second] = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
 }
 
 Entity* EntityRenderer::GetCloseEntity(Entity* entityChecking)
@@ -73,60 +127,6 @@ Entity* EntityRenderer::GetCloseEntity(Entity* entityChecking)
     }
 
     return nullptr;
-}
-
-bool EntityRenderer::MoveMonster(Entity* e)
-{
-    if (e->GetBehaviour() == Behaviour::Follow)
-    {
-        return MoveEntity(GetPathToPlayer(e->GetPos(), false), e);
-    }
-    else if (e->GetBehaviour() == Behaviour::Flee)
-    {
-        return MoveEntity(GetPathAwayFromPlayer(e->GetPos(), false), e);
-    }
-
-    return false;
-}
-
-void EntityRenderer::RemoveEntity(Entity* e)
-{
-    m_consoleRenderer->GetGrid()[e->GetPos().first][e->GetPos().second] = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
-}
-
-bool EntityRenderer::MoveEntity(Direction d, Entity* e)
-{
-    std::pair<int, int> previousPos = e->GetPos();
-    bool canMove = true;
-
-    std::pair<int, int> nextDestination = GetNextDestination(d, e->GetPos());
-    int x = nextDestination.first;
-    int y = nextDestination.second;
-
-    if (m_consoleRenderer->IsMoveableCell(nextDestination))
-    {
-        if (e != m_gm->GetPlayer())
-        {
-            nextDestination = GetNextDestination(GetPathToPlayer(e->GetPos(), true), e->GetPos());
-            x = nextDestination.first;
-            y = nextDestination.second;
-
-            if (m_consoleRenderer->IsMoveableCell(nextDestination)) canMove = false;
-        }
-        else return false;
-    }
-
-    if (!canMove)
-    {
-        e->StopTurnEarly();
-        return false;
-    }
-
-    m_consoleRenderer->GetGrid()[previousPos.first][previousPos.second] = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
-    m_consoleRenderer->GetGrid()[x][y] = e->GetIcon();
-    e->Move(x, y);
-    m_consoleRenderer->Render();
-    return true;
 }
 
 std::pair<int, int> EntityRenderer::GetNextDestination(Direction d, std::pair<int, int> pos)
