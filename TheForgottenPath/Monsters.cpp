@@ -4,9 +4,10 @@
 Golem::Golem()
 {
 	m_name = "Golem";
-	m_stats[Stat::HP] = 110;
-	m_stats[Stat::MAXHP] = 110;
-	m_stats[Stat::ATK] = 10;
+	m_stats[Stat::HP] = 100;
+	m_stats[Stat::MAXHP] = 100;
+	m_stats[Stat::DEF] = 10;
+	m_stats[Stat::ATK] = 8;
 	m_stats[Stat::ATK] = 12;
 	m_stats[Stat::PM] = 0;
 	m_stats[Stat::MAXPM] = 0;
@@ -36,6 +37,7 @@ Reaper::Reaper() // Faucheur
 	m_name = "Reaper";
 	m_stats[Stat::HP] = 75;
 	m_stats[Stat::MAXHP] = 75;
+	m_stats[Stat::DEF] = 5;
 	m_stats[Stat::ATK] = 20;
 	m_stats[Stat::ATK] = 25;
 	m_stats[Stat::PM] = 3;
@@ -58,7 +60,8 @@ Wraith::Wraith() // Spectre
 	m_name = "Wraith";
 	m_stats[Stat::HP] = 60;
 	m_stats[Stat::MAXHP] = 60;
-	m_stats[Stat::ATK] = 5;
+	m_stats[Stat::DEF] = 3;
+	m_stats[Stat::ATK] = 7;
 	m_stats[Stat::PM] = 4;
 	m_stats[Stat::MAXPM] = 4;
 	m_stats[Stat::PA] = 1;

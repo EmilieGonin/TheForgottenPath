@@ -16,11 +16,11 @@ enum class Stat
 {
 	HP,
 	ATK,
-	MAXATK,
 	DEF,
 	PA,		// Points d'action
 	PM,		// Points de déplacement
 	MAXHP,
+	MAXATK,
 	MAXPA,
 	MAXPM
 };
