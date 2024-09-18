@@ -7,7 +7,7 @@ Battle::Battle()
 	m_renderer = new ConsoleRenderer();
 	m_gm = GameManager::GetInstance();
 
-	m_turnIndex = 1;
+	m_turnIndex = 0;
 }
 
 Monster* Battle::GetTurnMonster()
@@ -37,7 +37,7 @@ bool Battle::TurnIsOver()
 
 	if (m_turnIndex > m_gm->GetMonsters().size())
 	{
-		m_turnIndex = 1;
+		m_turnIndex = 0;
 		m_gm->GetPlayer()->OnEndTurn();
 		for (Monster* m : m_gm->GetMonsters()) m->OnEndTurn();
 		m_renderer->Display();
