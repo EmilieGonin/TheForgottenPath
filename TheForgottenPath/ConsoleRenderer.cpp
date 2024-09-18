@@ -4,7 +4,7 @@ ConsoleRenderer::ConsoleRenderer() : m_grid(kGridHeight, std::vector<char>(kGrid
 {
     m_gm = GameManager::GetInstance();
     InitWalls();
-    RandomObstacles(25);
+    RandomObstacles(20);
     RandomChest(5);
     SpawnMonsters();
     SpawnPlayer();
