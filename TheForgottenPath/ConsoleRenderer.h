@@ -23,6 +23,7 @@ public:
     void Display();
     void PlayerController();
     bool MoveMonster(Entity*);
+    void RemoveEntity(Entity*);
 
     void SetLog(std::string);
 

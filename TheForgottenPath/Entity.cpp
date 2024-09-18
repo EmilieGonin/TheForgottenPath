@@ -8,6 +8,11 @@ Entity::Entity()
 	m_behaviour = Behaviour::Follow;
 }
 
+void Entity::SetPos(pair<int, int> pos)
+{
+	m_pos = pos;
+}
+
 void Entity::Move(int x, int y)
 {
 	m_stats[Stat::PM]--;
