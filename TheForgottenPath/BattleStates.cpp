@@ -73,7 +73,7 @@ void EnemyTurn::Enter(Battle* battle)
 					break;
 				}
 			}
-		} while (behaviour != Behaviour::Static && m->HasEnoughPM());
+		} while (m->HasEnoughPM());
 	}
 
 	battle->SetState(EndCheck::GetInstance());
