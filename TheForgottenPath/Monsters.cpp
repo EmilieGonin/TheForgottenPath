@@ -1,4 +1,5 @@
 #include "Monsters.h"
+#include "GameManager.h"
 
 Golem::Golem()
 {
@@ -18,6 +19,11 @@ Golem::Golem()
 	m_pos.second = 8;
 }
 
+void Golem::OnDeath(GameManager* gm)
+{
+	gm->GetPlayer()->SetStat(Stat::ATK, 5);
+}
+
 int Golem::TakeDamage(Entity* attacker)
 {
 	int rand = std::rand() % 100;
@@ -28,8 +34,8 @@ int Golem::TakeDamage(Entity* attacker)
 Reaper::Reaper() // Faucheur
 {
 	m_name = "Reaper";
-	m_stats[Stat::HP] = 90;
-	m_stats[Stat::MAXHP] = 90;
+	m_stats[Stat::HP] = 75;
+	m_stats[Stat::MAXHP] = 75;
 	m_stats[Stat::ATK] = 20;
 	m_stats[Stat::ATK] = 25;
 	m_stats[Stat::PM] = 3;
@@ -40,6 +46,11 @@ Reaper::Reaper() // Faucheur
 	m_color = 4;
 	m_pos.first = 7;
 	m_pos.second = 7;
+}
+
+void Reaper::OnDeath(GameManager* gm)
+{
+	for (Monster* m : gm->GetMonsters()) m->TakeDamage(this);
 }
 
 Wraith::Wraith() // Spectre
@@ -57,4 +68,10 @@ Wraith::Wraith() // Spectre
 	m_color = 3;
 	m_pos.first = 8;
 	m_pos.second = 2;
+}
+
+void Wraith::OnDeath(GameManager* gm)
+{
+	Player* p = gm->GetPlayer();
+	gm->GetPlayer()->SetStat(Stat::HP, p->GetStat(Stat::MAXHP) - p->GetStat(Stat::HP));
 }

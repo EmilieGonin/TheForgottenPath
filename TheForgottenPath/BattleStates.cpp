@@ -23,7 +23,13 @@ void PlayerTurn::Update(Battle* battle)
 		if (target != nullptr)
 		{
 			int damage = target->TakeDamage(p);
-			if (target->IsDead()) battle->GetRenderer()->RemoveEntity(target);
+
+			if (target->IsDead())
+			{
+				battle->GetRenderer()->RemoveEntity(target);
+				target->OnDeath(battle->GetGM());
+			}
+
 			std::string s = " " + p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + "  it loses " + std::to_string(static_cast<int>(damage)) + " HP";
 			battle->GetRenderer()->SetLog(s);
 			battle->GetRenderer()->Render();

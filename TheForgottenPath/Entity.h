@@ -1,5 +1,7 @@
 #pragma once
 
+class GameManager;
+
 #include <map>
 #include <cstdlib>  // Pour std::rand() et std::srand()
 #include <ctime>    // Pour std::time()
@@ -52,6 +54,7 @@ public:
 	Behaviour GetBehaviour() const { return m_behaviour; }
 	pair<int, int> GetPos() const { return m_pos; }
 
+	void SetStat(Stat stat, int amount) { m_stats[stat] += amount; }
 	void SetPos(pair<int, int>);
 
 	bool IsDead() { return m_stats[Stat::HP] <= 0; }
@@ -60,6 +63,7 @@ public:
 	void Move(int, int);
 	void StopTurnEarly();
 	virtual void OnEndTurn();
+	virtual void OnDeath(GameManager* gm);
 	virtual int TakeDamage(Entity* attacker);
 
 	virtual ~Entity() { }

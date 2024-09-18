@@ -25,6 +25,8 @@ void Entity::OnEndTurn()
 	m_stats[Stat::PM] = m_stats[Stat::MAXPM];
 }
 
+void Entity::OnDeath(GameManager* gm) { }
+
 void Entity::StopTurnEarly()
 {
 	m_stats[Stat::PM] = 0;
