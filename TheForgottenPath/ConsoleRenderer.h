@@ -7,6 +7,8 @@
 #include "EntityRenderer.h"
 #include "GameManager.h"
 
+#define CONSOLE_SIZE 80
+
 using std::vector;
 using std::cout;
 
@@ -16,14 +18,14 @@ public:
     ConsoleRenderer();
 
     void Render();
-    void SetLog(std::string);
+    void SetLog(std::string s) { m_log = s; }
 
-    // Grid Renderer
+    // Grid Renderer Getters
     vector<vector<char>>& GetGrid() { return m_gridRenderer->GetGrid(); }
-    std::map<CellType, std::pair<char, int>> GetCellIcons() const { return m_gridRenderer->GetCellIcons(); }
+    std::map<CellType, std::pair<char, int>> GetCellDatas() const { return m_gridRenderer->GetCellDatas(); }
     bool IsMoveableCell(std::pair<int, int> coord) { return m_gridRenderer->IsMoveableCell(coord); }
 
-    // Entity Renderer
+    // Entity Renderer Getters
     void PlayerController() { m_entityRenderer->PlayerController(); }
     Entity* GetCloseEntity(Entity* e) { return m_entityRenderer->GetCloseEntity(e); }
     bool MoveMonster(Entity* e) { return m_entityRenderer->MoveMonster(e); }
@@ -41,17 +43,18 @@ private:
         { Stat::PM, "PM" }
     };
 
+    void ClearConsole() { std::system("cls"); }
+    void SetConsoleColor(int color);
+
+    std::string RenderSpaces(int nb);
+    std::string RenderLineBreaks(int nb);
+
     void RenderValidMovementCells();
     void ResetValidMovementCells();
 
     void RenderEntityStats(Entity*);
     void RenderAvailableActions(Entity*);
-    void RenderGameLog();
-
-    std::string RenderSpaces(int nb);
-
-    void SetConsoleColor(int color);
-    void ClearConsole();
+    void RenderGameLog() { cout << RenderSpaces(48) << m_log; }
 
     GameManager* m_gm;
     GridRenderer* m_gridRenderer;

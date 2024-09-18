@@ -60,7 +60,7 @@ Entity* EntityRenderer::GetCloseEntity(Entity* entityChecking)
                 return m_gm->GetPlayer();
             }
 
-            if (cellIcon != m_consoleRenderer->GetCellIcons()[CellType::Empty].first)
+            if (cellIcon != m_consoleRenderer->GetCellDatas()[CellType::Empty].first)
             {
                 for (Monster* m : m_gm->GetMonsters())
                 {
@@ -91,7 +91,7 @@ bool EntityRenderer::MoveMonster(Entity* e)
 
 void EntityRenderer::RemoveEntity(Entity* e)
 {
-    m_consoleRenderer->GetGrid()[e->GetPos().first][e->GetPos().second] = m_consoleRenderer->GetCellIcons()[CellType::Empty].first;
+    m_consoleRenderer->GetGrid()[e->GetPos().first][e->GetPos().second] = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
 }
 
 bool EntityRenderer::MoveEntity(Direction d, Entity* e)
@@ -122,7 +122,7 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
         return false;
     }
 
-    m_consoleRenderer->GetGrid()[previousPos.first][previousPos.second] = m_consoleRenderer->GetCellIcons()[CellType::Empty].first;
+    m_consoleRenderer->GetGrid()[previousPos.first][previousPos.second] = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
     m_consoleRenderer->GetGrid()[x][y] = e->GetIcon();
     e->Move(x, y);
     m_consoleRenderer->Render();

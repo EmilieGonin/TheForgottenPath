@@ -11,72 +11,45 @@ ConsoleRenderer::ConsoleRenderer()
 
 void ConsoleRenderer::Render()
 {
+    Entity* monster = GetCloseEntity(m_gm->GetPlayer());
+
     ClearConsole();
     RenderValidMovementCells();
 
-    Entity* monster = GetCloseEntity(m_gm->GetPlayer());
+    if (monster != nullptr) RenderEntityStats(monster);
+    else cout << RenderLineBreaks(4);
 
-    if (monster != nullptr)
-    {
-        RenderEntityStats(monster);
-    }
-    else
-    {
-        cout << "\n";
-        cout << "\n";
-        cout << "\n";
-        cout << "\n";
-    }
+    CONSOLE_SCREEN_BUFFER_INFO csbi; // Taille de la console
+    int console_width = CONSOLE_SIZE;
 
-    // R�cup�rer la taille actuelle de la console
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    int console_width = 80; // Valeur par d�faut
     if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
     {
         console_width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
     }
 
-    // Calculer les marges (espaces � gauche) pour centrer la grille
+    // Calcul des marges pour centrer la grille
     int margin_left = (console_width - GRID_WIDTH * 2) / 2; // *2 car chaque cellule est suivie d'un espace
 
     for (const auto& row : GetGrid())
     {
-        for (int i = 0; i < margin_left; ++i)
-        {
-            cout << ' ';
-        }
+        cout << RenderSpaces(margin_left);
 
         for (char cell : row)
         {
-            if (cell == GetCellIcons()[CellType::ValidMove].first)
-            {
-                SetConsoleColor(GetCellIcons()[CellType::ValidMove].second);
-            }
-            else if (cell == GetCellIcons()[CellType::Obstacle].first)
-            {
-                SetConsoleColor(GetCellIcons()[CellType::Obstacle].second);
-            }
-            else if (cell == GetCellIcons()[CellType::Chest].first)
-            {
-                SetConsoleColor(GetCellIcons()[CellType::Chest].second);
-            }
-            else if (cell == m_gm->GetPlayer()->GetIcon())
-            {
-                SetConsoleColor(m_gm->GetPlayer()->GetColor());
-            }
-            else if (cell != GetCellIcons()[CellType::Empty].first && cell != GetCellIcons()[CellType::Wall].first)
+            if (cell == m_gm->GetPlayer()->GetIcon()) SetConsoleColor(m_gm->GetPlayer()->GetColor());
+            else if (m_gridRenderer->IsEntityIcon(cell))
             {
                 for (Monster* m : m_gm->GetMonsters())
                 {
-                    if (cell == m->GetIcon())
-                    {
-                        SetConsoleColor(m->GetColor());
-                    }
+                    if (cell == m->GetIcon()) SetConsoleColor(m->GetColor());
                 }
             }
             else
             {
-                SetConsoleColor(GetCellIcons()[CellType::Empty].second);
+                for (auto cellData : GetCellDatas())
+                {
+                    if (cell == cellData.second.first) SetConsoleColor(cellData.second.second);
+                }
             }
 
             cout << cell << ' ';
@@ -87,6 +60,26 @@ void ConsoleRenderer::Render()
     RenderEntityStats(m_gm->GetPlayer());
     RenderAvailableActions(monster);
     RenderGameLog();
+}
+
+void ConsoleRenderer::SetConsoleColor(int color)
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
+}
+
+std::string ConsoleRenderer::RenderSpaces(int nb)
+{
+    std::string render;
+    for (size_t i = 0; i < nb; i++) render += " ";
+    return render;
+}
+
+std::string ConsoleRenderer::RenderLineBreaks(int nb)
+{
+    std::string render;
+    for (size_t i = 0; i < nb; i++) render += "\n";
+    return render;
 }
 
 void ConsoleRenderer::RenderValidMovementCells()
@@ -103,20 +96,20 @@ void ConsoleRenderer::RenderValidMovementCells()
     {
         for (int offsetY = -pm; offsetY <= pm; ++offsetY)
         {
-            // Calcule les nouvelles coordonn�es autour du joueur
+            // Calcule les nouvelles coords autour du joueur
             int newX = playerX + offsetX;
             int newY = playerY + offsetY;
 
-            // V�rifie que les coordonn�es sont valides et que la cellule est � l'int�rieur de la grille
+            // Check que les coords sont valides et que la cellule est dans la grille
             if (newX >= 0 && newX < GRID_WIDTH && newY >= 0 && newY < GRID_HEIGHT)
             {
-                // Calcule la distance de d�placement
+                // Calcule la distance
                 if (abs(offsetX) + abs(offsetY) <= pm)
                 {
                     // Marque la cellule comme valide uniquement
-                    if (GetGrid()[newY][newX] == GetCellIcons()[CellType::Empty].first)
+                    if (GetGrid()[newY][newX] == GetCellDatas()[CellType::Empty].first)
                     {
-                        GetGrid()[newY][newX] = GetCellIcons()[CellType::ValidMove].first;
+                        GetGrid()[newY][newX] = GetCellDatas()[CellType::ValidMove].first;
                     }
                 }
             }
@@ -130,79 +123,41 @@ void ConsoleRenderer::ResetValidMovementCells()
     {
         for (int col = 0; col < GRID_WIDTH; ++col)
         {
-            if (GetGrid()[row][col] == GetCellIcons()[CellType::ValidMove].first)
+            if (GetGrid()[row][col] == GetCellDatas()[CellType::ValidMove].first)
             {
-                GetGrid()[row][col] = GetCellIcons()[CellType::Empty].first;
+                GetGrid()[row][col] = GetCellDatas()[CellType::Empty].first;
             }
         }
     }
 }
 
-void ConsoleRenderer::SetLog(std::string s)
-{
-    m_log = s;
-}
-
 void ConsoleRenderer::RenderEntityStats(Entity* e)
 {
-    //cout << "                                             ";
     cout << RenderSpaces(46);
     cout << "*********| " << e->GetName() << " |**********" << "\n";
-    //cout << "                                                ";
     cout << RenderSpaces(49);
     cout << m_statsTitle[Stat::HP] << " : " << e->GetStat(Stat::HP) << "/" << e->GetStat(Stat::MAXHP) << "   ";
     cout << m_statsTitle[Stat::ATK] << " : " << e->GetStat(Stat::ATK) << "\n";
-    //cout << "                                                ";
     cout << RenderSpaces(49);
     cout << m_statsTitle[Stat::PM] << " : " << e->GetStat(Stat::PM) << "/" << e->GetStat(Stat::MAXPM) << "     ";
     cout << m_statsTitle[Stat::PA] << " : " << e->GetStat(Stat::PA) << "/" << e->GetStat(Stat::MAXPA) << "\n";
-    //cout << "                                             ";
     cout << RenderSpaces(46);
     cout << "+---------------------------+" << "\n";
 }
 
 void ConsoleRenderer::RenderAvailableActions(Entity* monster)
 {
-    cout << "                                             " << "|  End Turn";
+    cout << RenderSpaces(46) << "|  End Turn";
     cout << "   " << ">>>" << "    " << "SPACE" << "  |" << "\n";
 
     monster = GetCloseEntity(m_gm->GetPlayer());
 
     if (monster != nullptr)
     {
-        cout << "                                             " << "|  Attack";
+        cout << RenderSpaces(46) << "|  Attack";
         cout << "    " << ">>>" << "    " << "ENTER" << "   |" << "\n";
     }
 
-    cout << "                                             ";
+    cout << RenderSpaces(46);
     cout << "+---------------------------+" << "\n";
-}
-
-void ConsoleRenderer::RenderGameLog()
-{
-    cout << "                                               ";
-    cout << m_log;
-}
-
-std::string ConsoleRenderer::RenderSpaces(int nb)
-{
-    std::string render;
-
-    for (size_t i = 0; i < nb; i++)
-    {
-        render += " ";
-    }
-
-    return render;
-}
-
-void ConsoleRenderer::SetConsoleColor(int color)
-{
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, color);
-}
-
-void ConsoleRenderer::ClearConsole()
-{
-    std::system("cls");
 }

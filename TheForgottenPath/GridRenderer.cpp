@@ -8,10 +8,10 @@ GridRenderer::GridRenderer(ConsoleRenderer* console)
     m_grid = std::vector<std::vector<char>>(GRID_HEIGHT, std::vector<char>(GRID_WIDTH, m_cellIcons[CellType::Empty].first));
 
     InitWalls();
-    InitRandomObstacles(20);
-    InitRandomChests(5);
     SpawnMonsters();
     SpawnPlayer();
+    InitRandomElement(20, CellType::Obstacle);
+    InitRandomElement(5, CellType::Chest);
 }
 
 bool GridRenderer::IsMoveableCell(std::pair<int, int> coord)
@@ -22,6 +22,16 @@ bool GridRenderer::IsMoveableCell(std::pair<int, int> coord)
     return m_grid[x][y] != m_cellIcons[CellType::Empty].first
         && m_grid[x][y] != m_cellIcons[CellType::ValidMove].first
         && m_grid[x][y] != m_cellIcons[CellType::Chest].first;
+}
+
+bool GridRenderer::IsEntityIcon(char icon)
+{
+    for (auto cell : m_cellIcons)
+    {
+        if (icon == cell.second.first) return false;
+    }
+
+    return true;
 }
 
 void GridRenderer::InitWalls()
@@ -38,44 +48,20 @@ void GridRenderer::InitWalls()
     }
 }
 
-void GridRenderer::InitRandomObstacles(int nb)
+void GridRenderer::InitRandomElement(int nb, CellType type)
 {
-    int rows = GRID_HEIGHT;
-    int cols = GRID_WIDTH;
+    int elementAdded = 0;
 
-    int obstaclesAdded = 0;
-
-    while (obstaclesAdded < nb)
+    while (elementAdded < nb)
     {
-        int r = std::rand() % rows;
-        int c = std::rand() % cols;
+        int r = std::rand() % GRID_HEIGHT;
+        int c = std::rand() % GRID_WIDTH;
 
-        // Évite placement des obstacles sur les murs, les monstres, le joueur ou les cases déjà occupées
+        // Évite placement sur les murs, les monstres, le joueur ou les cases déjà occupées
         if (m_grid[r][c] == m_cellIcons[CellType::Empty].first)
         {
-            m_grid[r][c] = m_cellIcons[CellType::Obstacle].first;
-            ++obstaclesAdded;
-        }
-    }
-}
-
-void GridRenderer::InitRandomChests(int nb)
-{
-    int rows = GRID_HEIGHT;
-    int cols = GRID_WIDTH;
-
-    int obstaclesAdded = 0;
-
-    while (obstaclesAdded < nb)
-    {
-        int r = std::rand() % rows;
-        int c = std::rand() % cols;
-
-        // Évite placement des obstacles sur les murs, les monstres, le joueur ou les cases déjà occupées
-        if (m_grid[r][c] == m_cellIcons[CellType::Empty].first)
-        {
-            m_grid[r][c] = m_cellIcons[CellType::Chest].first;
-            ++obstaclesAdded;
+            m_grid[r][c] = m_cellIcons[type].first;
+            ++elementAdded;
         }
     }
 }

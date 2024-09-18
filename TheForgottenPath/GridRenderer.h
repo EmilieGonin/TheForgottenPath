@@ -25,13 +25,13 @@ public:
     GridRenderer(ConsoleRenderer* console);
 
     std::vector<std::vector<char>>& GetGrid() { return m_grid; }
-    std::map<CellType, std::pair<char, int>> GetCellIcons() const { return m_cellIcons; }
+    std::map<CellType, std::pair<char, int>> GetCellDatas() const { return m_cellIcons; }
 
     bool IsMoveableCell(std::pair<int, int> coord);
+    bool IsEntityIcon(char icon);
 
     void InitWalls();
-    void InitRandomObstacles(int);
-    void InitRandomChests(int);
+    void InitRandomElement(int nb, CellType type);
     void SpawnMonsters();
     void SpawnPlayer();
 
