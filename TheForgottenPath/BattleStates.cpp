@@ -23,7 +23,8 @@ void PlayerTurn::Update(Battle* battle)
 		if (target != nullptr)
 		{
 			target->TakeDamage(p->GetStat(Stat::ATK));
-			// Afficher log dans console
+			std::string s = " " + p->GetName() + " attack " + target->GetName() + "\n" + "                                              " + "  it loses " + std::to_string(static_cast<int>(p->GetStat(Stat::ATK))) + " HP";
+			battle->GetRenderer()->SetLog(s);
 			battle->SetState(EndCheck::GetInstance());
 		}
 	}
