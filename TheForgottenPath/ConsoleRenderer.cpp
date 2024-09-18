@@ -284,13 +284,13 @@ void ConsoleRenderer::RenderEntityStats(Entity* e)
     cout << "                                                ";
     cout << m_statsTitle[Stat::PM] << " : " << e->GetStat(Stat::PM) << "/" << e->GetStat(Stat::MAXPM) << "     ";
     cout << m_statsTitle[Stat::PA] << " : " << e->GetStat(Stat::PA) << "/" << e->GetStat(Stat::MAXPA) << "\n";
-    cout << "                                             ";
-    cout << "+---------------------------+" << "\n";
 }
 
 
 void ConsoleRenderer::RenderAvailableActions(Entity* monster)
 {
+    cout << "                                             ";
+    cout << "+---------------------------+" << "\n";
     cout << "                                             " << "|  End Turn";
     cout << "   " << ">>>" << "    " << "SPACE" << "  |" << "\n";
 
@@ -369,8 +369,8 @@ void ConsoleRenderer::Display()
         cout << "\n";
         cout << "\n";
         cout << "\n";
-        cout << "\n";
     }
+    cout << "\n";
 
     // R�cup�rer la taille actuelle de la console
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -428,6 +428,7 @@ void ConsoleRenderer::Display()
         cout << std::endl;
     }
 
+    cout << "\n";
     RenderEntityStats(m_gm->GetPlayer());
     RenderAvailableActions(monster);
     RenderGameLog();
