@@ -16,6 +16,9 @@ public:
 
 	Monster* GetRandomMonster();
 	bool GameIsOver();
+	void StartNewGame();
+	void StartNewBattle();
+	void WinBattle();
 
 private:
 	static GameManager* m_instance;

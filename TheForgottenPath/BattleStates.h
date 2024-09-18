@@ -42,7 +42,7 @@ public:
 class Win : public BattleState
 {
 public:
-	void Enter(Battle* battle) { }
+	void Enter(Battle* battle);
 	void Update(Battle* battle) { }
 	void Exit(Battle* battle) { }
 	static BattleState& GetInstance();
@@ -51,7 +51,7 @@ public:
 class Lose : public BattleState
 {
 public:
-	void Enter(Battle* battle) { }
+	void Enter(Battle* battle);
 	void Update(Battle* battle) { }
 	void Exit(Battle* battle) { }
 	static BattleState& GetInstance();

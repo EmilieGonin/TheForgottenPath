@@ -133,10 +133,26 @@ BattleState& EndCheck::GetInstance()
 	return singleton;
 }
 
+void Win::Enter(Battle* battle)
+{
+	// Message log
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	battle->GetGM()->WinBattle();
+	battle->GetRenderer()->Display();
+}
+
 BattleState& Win::GetInstance()
 {
 	static Win singleton;
 	return singleton;
+}
+
+void Lose::Enter(Battle* battle)
+{
+	// Message log
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	battle->GetGM()->StartNewGame();
+	battle->GetRenderer()->Display();
 }
 
 BattleState& Lose::GetInstance()
