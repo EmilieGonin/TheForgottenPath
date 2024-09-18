@@ -24,6 +24,8 @@ public:
     void PlayerController();
     bool MoveMonster(Entity*);
 
+    void SetLog(std::string);
+
 private:
     static const int kGridWidth = 15;
     static const int kGridHeight = 15;
@@ -34,6 +36,8 @@ private:
 
     const int kColorValidMove = 14; // Jaune clair
     const int kColorDefault = 7; // Couleur par défaut (gris clair)
+
+    std::string m_log;
 
     vector<vector<char>> m_grid;
 
@@ -69,7 +73,7 @@ private:
 
     void RenderEntityStats(Entity*);
     void RenderAvailableActions(Entity*);
-    void RenderGameMessage(Entity*);
+    void RenderGameLog();
 
     void SetConsoleColor(int color);
     void ClearConsole();
