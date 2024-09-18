@@ -32,11 +32,15 @@ private:
     static const int kGridHeight = 15;
 
     static const char kEmpty = '.';
-    static const char kWall = '#';
+    static const char kObstacles = '#';
+    static const char KChests = '=';
+    static const char kWalls = 'X';
     static const char kValidMove = '*';
 
     const int kColorValidMove = 14; // Jaune clair
     const int kColorDefault = 7; // Couleur par défaut (gris clair)
+    const int kColorObstacles = 8; // Gris foncé
+    const int kColorChests = 12; // Rouge clair
 
     std::string m_log;
 
@@ -69,6 +73,8 @@ private:
     };
 
     void InitWalls();
+    void RandomObstacles(int);
+    void RandomChest(int);
     void SpawnMonsters();
     void SpawnPlayer();
 

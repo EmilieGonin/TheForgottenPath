@@ -4,9 +4,10 @@ ConsoleRenderer::ConsoleRenderer() : m_grid(kGridHeight, std::vector<char>(kGrid
 {
     m_gm = GameManager::GetInstance();
     InitWalls();
+    RandomObstacles(25);
+    RandomChest(5);
     SpawnMonsters();
     SpawnPlayer();
-
 
     Display();
 }
@@ -19,8 +20,50 @@ void ConsoleRenderer::InitWalls()
         {
             if (row == 0 || row == kGridHeight - 1 || col == 0 || col == kGridWidth - 1)
             {
-                m_grid[row][col] = kWall;
+                m_grid[row][col] = kWalls;
             }
+        }
+    }
+}
+
+void ConsoleRenderer::RandomObstacles(int nb)
+{
+    int rows = kGridHeight;
+    int cols = kGridWidth;
+
+    int obstaclesAdded = 0;
+
+    while (obstaclesAdded < nb)
+    {
+        int r = std::rand() % rows;
+        int c = std::rand() % cols;
+
+        // Évite placement des obstacles sur les murs, les monstres, le joueur ou les cases déjà occupées
+        if (m_grid[r][c] == kEmpty)
+        {
+            m_grid[r][c] = kObstacles;
+            ++obstaclesAdded;
+        }
+    }
+}
+
+void ConsoleRenderer::RandomChest(int nb)
+{
+    int rows = kGridHeight;
+    int cols = kGridWidth;
+
+    int obstaclesAdded = 0;
+
+    while (obstaclesAdded < nb)
+    {
+        int r = std::rand() % rows;
+        int c = std::rand() % cols;
+
+        // Évite placement des obstacles sur les murs, les monstres, le joueur ou les cases déjà occupées
+        if (m_grid[r][c] == kEmpty)
+        {
+            m_grid[r][c] = KChests;
+            ++obstaclesAdded;
         }
     }
 }
@@ -187,14 +230,14 @@ bool ConsoleRenderer::MoveEntity(Direction d, Entity* e)
     int x = nextDestination.first;
     int y = nextDestination.second;
 
-    if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove)
+    if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove && m_grid[x][y] != KChests)
     {
         if (e != m_gm->GetPlayer())
         {
             nextDestination = GetNextDestination(GetPathToPlayer(e->GetPos(), true), e->GetPos());
             x = nextDestination.first;
             y = nextDestination.second;
-            if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove) canMove = false;
+            if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove && m_grid[x][y] != KChests) canMove = false;
         }
         else return false;
     }
@@ -238,8 +281,6 @@ std::pair<int, int> ConsoleRenderer::GetNextDestination(Direction d, std::pair<i
 
 void ConsoleRenderer::RenderEntityStats(Entity* e)
 {
-    //cout << "                                             ";
-    //cout << "+---------------------------+" << "\n";
     cout << "                                             ";
     cout << "*********| " << e->GetName() << " |**********" << "\n";
     cout << "                                                ";
@@ -330,7 +371,6 @@ void ConsoleRenderer::Display()
     }
     else
     {
-        //cout << "\n";
         cout << "\n";
         cout << "\n";
         cout << "\n";
@@ -361,11 +401,19 @@ void ConsoleRenderer::Display()
             {
                 SetConsoleColor(kColorValidMove);
             }
+            else if (cell == kObstacles)
+            {
+                SetConsoleColor(kColorObstacles);
+            }
+            else if (cell == KChests)
+            {
+                SetConsoleColor(kColorChests);
+            }
             else if (cell == m_gm->GetPlayer()->GetIcon())
             {
                 SetConsoleColor(m_gm->GetPlayer()->GetColor());
             }
-            else if (cell != kEmpty && cell != kWall)
+            else if (cell != kEmpty && cell != kWalls)
             {
                 for (Monster* m : m_gm->GetMonsters())
                 {
