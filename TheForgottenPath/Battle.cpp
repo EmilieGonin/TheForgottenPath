@@ -40,7 +40,7 @@ bool Battle::TurnIsOver()
 		m_turnIndex = 0;
 		m_gm->GetPlayer()->OnEndTurn();
 		for (Monster* m : m_gm->GetMonsters()) m->OnEndTurn();
-		m_renderer->Display();
+		m_renderer->Render();
 		return true;
 	}
 

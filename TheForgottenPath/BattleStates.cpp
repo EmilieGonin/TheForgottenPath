@@ -26,7 +26,7 @@ void PlayerTurn::Update(Battle* battle)
 			if (target->IsDead()) battle->GetRenderer()->RemoveEntity(target);
 			std::string s = " " + p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + "  it loses " + std::to_string(static_cast<int>(damage)) + " HP";
 			battle->GetRenderer()->SetLog(s);
-			battle->GetRenderer()->Display();
+			battle->GetRenderer()->Render();
 			std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
 			battle->SetState(EndCheck::GetInstance());
@@ -93,7 +93,7 @@ void EnemyTurn::Attack(Battle* battle)
 	p->TakeDamage(m);
 	std::string s = " " + m->GetName() + " attacks " + p->GetName() + "," + "\n" + "                                              " + "  it loses " + std::to_string(static_cast<int>(m->GetStat(Stat::ATK))) + " HP";
 	battle->GetRenderer()->SetLog(s);
-	battle->GetRenderer()->Display();
+	battle->GetRenderer()->Render();
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 
@@ -143,12 +143,12 @@ void Win::Enter(Battle* battle)
 {
 	std::string s = "You win !";
 	battle->GetRenderer()->SetLog(s);
-	battle->GetRenderer()->Display();
+	battle->GetRenderer()->Render();
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	battle->GetGM()->WinBattle();
 
 	battle->GetGM()->StartNewBattle();
-	battle->GetRenderer()->Display();
+	battle->GetRenderer()->Render();
 }
 
 BattleState& Win::GetInstance()
@@ -161,11 +161,11 @@ void Lose::Enter(Battle* battle)
 {
 	std::string s = "You lose !";
 	battle->GetRenderer()->SetLog(s);
-	battle->GetRenderer()->Display();
+	battle->GetRenderer()->Render();
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
 	battle->GetGM()->StartNewBattle();
-	battle->GetRenderer()->Display();
+	battle->GetRenderer()->Render();
 }
 
 BattleState& Lose::GetInstance()

@@ -28,7 +28,7 @@ void EntityRenderer::PlayerController()
     if (p->GetPreviousDirection() == m_reverseDirections[d])
     {
         p->CancelLastMove();
-        m_consoleRenderer->Display();
+        m_consoleRenderer->Render();
     }
 
     p->SetPreviousDirection(d);
@@ -50,9 +50,9 @@ Entity* EntityRenderer::GetCloseEntity(Entity* entityChecking)
         int newX = posToCheck.first + direction.first;
         int newY = posToCheck.second + direction.second;
 
-        if (newX >= 0 && newY >= 0 && newX < m_grid.size() && newY < m_grid[0].size())
+        if (newX >= 0 && newY >= 0 && newX < m_consoleRenderer->GetGrid().size() && newY < m_consoleRenderer->GetGrid()[0].size())
         {
-            char cellIcon = m_grid[newX][newY];
+            char cellIcon = m_consoleRenderer->GetGrid()[newX][newY];
             char playerIcon = m_gm->GetPlayer()->GetIcon();
 
             if (entityChecking != m_gm->GetPlayer() && cellIcon == m_gm->GetPlayer()->GetIcon())
@@ -60,7 +60,7 @@ Entity* EntityRenderer::GetCloseEntity(Entity* entityChecking)
                 return m_gm->GetPlayer();
             }
 
-            if (cellIcon != kEmpty)
+            if (cellIcon != m_consoleRenderer->GetCellIcons()[CellType::Empty].first)
             {
                 for (Monster* m : m_gm->GetMonsters())
                 {
@@ -91,7 +91,7 @@ bool EntityRenderer::MoveMonster(Entity* e)
 
 void EntityRenderer::RemoveEntity(Entity* e)
 {
-    m_grid[e->GetPos().first][e->GetPos().second] = kEmpty;
+    m_consoleRenderer->GetGrid()[e->GetPos().first][e->GetPos().second] = m_consoleRenderer->GetCellIcons()[CellType::Empty].first;
 }
 
 bool EntityRenderer::MoveEntity(Direction d, Entity* e)
@@ -103,14 +103,15 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
     int x = nextDestination.first;
     int y = nextDestination.second;
 
-    if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove && m_grid[x][y] != KChests)
+    if (m_consoleRenderer->IsMoveableCell(nextDestination))
     {
         if (e != m_gm->GetPlayer())
         {
             nextDestination = GetNextDestination(GetPathToPlayer(e->GetPos(), true), e->GetPos());
             x = nextDestination.first;
             y = nextDestination.second;
-            if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove && m_grid[x][y] != KChests) canMove = false;
+
+            if (m_consoleRenderer->IsMoveableCell(nextDestination)) canMove = false;
         }
         else return false;
     }
@@ -121,10 +122,10 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
         return false;
     }
 
-    m_grid[previousPos.first][previousPos.second] = kEmpty;
-    m_grid[x][y] = e->GetIcon();
+    m_consoleRenderer->GetGrid()[previousPos.first][previousPos.second] = m_consoleRenderer->GetCellIcons()[CellType::Empty].first;
+    m_consoleRenderer->GetGrid()[x][y] = e->GetIcon();
     e->Move(x, y);
-    m_consoleRenderer->Display();
+    m_consoleRenderer->Render();
     return true;
 }
 

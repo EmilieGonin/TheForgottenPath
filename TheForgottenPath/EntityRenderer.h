@@ -2,9 +2,9 @@
 
 #include <windows.h>
 
+#include "GameManager.h"
 #include "Player.h"
 #include "Monster.h"
-#include "GameManager.h"
 
 class ConsoleRenderer;
 
