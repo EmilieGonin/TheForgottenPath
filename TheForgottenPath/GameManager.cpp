@@ -31,6 +31,9 @@ void GameManager::StartNewGame()
 
 void GameManager::StartNewBattle()
 {
+	m_player->SetPos(std::make_pair(5, 2));
+	m_player->OnEndTurn();
+
 	m_monsters.clear();
 	m_monsters.push_back(new Golem());
 	m_monsters.push_back(new Reaper());
