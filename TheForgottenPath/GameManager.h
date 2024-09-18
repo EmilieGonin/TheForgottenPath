@@ -14,8 +14,9 @@ public:
 	Player* GetPlayer() const { return m_player; }
 	std::vector<Monster*> GetMonsters() const { return m_monsters; }
 
+	bool GameIsOver() { return m_levelsRemaining == 0; }
+
 	Monster* GetRandomMonster();
-	bool GameIsOver();
 	void StartNewGame();
 	void StartNewBattle();
 	void WinBattle();

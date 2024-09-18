@@ -18,15 +18,8 @@ GameManager* GameManager::GetInstance()
 
 Monster* GameManager::GetRandomMonster()
 {
-    std::srand(static_cast<unsigned>(std::time(0)));
     int randomChoice = std::rand() % m_monsters.size();
-
 	return m_monsters[randomChoice];
-}
-
-bool GameManager::GameIsOver()
-{
-	return m_levelsRemaining == 0;
 }
 
 void GameManager::StartNewGame()

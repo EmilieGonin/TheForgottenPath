@@ -7,16 +7,6 @@ Entity::Entity()
 	m_behaviour = Behaviour::Follow;
 }
 
-bool Entity::IsDead()
-{
-	return m_stats[Stat::HP] <= 0;
-}
-
-bool Entity::HasEnoughPM()
-{
-	return m_stats[Stat::PM] > 0;
-}
-
 void Entity::Move(int x, int y)
 {
 	m_stats[Stat::PM]--;

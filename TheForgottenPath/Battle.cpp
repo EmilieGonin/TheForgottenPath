@@ -17,7 +17,6 @@ Monster* Battle::GetTurnMonster()
 
 void Battle::SetState(BattleState& newState)
 {
-	m_currentState->Exit(this);
 	m_currentState = &newState;
 	m_currentState->Enter(this);
 }
