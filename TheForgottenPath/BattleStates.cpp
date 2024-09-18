@@ -146,8 +146,9 @@ void Win::Enter(Battle* battle)
 	battle->GetRenderer()->SetLog(s);
 	battle->GetRenderer()->Display();
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
 	battle->GetGM()->WinBattle();
+
+	battle->GetGM()->StartNewBattle();
 	battle->GetRenderer()->Display();
 }
 
@@ -164,7 +165,7 @@ void Lose::Enter(Battle* battle)
 	battle->GetRenderer()->Display();
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-	battle->GetGM()->StartNewGame();
+	battle->GetGM()->StartNewBattle();
 	battle->GetRenderer()->Display();
 }
 
