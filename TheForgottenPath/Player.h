@@ -11,6 +11,7 @@ public:
 	void SetPreviousDirection(Direction d);
 
 	void OnEndTurn() override;
+	void Respawn();
 	void CancelLastMove();
 
 private:
