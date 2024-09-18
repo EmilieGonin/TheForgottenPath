@@ -22,6 +22,7 @@ enum class Stat
 	MAXATK,
 	MAXDEF,
 	MAXHP,
+	MAXATK,
 	MAXPA,
 	MAXPM
 };

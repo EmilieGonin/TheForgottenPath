@@ -25,6 +25,7 @@ void Player::Respawn()
 {
 	m_stats[Stat::HP] = 150;
 	m_stats[Stat::MAXHP] = 150;
+	m_stats[Stat::DEF] = 5;
 	m_stats[Stat::ATK] = 15;
 	m_stats[Stat::MAXATK] = 20;
 	m_stats[Stat::PM] = 3;

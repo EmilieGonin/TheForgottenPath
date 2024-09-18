@@ -11,7 +11,8 @@ GridRenderer::GridRenderer(ConsoleRenderer* console)
     SpawnMonsters();
     SpawnPlayer();
     InitRandomElement(20, CellType::Obstacle);
-    InitRandomElement(5, CellType::Chest);
+    InitRandomElement(3, CellType::Chest);
+    InitRandomElement(5, CellType::Trap);
 }
 
 bool GridRenderer::IsBlockedCell(std::pair<int, int> coord)
@@ -21,7 +22,8 @@ bool GridRenderer::IsBlockedCell(std::pair<int, int> coord)
 
     return m_grid[x][y] != m_cellDatas[CellType::Empty].first
         && m_grid[x][y] != m_cellDatas[CellType::ValidMove].first
-        && m_grid[x][y] != m_cellDatas[CellType::Chest].first;
+        && m_grid[x][y] != m_cellDatas[CellType::Chest].first
+        && m_grid[x][y] != m_cellDatas[CellType::Trap].first;
 }
 
 bool GridRenderer::IsEntityIcon(char icon)
