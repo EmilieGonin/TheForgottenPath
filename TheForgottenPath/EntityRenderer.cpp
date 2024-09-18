@@ -97,7 +97,6 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
     m_consoleRenderer->GetGrid()[x][y] = e->GetIcon();
     e->Move(x, y);
     m_consoleRenderer->Render();
-    //if (chestOpened) Utilities::Wait(500);
     return true;
 }
 
