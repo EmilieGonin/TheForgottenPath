@@ -13,15 +13,6 @@
 using std::vector;
 using std::cout;
 
-enum class Direction
-{
-    Up,
-    Down,
-    Right,
-    Left,
-    None
-};
-
 class ConsoleRenderer 
 {
 public:
@@ -31,7 +22,7 @@ public:
 
     void Display();
     void PlayerController();
-    void MoveMonster(Entity*);
+    bool MoveMonster(Entity*);
 
 private:
     static const int kGridWidth = 15;
@@ -73,7 +64,7 @@ private:
     void DisplayValidMovementCells();
     void ResetValidMovementCells();
 
-    void MoveEntity(Direction, Entity*);
+    bool MoveEntity(Direction, Entity*);
     std::pair<int, int> GetNextDestination(Direction d, std::pair<int, int> pos);
 
     void RenderEntityStats(Entity*);

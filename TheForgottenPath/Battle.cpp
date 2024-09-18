@@ -27,11 +27,6 @@ void Battle::Update()
 	m_currentState->Update(this);
 }
 
-void Battle::Toggle()
-{
-	m_currentState->Toggle(this);
-}
-
 bool Battle::BattleIsOver()
 {
 	return m_currentState == &Win::GetInstance() || m_currentState == &Lose::GetInstance();

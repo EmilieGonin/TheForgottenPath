@@ -14,4 +14,12 @@ Player::Player()
 	m_color = 2;
 	m_pos.first = 5;
 	m_pos.second = 2;
+
+	m_previousDirection = Direction::None;
+}
+
+void Player::OnEndTurn()
+{
+	Entity::OnEndTurn();
+	m_previousDirection = Direction::None;
 }

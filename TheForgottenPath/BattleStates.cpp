@@ -2,26 +2,34 @@
 
 void PlayerTurn::Update(Battle* battle)
 {
-	if (battle->GetGM()->GetPlayer()->CanMove())
+	if (battle->GetGM()->GetPlayer()->HasEnoughPM())
 	{
 		battle->GetRenderer()->PlayerController();
 	}
 
 	bool isSpacePressed = GetAsyncKeyState(VK_SPACE) & 0x8000;
-	bool wasSpacePressed = m_actionsKeys[VK_SPACE];
+	bool isEnterPressed = GetAsyncKeyState(VK_RETURN) & 0x8000;
 
-	bool isEnterPressed = GetAsyncKeyState(VK_EXECUTE) & 0x8000;
-	bool wasEnterPressed = m_actionsKeys[VK_EXECUTE];
-
-	if (!isSpacePressed && wasSpacePressed) battle->SetState(EndCheck::GetInstance());
-
-	if (!isEnterPressed && wasEnterPressed)
+	if (!isSpacePressed && m_actionsKeys[VK_SPACE])
 	{
-		// Attaque
+		battle->SetState(EndCheck::GetInstance());
+	}
+
+	if (!isEnterPressed && m_actionsKeys[VK_RETURN])
+	{
+		Player* p = battle->GetGM()->GetPlayer();
+		Entity* target = battle->GetRenderer()->GetCloseEntity(battle->GetGM()->GetPlayer());
+
+		if (target != nullptr)
+		{
+			target->TakeDamage(p->GetStat(Stat::ATK));
+			// Afficher log dans console
+			battle->SetState(EndCheck::GetInstance());
+		}
 	}
 
 	m_actionsKeys[VK_SPACE] = isSpacePressed;
-	m_actionsKeys[VK_EXECUTE] = isEnterPressed;
+	m_actionsKeys[VK_RETURN] = isEnterPressed;
 }
 
 BattleState& PlayerTurn::GetInstance()
@@ -34,6 +42,7 @@ void EnemyTurn::Enter(Battle* battle)
 {
 	Monster* m = battle->GetTurnMonster();
 	Player* p = battle->GetGM()->GetPlayer();
+	Behaviour behaviour = m->GetBehaviour();
 
 	if (!m->IsDead())
 	{
@@ -41,28 +50,45 @@ void EnemyTurn::Enter(Battle* battle)
 		{
 			bool isPlayerClose = battle->GetRenderer()->GetCloseEntity(m) == p;
 
-			if (isPlayerClose)
+			if (isPlayerClose && behaviour != Behaviour::Flee)
 			{
-				p->TakeDamage(m->GetStat(Stat::ATK));
+				Attack(battle);
 				break;
 			}
 
-			if (m->CanMove()) battle->GetRenderer()->MoveMonster(m);
-		} while (m->CanMove());
+			if (m->HasEnoughPM() && behaviour != Behaviour::Static)
+			{
+				if (battle->GetRenderer()->MoveMonster(m))
+				{
+					std::this_thread::sleep_for(std::chrono::milliseconds(200));
+				}
+				else if (behaviour == Behaviour::Flee && isPlayerClose)
+				{
+					Attack(battle);
+					break;
+				}
+			}
+		} while (behaviour != Behaviour::Static && m->HasEnoughPM());
 	}
 
 	battle->SetState(EndCheck::GetInstance());
-}
-
-void EnemyTurn::Exit(Battle* battle)
-{
-	//
 }
 
 BattleState& EnemyTurn::GetInstance()
 {
 	static EnemyTurn singleton;
 	return singleton;
+}
+
+void EnemyTurn::Attack(Battle* battle)
+{
+	Monster* m = battle->GetTurnMonster();
+	Player* p = battle->GetGM()->GetPlayer();
+
+	p->TakeDamage(m->GetStat(Stat::ATK));
+	// Afficher log dans console
+	battle->GetRenderer()->Display();
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 
 void EndCheck::Enter(Battle* battle)

@@ -109,16 +109,18 @@ void ConsoleRenderer::PlayerController()
     if (d != Direction::None) MoveEntity(d, m_gm->GetPlayer());
 }
 
-void ConsoleRenderer::MoveMonster(Entity* e)
+bool ConsoleRenderer::MoveMonster(Entity* e)
 {
     if (e->GetBehaviour() == Behaviour::Follow)
     {
-        MoveEntity(GetPathToPlayer(e->GetPos(), false), e);
+        return MoveEntity(GetPathToPlayer(e->GetPos(), false), e);
     }
     else if (e->GetBehaviour() == Behaviour::Flee)
     {
-        MoveEntity(GetPathAwayFromPlayer(e->GetPos(), false), e);
+        return MoveEntity(GetPathAwayFromPlayer(e->GetPos(), false), e);
     }
+
+    return false;
 }
 
 Direction ConsoleRenderer::GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse)
@@ -147,15 +149,15 @@ Direction ConsoleRenderer::GetPathAwayFromPlayer(std::pair<int, int> monsterPos,
 
     if (std::abs(diffX) > std::abs(diffY))
     {
-        return (diffX > 0) ? Direction::Right : Direction::Left;
+        return (diffX > 0) ? Direction::Up : Direction::Down;
     }
     else
     {
-        return (diffY > 0) ? Direction::Down : Direction::Up;
+        return (diffY > 0) ? Direction::Left : Direction::Right;
     }
 }
 
-void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
+bool ConsoleRenderer::MoveEntity(Direction d, Entity* e)
 {
     std::pair<int, int> previousPos = e->GetPos();
     bool canMove = true;
@@ -173,21 +175,20 @@ void ConsoleRenderer::MoveEntity(Direction d, Entity* e)
             y = nextDestination.second;
             if (m_grid[x][y] != kEmpty && m_grid[x][y] != kValidMove) canMove = false;
         }
-        else return;
+        else return false;
     }
 
-    if (canMove)
-    {
-        m_grid[previousPos.first][previousPos.second] = kEmpty;
-        m_grid[x][y] = e->GetIcon();
-        e->Move(x, y);
-    }
-    else
+    if (!canMove)
     {
         e->StopTurnEarly();
+        return false;
     }
 
+    m_grid[previousPos.first][previousPos.second] = kEmpty;
+    m_grid[x][y] = e->GetIcon();
+    e->Move(x, y);
     Display();
+    return true;
 }
 
 std::pair<int, int> ConsoleRenderer::GetNextDestination(Direction d, std::pair<int, int> pos)
