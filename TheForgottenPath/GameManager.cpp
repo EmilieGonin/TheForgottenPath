@@ -2,6 +2,8 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
+#include <cmath>
 
 GameManager* GameManager::m_instance = nullptr;
 

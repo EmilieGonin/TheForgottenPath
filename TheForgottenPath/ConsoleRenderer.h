@@ -1,14 +1,13 @@
 ﻿#pragma once
 
-#include "Player.h"
-#include "Monster.h"
+#include <iostream>
+#include <vector>
+
+#include "GridRenderer.h"
+#include "EntityRenderer.h"
 #include "GameManager.h"
 
-#include <vector>
-#include <iostream>
-#include <algorithm>
-#include <windows.h>
-#include <cmath>
+#define CONSOLE_SIZE 80
 
 using std::vector;
 using std::cout;
@@ -18,81 +17,46 @@ class ConsoleRenderer
 public:
     ConsoleRenderer();
 
-    Entity* GetCloseEntity(Entity*);
+    void Render();
+    void SetLog(std::string s) { m_log = s; }
 
-    void Display();
-    void PlayerController();
-    bool MoveMonster(Entity*);
-    void RemoveEntity(Entity*);
+    // Grid Renderer Getters
+    vector<vector<char>>& GetGrid() { return m_gridRenderer->GetGrid(); }
+    std::map<CellType, std::pair<char, int>> GetCellDatas() const { return m_gridRenderer->GetCellDatas(); }
+    bool IsMoveableCell(std::pair<int, int> coord) { return m_gridRenderer->IsMoveableCell(coord); }
 
-    void SetLog(std::string);
+    // Entity Renderer Getters
+    void PlayerController() { m_entityRenderer->MovePlayer(); }
+    Entity* GetCloseEntity(Entity* e) { return m_entityRenderer->GetCloseEntity(e); }
+    bool MoveMonster(Entity* e) { return m_entityRenderer->MoveMonster(e); }
+    void RemoveEntity(Entity* e) { m_entityRenderer->RemoveEntity(e); }
 
 private:
-    static const int kGridWidth = 15;
-    static const int kGridHeight = 15;
-
-    static const char kEmpty = '.';
-    static const char kObstacles = '#';
-    static const char KChests = '=';
-    static const char kWalls = 'X';
-    static const char kValidMove = '*';
-
-    const int kColorValidMove = 14; // Jaune clair
-    const int kColorDefault = 7; // Couleur par défaut (gris clair)
-    const int kColorObstacles = 8; // Gris foncé
-    const int kColorChests = 12; // Rouge clair
-
     std::string m_log;
 
-    vector<vector<char>> m_grid;
-
-    std::map<int, Direction> m_keyDirections
+    std::map<Stat, std::string> m_statsTitle
     {
-        { VK_UP, Direction::Up },
-        { VK_DOWN, Direction::Down },
-        { VK_LEFT, Direction::Left },
-        { VK_RIGHT, Direction::Right }
+        { Stat::HP, "HP" },
+        { Stat::ATK, "ATK" },
+        { Stat::DEF, "DEF" },
+        { Stat::PA, "PA" },
+        { Stat::PM, "PM" }
     };
 
-    std::map<Direction, Direction> m_reverseDirections
-    {
-        { Direction::Up, Direction::Down },
-        { Direction::Down, Direction::Up },
-        { Direction::Left, Direction::Right },
-        { Direction::Right, Direction::Left }
-    };
+    void ClearConsole() { std::system("cls"); }
+    void SetConsoleColor(int color);
 
-    std::map<int, bool> m_keyStates;
+    std::string RenderSpaces(int nb);
+    std::string RenderLineBreaks(int nb);
 
-    std::map<Stat, std::string> m_statsTitle {
-    { Stat::HP, "HP" },
-    { Stat::ATK, "ATK" },
-    { Stat::DEF, "DEF" },
-    { Stat::PA, "PA" },
-    { Stat::PM, "PM" }
-    };
-
-    void InitWalls();
-    void RandomObstacles(int);
-    void RandomChest(int);
-    void SpawnMonsters();
-    void SpawnPlayer();
-
-    Direction GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse);
-    Direction GetPathAwayFromPlayer(std::pair<int, int> monsterPos, bool reverse);
-
-    void DisplayValidMovementCells();
+    void RenderValidMovementCells();
     void ResetValidMovementCells();
-
-    bool MoveEntity(Direction, Entity*);
-    std::pair<int, int> GetNextDestination(Direction d, std::pair<int, int> pos);
 
     void RenderEntityStats(Entity*);
     void RenderAvailableActions(Entity*);
-    void RenderGameLog();
-
-    void SetConsoleColor(int color);
-    void ClearConsole();
+    void RenderGameLog() { cout << RenderSpaces(48) << m_log; }
 
     GameManager* m_gm;
+    GridRenderer* m_gridRenderer;
+    EntityRenderer* m_entityRenderer;
 };
