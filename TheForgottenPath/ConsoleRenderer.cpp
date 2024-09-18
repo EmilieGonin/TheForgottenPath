@@ -134,7 +134,7 @@ void ConsoleRenderer::ResetValidMovementCells()
 
 void ConsoleRenderer::RenderEntityStats(Entity* e)
 {
-    cout << RenderSpaces(46);
+    cout << RenderSpaces(45);
     cout << "*********| " << e->GetName() << " |**********" << "\n";
     cout << RenderSpaces(49);
     cout << m_statsTitle[Stat::HP] << " : " << e->GetStat(Stat::HP) << "/" << e->GetStat(Stat::MAXHP) << "   ";
@@ -142,23 +142,23 @@ void ConsoleRenderer::RenderEntityStats(Entity* e)
     cout << RenderSpaces(49);
     cout << m_statsTitle[Stat::PM] << " : " << e->GetStat(Stat::PM) << "/" << e->GetStat(Stat::MAXPM) << "     ";
     cout << m_statsTitle[Stat::PA] << " : " << e->GetStat(Stat::PA) << "/" << e->GetStat(Stat::MAXPA) << "\n";
-    cout << RenderSpaces(46);
+    cout << RenderSpaces(45);
     cout << "+---------------------------+" << "\n";
 }
 
 void ConsoleRenderer::RenderAvailableActions(Entity* monster)
 {
-    cout << RenderSpaces(46) << "|  End Turn";
+    cout << RenderSpaces(45) << "|  End Turn";
     cout << "   " << ">>>" << "    " << "SPACE" << "  |" << "\n";
 
     monster = GetCloseEntity(m_gm->GetPlayer());
 
     if (monster != nullptr)
     {
-        cout << RenderSpaces(46) << "|  Attack";
+        cout << RenderSpaces(45) << "|  Attack";
         cout << "    " << ">>>" << "    " << "ENTER" << "   |" << "\n";
     }
 
-    cout << RenderSpaces(46);
+    cout << RenderSpaces(45);
     cout << "+---------------------------+" << "\n";
 }

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <vector>
 #include <map>
@@ -16,7 +16,8 @@ enum class CellType
     Wall,
     ValidMove,
     Obstacle,
-    Chest
+    Chest,
+    Trap
 };
 
 class GridRenderer
@@ -40,11 +41,12 @@ private:
 
     std::map<CellType, std::pair<char, int>> m_cellDatas // Icon & Color
     {
-        { CellType::Empty, std::make_pair('.', 7) },        // Couleur par d�faut (gris clair)
+        { CellType::Empty, std::make_pair('.', 7) },        // Couleur par défaut (gris clair)
         { CellType::Wall, std::make_pair('X', 7) },
         { CellType::ValidMove, std::make_pair('*', 14) },   // Jaune clair
-        { CellType::Obstacle, std::make_pair('#', 8) },     // Gris fonc�
-        { CellType::Chest, std::make_pair('=', 12) }        // Rouge clair
+        { CellType::Obstacle, std::make_pair('#', 8) },     // Gris foncé
+        { CellType::Chest, std::make_pair('=', 6) },        // Jaune foncé
+        { CellType::Trap, std::make_pair('!', 12) }         // Rouge clair
     };
 
     GameManager* m_gm;
