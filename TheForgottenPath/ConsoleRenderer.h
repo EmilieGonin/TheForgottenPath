@@ -13,15 +13,6 @@
 using std::vector;
 using std::cout;
 
-enum class Direction
-{
-    Up,
-    Down,
-    Right,
-    Left,
-    None
-};
-
 class ConsoleRenderer 
 {
 public:

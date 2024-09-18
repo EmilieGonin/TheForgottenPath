@@ -23,6 +23,15 @@ enum class Behaviour
 	Flee
 };
 
+enum class Direction
+{
+	Up,
+	Down,
+	Right,
+	Left,
+	None
+};
+
 class Entity
 {
 public:
@@ -38,7 +47,7 @@ public:
 	bool IsDead();
 	bool HasEnoughPM();
 	void Move(int, int);
-	void OnEndTurn();
+	virtual void OnEndTurn();
 	void StopTurnEarly();
 	void TakeDamage(int damage);
 
