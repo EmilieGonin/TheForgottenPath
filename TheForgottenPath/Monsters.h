@@ -7,6 +7,7 @@ class Golem : public Monster
 public:
 	Golem();
 
+	void OnDeath(GameManager* gm) override;
 	int TakeDamage(Entity* attacker) override;
 };
 
@@ -14,10 +15,14 @@ class Reaper : public Monster
 {
 public:
 	Reaper();
+
+	void OnDeath(GameManager* gm) override;
 };
 
 class Wraith : public Monster
 {
 public:
 	Wraith();
+
+	void OnDeath(GameManager* gm) override;
 };
