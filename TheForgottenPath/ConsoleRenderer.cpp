@@ -134,6 +134,11 @@ bool ConsoleRenderer::MoveMonster(Entity* e)
     return false;
 }
 
+void ConsoleRenderer::SetLog(std::string s)
+{
+    m_log = s;
+}
+
 Direction ConsoleRenderer::GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse)
 {
     std::pair<int, int> playerPos = m_gm->GetPlayer()->GetPos();
@@ -228,13 +233,14 @@ std::pair<int, int> ConsoleRenderer::GetNextDestination(Direction d, std::pair<i
 
 void ConsoleRenderer::RenderEntityStats(Entity* e)
 {
+    //cout << "                                             ";
+    //cout << "+---------------------------+" << "\n";
     cout << "                                             ";
-    cout << "+---------------------------+" << "\n";
-    cout << "                                            ";
-    cout << "   " << e->GetIcon() << " ";
+    cout << "*********| " << e->GetName() << " |**********" << "\n";
+    cout << "                                                ";
     cout << m_statsTitle[Stat::HP] << " : " << e->GetStat(Stat::HP) << "/" << e->GetStat(Stat::MAXHP) << "   ";
-    cout << m_statsTitle[Stat::ATK] << " : " << e->GetStat(Stat::ATK) << "\n" << "       ";
-    cout << "                                          ";
+    cout << m_statsTitle[Stat::ATK] << " : " << e->GetStat(Stat::ATK) << "\n";
+    cout << "                                                ";
     cout << m_statsTitle[Stat::PM] << " : " << e->GetStat(Stat::PM) << "/" << e->GetStat(Stat::MAXPM) << "     ";
     cout << m_statsTitle[Stat::PA] << " : " << e->GetStat(Stat::PA) << "/" << e->GetStat(Stat::MAXPA) << "\n";
     cout << "                                             ";
@@ -244,25 +250,25 @@ void ConsoleRenderer::RenderEntityStats(Entity* e)
 
 void ConsoleRenderer::RenderAvailableActions(Entity* monster)
 {
-    cout << "                                                " << "End Turn";
-    cout << "   " << ">>>" << "    " << "SPACE" << "\n";
+    cout << "                                             " << "|  End Turn";
+    cout << "   " << ">>>" << "    " << "SPACE" << "  |" << "\n";
 
     monster = GetCloseEntity(m_gm->GetPlayer());
 
     if (monster != nullptr)
     {
-        cout << "                                                 " << "Attack";
-        cout << "    " << ">>>" << "    " << "ENTER" << "\n";
+        cout << "                                             " << "|  Attack";
+        cout << "    " << ">>>" << "    " << "ENTER" << "   |" << "\n";
     }
 
     cout << "                                             ";
     cout << "+---------------------------+" << "\n";
 }
 
-void ConsoleRenderer::RenderGameMessage(Entity* e)
+void ConsoleRenderer::RenderGameLog()
 {
     cout << "                                               ";
-    cout << e->GetIcon() << " attaque " << e->GetIcon();
+    cout << m_log;
 }
 
 Entity* ConsoleRenderer::GetCloseEntity(Entity* entityChecking)
@@ -319,6 +325,7 @@ void ConsoleRenderer::Display()
     }
     else
     {
+        //cout << "\n";
         cout << "\n";
         cout << "\n";
         cout << "\n";
@@ -375,7 +382,7 @@ void ConsoleRenderer::Display()
 
     RenderEntityStats(m_gm->GetPlayer());
     RenderAvailableActions(monster);
-    RenderGameMessage(m_gm->GetPlayer());
+    RenderGameLog();
 }
 
 void ConsoleRenderer::SetConsoleColor(int color)

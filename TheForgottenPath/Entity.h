@@ -3,9 +3,12 @@
 #include <map>
 #include <cstdlib>  // Pour std::rand() et std::srand()
 #include <ctime>    // Pour std::time()
+#include <string>
 
 using std::pair;
 using std::rand;
+using std::string;
+using std::map;
 
 enum class Stat
 {
@@ -41,10 +44,12 @@ class Entity
 public:
 	Entity();
 
-	std::map<Stat, float> GetStats() const { return m_stats; }
+	map<Stat, float> GetStats() const { return m_stats; }
 	float GetStat(Stat stat) { return m_stats[stat]; }
 	char GetIcon() const { return m_icon; }
 	int GetColor() const { return m_color; }
+	string GetName() const { return m_name; }
+
 	Behaviour GetBehaviour() const { return m_behaviour; }
 	pair<int, int> GetPos() const { return m_pos; }
 
@@ -59,9 +64,10 @@ public:
 	virtual ~Entity() { }
 
 protected:
-	std::map<Stat, float> m_stats;
+	map<Stat, float> m_stats;
 	char m_icon;
 	int m_color;
 	Behaviour m_behaviour;
 	pair<int, int> m_pos;
+	string m_name;
 };

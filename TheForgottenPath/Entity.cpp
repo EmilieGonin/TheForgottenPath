@@ -2,6 +2,7 @@
 
 Entity::Entity()
 {
+	m_name = "Unknow name";
 	m_icon = ' ';
 	m_color = 7;
 	m_behaviour = Behaviour::Follow;

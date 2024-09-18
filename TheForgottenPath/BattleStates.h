@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <thread>
+#include <string>
 
 #include "BattleState.h"
 #include "Battle.h"

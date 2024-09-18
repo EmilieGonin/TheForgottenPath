@@ -2,6 +2,7 @@
 
 Golem::Golem()
 {
+	m_name = "Golem";
 	m_stats[Stat::HP] = 110;
 	m_stats[Stat::MAXHP] = 110;
 	m_stats[Stat::ATK] = 10;
@@ -24,6 +25,7 @@ void Golem::SpecialAttack() const
 
 Reaper::Reaper() // Faucheur
 {
+	m_name = "Reaper";
 	m_stats[Stat::HP] = 90;
 	m_stats[Stat::MAXHP] = 90;
 	m_stats[Stat::ATK] = 20;
@@ -45,6 +47,7 @@ void Reaper::SpecialAttack() const
 
 Wraith::Wraith() // Spectre
 {
+	m_name = "Wraith";
 	m_stats[Stat::HP] = 60;
 	m_stats[Stat::MAXHP] = 60;
 	m_stats[Stat::ATK] = 5;

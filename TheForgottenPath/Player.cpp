@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+	m_name = "Player";
 	m_stats[Stat::HP] = 150;
 	m_stats[Stat::MAXHP] = 150;
 	m_stats[Stat::ATK] = 15;	
