@@ -27,7 +27,6 @@ class ConsoleRenderer
 public:
     ConsoleRenderer();
 
-    //void MovementRange();
     Entity* GetCloseEntity(Entity*);
 
     void Display();
@@ -79,7 +78,7 @@ private:
 
     void RenderEntityStats(Entity*);
     void RenderAvailableActions(Entity*);
-    void RenderGameMessage();
+    void RenderGameMessage(Entity*);
 
     void SetConsoleColor(int color);
     void ClearConsole();

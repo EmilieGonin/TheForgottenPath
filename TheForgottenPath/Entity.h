@@ -1,13 +1,17 @@
 #pragma once
 
 #include <map>
+#include <cstdlib>  // Pour std::rand() et std::srand()
+#include <ctime>    // Pour std::time()
 
 using std::pair;
+using std::rand;
 
 enum class Stat
 {
 	HP,
 	ATK,
+	MAXATK,
 	DEF,
 	PA,		// Points d'action
 	PM,		// Points de déplacement
