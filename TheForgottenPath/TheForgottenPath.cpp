@@ -4,6 +4,9 @@
 
 int main()
 {
+    // Initialisation de l'aléatoire (à faire une seule fois, par exemple dans la fonction main)
+    srand(static_cast<unsigned int>(std::time(nullptr)));
+
     bool playerTurn = true;
 
     GameManager* gm = new GameManager();

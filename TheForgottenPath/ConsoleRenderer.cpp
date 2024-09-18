@@ -219,10 +219,10 @@ void ConsoleRenderer::RenderEntityStats(Entity* e)
     cout << "                                             ";
     cout << "+---------------------------+" << "\n";
     cout << "                                            ";
-    cout << "    " << e->GetIcon() << "  ";
+    cout << "   " << e->GetIcon() << " ";
     cout << m_statsTitle[Stat::HP] << " : " << e->GetStat(Stat::HP) << "/" << e->GetStat(Stat::MAXHP) << "   ";
     cout << m_statsTitle[Stat::ATK] << " : " << e->GetStat(Stat::ATK) << "\n" << "       ";
-    cout << "                                            ";
+    cout << "                                          ";
     cout << m_statsTitle[Stat::PM] << " : " << e->GetStat(Stat::PM) << "/" << e->GetStat(Stat::MAXPM) << "     ";
     cout << m_statsTitle[Stat::PA] << " : " << e->GetStat(Stat::PA) << "/" << e->GetStat(Stat::MAXPA) << "\n";
     cout << "                                             ";
@@ -247,9 +247,10 @@ void ConsoleRenderer::RenderAvailableActions(Entity* monster)
     cout << "+---------------------------+" << "\n";
 }
 
-void ConsoleRenderer::RenderGameMessage()
+void ConsoleRenderer::RenderGameMessage(Entity* e)
 {
-
+    cout << "                                               ";
+    cout << e->GetIcon() << " attaque " << e->GetIcon();
 }
 
 Entity* ConsoleRenderer::GetCloseEntity(Entity* entityChecking)
@@ -339,7 +340,6 @@ void ConsoleRenderer::Display()
             else if (cell == m_gm->GetPlayer()->GetIcon())
             {
                 SetConsoleColor(m_gm->GetPlayer()->GetColor());
-
             }
             else if (cell != kEmpty && cell != kWall)
             {
@@ -362,9 +362,8 @@ void ConsoleRenderer::Display()
     }
 
     RenderEntityStats(m_gm->GetPlayer());
-    //cout << "\n";
-    //cout << "\n";
     RenderAvailableActions(monster);
+    RenderGameMessage(m_gm->GetPlayer());
 }
 
 void ConsoleRenderer::SetConsoleColor(int color)
