@@ -19,10 +19,9 @@ enum class Stat
 	DEF,
 	PA,		// Points d'action
 	PM,		// Points de déplacement
-	MAXATK,
-	MAXDEF,
 	MAXHP,
 	MAXATK,
+	MAXDEF,
 	MAXPA,
 	MAXPM
 };
