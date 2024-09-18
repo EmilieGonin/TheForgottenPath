@@ -14,7 +14,7 @@ GridRenderer::GridRenderer(ConsoleRenderer* console)
     InitRandomElement(5, CellType::Chest);
 }
 
-bool GridRenderer::IsMoveableCell(std::pair<int, int> coord)
+bool GridRenderer::IsBlockedCell(std::pair<int, int> coord)
 {
     int x = coord.first;
     int y = coord.second;
@@ -62,6 +62,8 @@ void GridRenderer::InitRandomElement(int nb, CellType type)
         {
             m_grid[r][c] = m_cellDatas[type].first;
             ++elementAdded;
+
+            if (type == CellType::Chest) m_chests[std::make_pair(r, c)] = new Chest();
         }
     }
 }

@@ -1,5 +1,6 @@
 #include "EntityRenderer.h"
 #include "ConsoleRenderer.h"
+#include "Utilities.h"
 
 EntityRenderer::EntityRenderer(ConsoleRenderer* console)
 {
@@ -50,24 +51,40 @@ bool EntityRenderer::MoveMonster(Entity* e)
 
 bool EntityRenderer::MoveEntity(Direction d, Entity* e)
 {
+    char emptyIcon = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
+    char chestIcon = m_consoleRenderer->GetCellDatas()[CellType::Chest].first;
+
     std::pair<int, int> previousPos = e->GetPos();
     bool canMove = true;
+    bool chestOpened = false;
 
     std::pair<int, int> nextDestination = GetNextDestination(d, e->GetPos());
     int x = nextDestination.first;
     int y = nextDestination.second;
 
-    if (m_consoleRenderer->IsMoveableCell(nextDestination))
+    char cellIcon = m_consoleRenderer->GetGrid()[x][y];
+
+    if (m_consoleRenderer->IsBlockedCell(nextDestination))
     {
         if (e != m_gm->GetPlayer())
         {
             nextDestination = GetNextDestination(GetPathToPlayer(e->GetPos(), true), e->GetPos());
             x = nextDestination.first;
             y = nextDestination.second;
+            cellIcon = m_consoleRenderer->GetGrid()[x][y];
 
-            if (m_consoleRenderer->IsMoveableCell(nextDestination)) canMove = false;
+            if (m_consoleRenderer->IsBlockedCell(nextDestination)) canMove = false;
         }
         else return false;
+    }
+    else if (cellIcon == chestIcon)
+    {
+        if (e == m_gm->GetPlayer())
+        {
+            m_consoleRenderer->GetChests()[nextDestination]->Open(e, m_consoleRenderer);
+            chestOpened = true;
+        }
+        else canMove = false;
     }
 
     if (!canMove)
@@ -76,10 +93,11 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
         return false;
     }
 
-    m_consoleRenderer->GetGrid()[previousPos.first][previousPos.second] = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
+    m_consoleRenderer->GetGrid()[previousPos.first][previousPos.second] = emptyIcon;
     m_consoleRenderer->GetGrid()[x][y] = e->GetIcon();
     e->Move(x, y);
     m_consoleRenderer->Render();
+    //if (chestOpened) Utilities::Wait(500);
     return true;
 }
 

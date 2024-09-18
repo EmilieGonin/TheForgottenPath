@@ -19,11 +19,13 @@ public:
 
     void Render();
     void SetLog(std::string s) { m_log = s; }
+    std::map<Stat, std::string> GetStatsTitle() const { return m_statsTitle; }
 
     // Grid Renderer Getters
     vector<vector<char>>& GetGrid() { return m_gridRenderer->GetGrid(); }
     std::map<CellType, std::pair<char, int>> GetCellDatas() const { return m_gridRenderer->GetCellDatas(); }
-    bool IsMoveableCell(std::pair<int, int> coord) { return m_gridRenderer->IsMoveableCell(coord); }
+    std::map<std::pair<int, int>, Chest*> GetChests() const { return m_gridRenderer->GetChests(); }
+    bool IsBlockedCell(std::pair<int, int> coord) { return m_gridRenderer->IsBlockedCell(coord); }
 
     // Entity Renderer Getters
     void PlayerController() { m_entityRenderer->MovePlayer(); }
@@ -40,7 +42,12 @@ private:
         { Stat::ATK, "ATK" },
         { Stat::DEF, "DEF" },
         { Stat::PA, "PA" },
-        { Stat::PM, "PM" }
+        { Stat::PM, "PM" },
+        { Stat::MAXHP, "MAXHP" },
+        { Stat::MAXATK, "MAXATK" },
+        { Stat::MAXDEF, "MAXDEF" },
+        { Stat::MAXPA, "MAXPA" },
+        { Stat::MAXPM, "MAXPM" }
     };
 
     void ClearConsole() { std::system("cls"); }
