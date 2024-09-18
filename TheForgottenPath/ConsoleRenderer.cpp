@@ -57,6 +57,7 @@ void ConsoleRenderer::Render()
         cout << std::endl;
     }
 
+    cout << "\n";
     RenderEntityStats(m_gm->GetPlayer());
     RenderAvailableActions(monster);
     RenderGameLog();
