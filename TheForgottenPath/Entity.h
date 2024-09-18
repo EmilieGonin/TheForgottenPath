@@ -60,7 +60,7 @@ public:
 	void Move(int, int);
 	void StopTurnEarly();
 	virtual void OnEndTurn();
-	virtual int TakeDamage(int damage);
+	virtual int TakeDamage(Entity* attacker);
 
 	virtual ~Entity() { }
 

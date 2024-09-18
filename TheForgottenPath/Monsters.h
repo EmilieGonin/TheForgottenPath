@@ -7,7 +7,7 @@ class Golem : public Monster
 public:
 	Golem();
 
-	int TakeDamage(int damage) override;
+	int TakeDamage(Entity* attacker) override;
 };
 
 class Reaper : public Monster

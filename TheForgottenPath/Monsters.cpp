@@ -18,10 +18,10 @@ Golem::Golem()
 	m_pos.second = 8;
 }
 
-int Golem::TakeDamage(int damage)
+int Golem::TakeDamage(Entity* attacker)
 {
 	int rand = std::rand() % 100;
-	if (rand > 20) return Entity::TakeDamage(damage);
+	if (rand > 20) return Entity::TakeDamage(attacker);
 	return 0;
 }
 
