@@ -4,15 +4,25 @@ GridRenderer::GridRenderer(ConsoleRenderer* console)
 {
     m_gm = GameManager::GetInstance();
     m_consoleRenderer = console;
+    m_levelEditor = new LevelEditor();
 
-    m_grid = vector<vector<char>>(GRID_HEIGHT, vector<char>(GRID_WIDTH, m_cellDatas[CellType::Empty].first));
+    std::vector<std::string> level = m_levelEditor->GetLevel(0);
 
-    InitWalls();
-    SpawnMonsters();
-    SpawnPlayer();
-    InitRandomElement(NB_OBSTACLES, CellType::Obstacle);
-    InitRandomElement(NB_CHESTS, CellType::Chest);
-    InitRandomElement(NB_TRAPS, CellType::Trap);
+    m_gridHeight = level.size();
+    m_gridWidth = level[0].size();
+
+    for (const auto& row : level) {
+        m_grid.push_back(std::vector<char>(row.begin(), row.end()));
+    }
+
+    //m_grid = vector<vector<char>>(GRID_HEIGHT, vector<char>(GRID_WIDTH, m_cellDatas[CellType::Empty].first));
+
+    //InitWalls();
+    //SpawnMonsters();
+    //SpawnPlayer();
+    //InitRandomElement(NB_OBSTACLES, CellType::Obstacle);
+    //InitRandomElement(NB_CHESTS, CellType::Chest);
+    //InitRandomElement(NB_TRAPS, CellType::Trap);
 }
 
 bool GridRenderer::IsBlockedCell(pair<int, int> coord)
@@ -38,11 +48,11 @@ bool GridRenderer::IsEntityIcon(char icon)
 
 void GridRenderer::InitWalls()
 {
-    for (int row = 0; row < GRID_HEIGHT; ++row)
+    for (int row = 0; row < m_gridHeight; ++row)
     {
-        for (int col = 0; col < GRID_WIDTH; ++col)
+        for (int col = 0; col < m_gridWidth; ++col)
         {
-            if (row == 0 || row == GRID_HEIGHT - 1 || col == 0 || col == GRID_WIDTH - 1)
+            if (row == 0 || row == m_gridHeight - 1 || col == 0 || col == m_gridWidth - 1)
             {
                 m_grid[row][col] = m_cellDatas[CellType::Wall].first;
             }
@@ -56,8 +66,8 @@ void GridRenderer::InitRandomElement(int nb, CellType type)
 
     while (elementAdded < nb)
     {
-        int r = std::rand() % GRID_HEIGHT;
-        int c = std::rand() % GRID_WIDTH;
+        int r = std::rand() % m_gridHeight;
+        int c = std::rand() % m_gridWidth;
 
         // Évite placement sur les murs, les monstres, le joueur ou les cases déjà occupées
         if (m_grid[r][c] == m_cellDatas[CellType::Empty].first)
