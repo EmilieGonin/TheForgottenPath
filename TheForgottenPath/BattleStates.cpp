@@ -31,7 +31,7 @@ void PlayerTurn::Update(Battle* battle)
 
 			int damage = target->TakeDamage(p);
 
-			string s = " " + p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + "   it loses " + std::to_string(static_cast<int>(damage)) + " HP";
+			string s = p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + " it loses " + std::to_string(static_cast<int>(damage)) + " HP";
 			battle->GetRenderer()->SetLog(s);
 			battle->GetRenderer()->Render();
 

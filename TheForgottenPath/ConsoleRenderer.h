@@ -61,7 +61,7 @@ private:
 
     void RenderEntityStats(Entity*);
     void RenderAvailableActions(Entity*);
-    void RenderGameLog() { cout << RenderSpaces(48) << m_log; }
+    void RenderGameLog() { cout << RenderSpaces(47) << m_log; }
 
     GameManager* m_gm;
     GridRenderer* m_gridRenderer;

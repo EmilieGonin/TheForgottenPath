@@ -17,7 +17,9 @@ void ConsoleRenderer::Render()
     RenderValidMovementCells();
 
     if (monster != nullptr) RenderEntityStats(monster);
-    else cout << RenderLineBreaks(4);
+    else cout << RenderLineBreaks(3);
+
+    cout << RenderLineBreaks(1);
 
     CONSOLE_SCREEN_BUFFER_INFO csbi; // Taille de la console
     int console_width = CONSOLE_SIZE;
@@ -57,7 +59,7 @@ void ConsoleRenderer::Render()
         cout << std::endl;
     }
 
-    cout << "\n";
+    cout << RenderLineBreaks(1);
     RenderEntityStats(m_gm->GetPlayer());
     RenderAvailableActions(monster);
     RenderGameLog();
@@ -156,14 +158,16 @@ void ConsoleRenderer::RenderEntityStats(Entity* e)
     cout << RenderSpaces(49);
     cout << m_statsTitle[Stat::PM] << " : " << e->GetStat(Stat::PM) << "/" << e->GetStat(Stat::MAXPM) << "     ";
     cout << m_statsTitle[Stat::PA] << " : " << e->GetStat(Stat::PA) << "/" << e->GetStat(Stat::MAXPA) << "\n";
-    cout << RenderSpaces(45);
-    cout << "+---------------------------+" << "\n";
 }
 
 void ConsoleRenderer::RenderAvailableActions(Entity* monster)
 {
+    cout << RenderSpaces(45) << "+---------------------------+" << "\n";
+    cout << RenderSpaces(45) << "|          Actions          |" << "\n";
+    cout << RenderSpaces(45) << "+---------------------------+" << "\n";
+
     cout << RenderSpaces(45) << "|  End Turn";
-    cout << "   " << ">>>" << "    " << "SPACE" << "  |" << "\n";
+    cout << "  " << ">>>" << "    " << "SPACE" << "   |" << "\n";
 
     monster = GetCloseEntity(m_gm->GetPlayer());
 
@@ -171,6 +175,17 @@ void ConsoleRenderer::RenderAvailableActions(Entity* monster)
     {
         cout << RenderSpaces(45) << "|  Attack";
         cout << "    " << ">>>" << "    " << "ENTER" << "   |" << "\n";
+    }
+
+    cout << RenderSpaces(45) << "+---------------------------+" << "\n";
+    cout << RenderSpaces(45) << "|          Skills           |" << "\n";
+    cout << RenderSpaces(45) << "+---------------------------+" << "\n";
+    
+    for (auto s : m_gm->GetPlayer()->GetSkills())
+    {
+        std::string string = s.first->IsReady() ? "Ready" : s.first->GetCooldown() + "    ";
+        cout << RenderSpaces(45) << "|  " + s.first->GetName() ;
+        cout << "   " << ">>>" << "  " << s.first->GetKey() <<" | " << string << "  |" << "\n";
     }
 
     cout << RenderSpaces(45);
