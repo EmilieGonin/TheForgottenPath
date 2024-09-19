@@ -15,7 +15,6 @@ public:
 	Direction GetPreviousDirection() const { return m_previousDirections.top(); }
 	bool HasPreviousDirections() { return !m_previousDirections.empty(); }
 	void AddDirection(Direction d) { m_previousDirections.push(d); }
-	void RemoveDirection() { m_previousDirections.pop(); }
 
 	bool HasEnoughPM() override { return m_stats[Stat::PM] >= 0; }
 
