@@ -3,6 +3,8 @@
 
 void PlayerTurn::Update(Battle* battle)
 {
+	Player* p = battle->GetGM()->GetPlayer();
+
 	if (battle->GetGM()->GetPlayer()->HasEnoughPM())
 	{
 		battle->GetRenderer()->PlayerController();
@@ -10,6 +12,9 @@ void PlayerTurn::Update(Battle* battle)
 
 	bool isSpacePressed = GetAsyncKeyState(VK_SPACE) & 0x8000;
 	bool isEnterPressed = GetAsyncKeyState(VK_RETURN) & 0x8000;
+	bool isSPressed = GetAsyncKeyState(KEY_S) & 0x8000;
+	bool isHPressed = GetAsyncKeyState(KEY_H) & 0x8000;
+
 
 	if (!isSpacePressed && m_actionsKeys[VK_SPACE])
 	{
@@ -18,7 +23,6 @@ void PlayerTurn::Update(Battle* battle)
 
 	if (!isEnterPressed && m_actionsKeys[VK_RETURN])
 	{
-		Player* p = battle->GetGM()->GetPlayer();
 		Entity* target = battle->GetRenderer()->GetCloseEntity(battle->GetGM()->GetPlayer());
 
 		if (target != nullptr && p->GetStat(Stat::PA) > 0)
@@ -46,9 +50,33 @@ void PlayerTurn::Update(Battle* battle)
 
 		}
 	}
+	if (!isSPressed && m_actionsKeys[KEY_S])
+	{
+		for (auto s: p->GetSkills())
+		{
+			if (s.first == dynamic_cast<Shield*>(s.first) && s.first->IsReady())
+			{
+				s.first->Use();
+				battle->GetRenderer()->Render();
+			}
+		}
+	}
+	if (!isHPressed && m_actionsKeys[KEY_H])
+	{
+		for (auto s : p->GetSkills())
+		{
+			if (s.first == dynamic_cast<Heal*>(s.first) && s.first->IsReady())
+			{
+				s.first->Use();
+				battle->GetRenderer()->Render();
+			}
+		}
+	}
 
 	m_actionsKeys[VK_SPACE] = isSpacePressed;
 	m_actionsKeys[VK_RETURN] = isEnterPressed;
+	m_actionsKeys[KEY_S] = isSPressed;
+	m_actionsKeys[KEY_H] = isHPressed;
 }
 
 BattleState& PlayerTurn::GetInstance()

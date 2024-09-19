@@ -33,7 +33,9 @@ private:
 		{ // Level 2
 			"+-------+",
 			"|....F.._",
+			"|.......|",
 			"|..#####|",
+			"|.......|",
 			"|.......|",
 			"|#####..|",
 			"|.=.!..M|",
@@ -76,11 +78,11 @@ private:
 		},
 		{ // Level 2
 			/* Random Obstacles : */ 0,
-			/* Random Chests : */ 0,
+			/* Random Chests : */ 2,
 			/* Random Traps : */ 5
 		},
 		{ // Level 3
-			/* Random Obstacles : */ 10,
+			/* Random Obstacles : */ 5,
 			/* Random Chests : */ 0,
 			/* Random Traps : */ 20
 		},
