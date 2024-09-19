@@ -97,8 +97,8 @@ void EnemyTurn::Attack(Battle* battle)
 	Monster* m = battle->GetTurnMonster();
 	Player* p = battle->GetGM()->GetPlayer();
 
-	p->TakeDamage(m);
-	string s = " " + m->GetName() + " attacks " + p->GetName() + "," + "\n" + "                                              " + "   it loses " + std::to_string(static_cast<int>(m->GetStat(Stat::ATK))) + " HP";
+	int damage = p->TakeDamage(m);
+	string s = " " + m->GetName() + " attacks " + p->GetName() + "," + "\n" + "                                              " + "   it loses " + std::to_string(static_cast<int>(damage)) + " HP";
 	battle->GetRenderer()->SetLog(s);
 	battle->GetRenderer()->Render();
 	Utilities::Wait(500);
