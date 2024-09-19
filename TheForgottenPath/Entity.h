@@ -69,6 +69,8 @@ public:
 	virtual void OnDeath(GameManager* gm);
 	virtual int TakeDamage(Entity* attacker);
 
+	void Despawn();
+
 	virtual ~Entity() { }
 
 protected:
