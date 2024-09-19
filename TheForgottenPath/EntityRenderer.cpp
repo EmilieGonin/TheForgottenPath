@@ -30,6 +30,7 @@ void EntityRenderer::MovePlayer()
     {
         p->CancelLastMove();
         m_consoleRenderer->Render();
+        return;
     }
 
     p->SetPreviousDirection(d);
