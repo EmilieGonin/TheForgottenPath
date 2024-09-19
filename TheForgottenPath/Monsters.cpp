@@ -4,8 +4,8 @@
 Golem::Golem()
 {
 	m_name = "Golem";
-	m_stats[Stat::HP] = 110;
-	m_stats[Stat::MAXHP] = 110;
+	m_stats[Stat::HP] = 75;
+	m_stats[Stat::MAXHP] = 75;
 	m_stats[Stat::DEF] = 8;
 	m_stats[Stat::ATK] = 10;
 	m_stats[Stat::MAXATK] = 12;
@@ -54,13 +54,13 @@ void Reaper::OnDeath(GameManager* gm)
 Wraith::Wraith() // Spectre
 {
 	m_name = "Wraith";
-	m_stats[Stat::HP] = 60;
-	m_stats[Stat::MAXHP] = 60;
-	m_stats[Stat::DEF] = 1;
+	m_stats[Stat::HP] = 80;
+	m_stats[Stat::MAXHP] = 80;
+	m_stats[Stat::DEF] = 2;
 	m_stats[Stat::ATK] = 6;
-	m_stats[Stat::MAXATK] = 8;
-	m_stats[Stat::PM] = 4;
-	m_stats[Stat::MAXPM] = 4;
+	m_stats[Stat::MAXATK] = 10;
+	m_stats[Stat::PM] = 3;
+	m_stats[Stat::MAXPM] = 3;
 	m_stats[Stat::PA] = 1;
 	m_stats[Stat::MAXPA] = 1;	
 	m_behaviour = Behaviour::Flee;
@@ -88,7 +88,7 @@ Titan::Titan()
 	m_stats[Stat::MAXPA] = 2;
 	m_behaviour = Behaviour::Static;
 	m_icon = 'T';
-	m_color = 8;		// Magenta foncé
+	m_color = 5;		// Magenta foncé
 }
 
 Mastiff::Mastiff()
@@ -104,10 +104,40 @@ Mastiff::Mastiff()
 	m_stats[Stat::PA] = 2;
 	m_stats[Stat::MAXPA] = 2;
 	m_icon = 'M';
-	m_color = 2;		//
+	m_color = 4;		// cyan
 }
 
 void Mastiff::OnDeath(GameManager* gm)
 {
 	gm->GetPlayer()->SetStat(Stat::DEF, 1);
+}
+
+Ethereal::Ethereal()
+{
+	m_name = "Ethereal";	//Éthéré
+	m_stats[Stat::HP] = 30;
+	m_stats[Stat::MAXHP] = 30;
+	m_stats[Stat::DEF] = 1;
+	m_stats[Stat::ATK] = 5;
+	m_stats[Stat::MAXATK] = 10;
+	m_stats[Stat::PM] = 5;
+	m_stats[Stat::MAXPM] = 5;
+	m_stats[Stat::PA] = 1;
+	m_stats[Stat::MAXPA] = 1;
+	m_behaviour = Behaviour::Flee;
+	m_icon = 'E';
+	m_color = 3;		// Bleu clair
+}
+
+void Ethereal::OnDeath(GameManager* gm)
+{
+	Player* p = gm->GetPlayer();
+	gm->GetPlayer()->SetStat(Stat::HP, p->GetStat(Stat::MAXHP) - p->GetStat(Stat::HP));
+}
+
+int Ethereal::TakeDamage(Entity* attacker)
+{
+	int rand = std::rand() % 100;
+	if (rand > 50) return Entity::TakeDamage(attacker);
+	return 0;
 }

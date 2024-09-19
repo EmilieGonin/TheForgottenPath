@@ -40,3 +40,12 @@ public:
 
 	void OnDeath(GameManager* gm) override;
 };
+
+class Ethereal : public Monster
+{
+public:
+	Ethereal();
+
+	void OnDeath(GameManager* gm) override;
+	int TakeDamage(Entity* attacker) override;
+};
