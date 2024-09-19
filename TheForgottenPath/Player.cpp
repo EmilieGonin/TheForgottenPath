@@ -5,7 +5,6 @@ Player::Player()
 	m_name = "Player";
 	m_icon = '@';
 	m_color = 2;	// Vert clair
-	Respawn();
 
 	m_previousDirection = Direction::None;
 
