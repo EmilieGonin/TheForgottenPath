@@ -24,15 +24,18 @@ void EntityRenderer::MovePlayer()
 
     if (d == Direction::None) return;
 
-    MoveEntity(d, p);
-
-    if (p->GetPreviousDirection() == m_reverseDirections[d])
+    if (p->HasPreviousDirections() && p->GetPreviousDirection() == m_reverseDirections[d])
     {
+        MoveEntity(d, p);
         p->CancelLastMove();
         m_consoleRenderer->Render();
+        return;
     }
-
-    p->SetPreviousDirection(d);
+    else if (p->GetStat(Stat::PM) > 0)
+    {
+        MoveEntity(d, p);
+        p->AddDirection(d);
+    }
 }
 
 bool EntityRenderer::MoveMonster(Entity* e)
@@ -52,11 +55,13 @@ bool EntityRenderer::MoveMonster(Entity* e)
 bool EntityRenderer::MoveEntity(Direction d, Entity* e)
 {
     char emptyIcon = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
+    char previousMoveIcon = m_consoleRenderer->GetCellDatas()[CellType::PreviousMove].first;
     char chestIcon = m_consoleRenderer->GetCellDatas()[CellType::Chest].first;
     char trapIcon = m_consoleRenderer->GetCellDatas()[CellType::Trap].first;
 
     pair<int, int> previousPos = e->GetPos();
     bool canMove = true;
+    bool cancelMove = false;
 
     pair<int, int> nextDestination = GetNextDestination(d, e->GetPos());
     int x = nextDestination.first;
@@ -90,6 +95,7 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
         e->SetStat(Stat::HP, -TRAP_DAMAGE);
         if (e == m_gm->GetPlayer()) m_consoleRenderer->SetLog("You took " + std::to_string(TRAP_DAMAGE) + " damages from trap !");
     }
+    else if (cellIcon == previousMoveIcon) cancelMove = true;
 
     if (!canMove)
     {
@@ -97,7 +103,7 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
         return false;
     }
 
-    m_consoleRenderer->GetGrid()[previousPos.second][previousPos.first] = emptyIcon;
+    m_consoleRenderer->GetGrid()[previousPos.second][previousPos.first] = e == m_gm->GetPlayer() && !cancelMove ? previousMoveIcon : emptyIcon;
     m_consoleRenderer->GetGrid()[y][x] = e->GetIcon();
     e->Move(x, y);
     m_consoleRenderer->Render();

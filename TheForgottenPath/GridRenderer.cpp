@@ -35,6 +35,7 @@ bool GridRenderer::IsBlockedCell(pair<int, int> coord)
 
     return m_grid[y][x] != m_cellDatas[CellType::Empty].first
         && m_grid[y][x] != m_cellDatas[CellType::ValidMove].first
+        && m_grid[y][x] != m_cellDatas[CellType::PreviousMove].first
         && m_grid[y][x] != m_cellDatas[CellType::Chest].first
         && m_grid[y][x] != m_cellDatas[CellType::Trap].first;
 }

@@ -19,4 +19,5 @@ private:
 	int m_amount;
 
 	Stat SetRandomStat();
+	int SetAmount();
 };

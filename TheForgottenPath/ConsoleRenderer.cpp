@@ -132,6 +132,20 @@ void ConsoleRenderer::ResetValidMovementCells()
     }
 }
 
+void ConsoleRenderer::ResetPreviousMovementCells()
+{
+    for (int row = 0; row < m_gridRenderer->GetGridHeight(); ++row)
+    {
+        for (int col = 0; col < m_gridRenderer->GetGridWidth(); ++col)
+        {
+            if (GetGrid()[row][col] == GetCellDatas()[CellType::PreviousMove].first)
+            {
+                GetGrid()[row][col] = GetCellDatas()[CellType::Empty].first;
+            }
+        }
+    }
+}
+
 void ConsoleRenderer::RenderEntityStats(Entity* e)
 {
     cout << RenderSpaces(45);

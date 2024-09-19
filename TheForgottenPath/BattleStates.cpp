@@ -38,6 +38,7 @@ void PlayerTurn::Update(Battle* battle)
 			if (target->IsDead())
 			{
 				battle->GetRenderer()->RemoveEntity(target);
+				battle->GetRenderer()->Render();
 				target->OnDeath(battle->GetGM());
 				Utilities::Wait(500);
 
