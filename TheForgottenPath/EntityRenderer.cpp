@@ -102,7 +102,7 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
 
 void EntityRenderer::RemoveEntity(Entity* e)
 {
-    m_consoleRenderer->GetGrid()[e->GetPos().first][e->GetPos().second] = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
+    m_consoleRenderer->GetGrid()[e->GetPos().second][e->GetPos().first] = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
 }
 
 Entity* EntityRenderer::GetCloseEntity(Entity* entityChecking)
