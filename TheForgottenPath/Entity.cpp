@@ -50,3 +50,8 @@ int Entity::TakeDamage(Entity* attacker)
 	if (m_stats[Stat::HP] < 0) m_stats[Stat::HP] = 0;
 	return damage;
 }
+
+void Entity::Despawn()
+{
+	m_stats[Stat::HP] = 0;
+}

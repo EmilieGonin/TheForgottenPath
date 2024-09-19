@@ -86,17 +86,24 @@ void GridRenderer::SpawnMonsters()
 {
     for (Monster* m : m_gm->GetMonsters())
     {
+        bool isFound = false;
+
         for (int y = 0; y < m_grid.size(); ++y)
         {
+            if (isFound) break;
+
             for (int x = 0; x < m_grid[y].size(); ++x)
             {
                 if (m_grid[y][x] == m->GetIcon())
                 {
                     m->SetPos(std::make_pair(x, y));
-                    return;
+                    isFound = true;
+                    break;
                 }
             }
         }
+
+        if (!isFound) m->Despawn();
     }
 }
 
