@@ -17,7 +17,9 @@ void ConsoleRenderer::Render()
     RenderValidMovementCells();
 
     if (monster != nullptr) RenderEntityStats(monster);
-    else cout << RenderLineBreaks(4);
+    else cout << RenderLineBreaks(3);
+
+    cout << RenderLineBreaks(1);
 
     CONSOLE_SCREEN_BUFFER_INFO csbi; // Taille de la console
     int console_width = CONSOLE_SIZE;
@@ -57,7 +59,7 @@ void ConsoleRenderer::Render()
         cout << std::endl;
     }
 
-    cout << "\n";
+    cout << RenderLineBreaks(1);
     RenderEntityStats(m_gm->GetPlayer());
     RenderAvailableActions(monster);
     RenderGameLog();
@@ -165,7 +167,7 @@ void ConsoleRenderer::RenderAvailableActions(Entity* monster)
     cout << RenderSpaces(45) << "+---------------------------+" << "\n";
 
     cout << RenderSpaces(45) << "|  End Turn";
-    cout << "   " << ">>>" << "    " << "SPACE" << "  |" << "\n";
+    cout << "  " << ">>>" << "    " << "SPACE" << "   |" << "\n";
 
     monster = GetCloseEntity(m_gm->GetPlayer());
 
@@ -179,11 +181,12 @@ void ConsoleRenderer::RenderAvailableActions(Entity* monster)
     cout << RenderSpaces(45) << "|          Skills           |" << "\n";
     cout << RenderSpaces(45) << "+---------------------------+" << "\n";
     
-    cout << RenderSpaces(45) << "|  Shield";
-    cout << "   " << ">>>" << "  " << "S | Ready" << "  |" << "\n";
-
-    cout << RenderSpaces(45) << "|  Heal";
-    cout << "     " << ">>>" << "  " << "H | Ready" << "  |" << "\n";
+    for (auto s : m_gm->GetPlayer()->GetSkills())
+    {
+        std::string string = s.first->IsReady() ? "Ready" : s.first->GetCooldown() + "    ";
+        cout << RenderSpaces(45) << "|  " + s.first->GetName() ;
+        cout << "   " << ">>>" << "  " << s.first->GetKey() <<" | " << string << "  |" << "\n";
+    }
 
     cout << RenderSpaces(45);
     cout << "+---------------------------+" << "\n";
