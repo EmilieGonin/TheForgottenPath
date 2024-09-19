@@ -4,10 +4,10 @@
 Golem::Golem()
 {
 	m_name = "Golem";
-	m_stats[Stat::HP] = 100;
-	m_stats[Stat::MAXHP] = 100;
-	m_stats[Stat::DEF] = 10;
-	m_stats[Stat::ATK] = 8;
+	m_stats[Stat::HP] = 110;
+	m_stats[Stat::MAXHP] = 110;
+	m_stats[Stat::DEF] = 8;
+	m_stats[Stat::ATK] = 10;
 	m_stats[Stat::MAXATK] = 12;
 	m_stats[Stat::PM] = 0;
 	m_stats[Stat::MAXPM] = 0;
@@ -35,7 +35,7 @@ Reaper::Reaper() // Faucheur
 	m_name = "Reaper";
 	m_stats[Stat::HP] = 75;
 	m_stats[Stat::MAXHP] = 75;
-	m_stats[Stat::DEF] = 5;
+	m_stats[Stat::DEF] = 3;
 	m_stats[Stat::ATK] = 20;
 	m_stats[Stat::MAXATK] = 25;
 	m_stats[Stat::PM] = 3;
@@ -56,9 +56,9 @@ Wraith::Wraith() // Spectre
 	m_name = "Wraith";
 	m_stats[Stat::HP] = 60;
 	m_stats[Stat::MAXHP] = 60;
-	m_stats[Stat::DEF] = 3;
-	m_stats[Stat::ATK] = 7;
-	m_stats[Stat::MAXATK] = 7;
+	m_stats[Stat::DEF] = 1;
+	m_stats[Stat::ATK] = 6;
+	m_stats[Stat::MAXATK] = 8;
 	m_stats[Stat::PM] = 4;
 	m_stats[Stat::MAXPM] = 4;
 	m_stats[Stat::PA] = 1;
@@ -72,4 +72,42 @@ void Wraith::OnDeath(GameManager* gm)
 {
 	Player* p = gm->GetPlayer();
 	gm->GetPlayer()->SetStat(Stat::HP, p->GetStat(Stat::MAXHP) - p->GetStat(Stat::HP));
+}
+
+Titan::Titan()
+{
+	m_name = "Titan";
+	m_stats[Stat::HP] = 250;
+	m_stats[Stat::MAXHP] = 250;
+	m_stats[Stat::DEF] = 5;
+	m_stats[Stat::ATK] = 30;
+	m_stats[Stat::MAXATK] = 35;
+	m_stats[Stat::PM] = 0;
+	m_stats[Stat::MAXPM] = 0;
+	m_stats[Stat::PA] = 2;
+	m_stats[Stat::MAXPA] = 2;
+	m_behaviour = Behaviour::Static;
+	m_icon = 'T';
+	m_color = 8;		// Magenta foncé
+}
+
+Mastiff::Mastiff()
+{
+	m_name = "Mastiff";		// Molosse
+	m_stats[Stat::HP] = 120;
+	m_stats[Stat::MAXHP] = 120;
+	m_stats[Stat::DEF] = 2;
+	m_stats[Stat::ATK] = 15;
+	m_stats[Stat::MAXATK] = 20;
+	m_stats[Stat::PM] = 5;
+	m_stats[Stat::MAXPM] = 5;
+	m_stats[Stat::PA] = 2;
+	m_stats[Stat::MAXPA] = 2;
+	m_icon = 'M';
+	m_color = 2;		//
+}
+
+void Mastiff::OnDeath(GameManager* gm)
+{
+	gm->GetPlayer()->SetStat(Stat::DEF, 1);
 }

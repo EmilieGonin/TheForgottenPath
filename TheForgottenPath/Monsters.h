@@ -26,3 +26,17 @@ public:
 
 	void OnDeath(GameManager* gm) override;
 };
+
+class Titan : public Monster
+{
+public:
+	Titan();
+};
+
+class Mastiff : public Monster
+{
+public:
+	Mastiff();
+
+	void OnDeath(GameManager* gm) override;
+};
