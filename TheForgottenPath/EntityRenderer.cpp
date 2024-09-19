@@ -89,7 +89,7 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
 
     if (!canMove)
     {
-        e->StopTurnEarly();
+        e->StopMovementEarly();
         return false;
     }
 
