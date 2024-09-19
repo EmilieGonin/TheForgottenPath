@@ -18,7 +18,7 @@ public:
 	Player* GetPlayer() const { return m_player; }
 	vector<Monster*> GetMonsters() const { return m_monsters; }
 	int GetCurrentLevel() const { return m_currentLevel; }
-	int GetLevelsRemaning() const { return m_levelsRemaining; }
+	int GetLevelsRemaining() const { return m_levelsRemaining; }
 
 	bool GameIsOver() const { return m_levelsRemaining <= 0; }
 
