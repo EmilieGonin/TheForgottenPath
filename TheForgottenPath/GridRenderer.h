@@ -55,11 +55,6 @@ public:
     void SpawnPlayer();
 
 private:
-
-    const int NB_OBSTACLES = 20;    // Nombre d'obstacles
-    const int NB_CHESTS = 3;        // Nombre de coffres
-    const int NB_TRAPS = 5;         // Nombre de pièges
-
     int m_gridWidth;
     int m_gridHeight;
 

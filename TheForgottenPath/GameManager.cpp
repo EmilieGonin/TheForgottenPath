@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "LevelEditor.h"
 
 #include <cstdlib>
 #include <ctime>
@@ -26,8 +27,11 @@ Monster* GameManager::GetRandomMonster()
 
 void GameManager::StartNewGame()
 {
+	LevelEditor* l = new LevelEditor();
+
 	m_player = new Player();
-	m_levelsRemaining = 3;
+	m_currentLevel = 0;
+	m_levelsRemaining = l->GetLevelNumber();
 	StartNewBattle();
 }
 
@@ -44,4 +48,5 @@ void GameManager::StartNewBattle()
 void GameManager::WinBattle()
 {
 	m_levelsRemaining--;
+	m_currentLevel++;
 }

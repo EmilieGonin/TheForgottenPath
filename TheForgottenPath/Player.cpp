@@ -32,8 +32,6 @@ void Player::Respawn()
 	m_stats[Stat::MAXPM] = 3;
 	m_stats[Stat::PA] = 2;
 	m_stats[Stat::MAXPA] = 2;
-	m_pos.first = 5;
-	m_pos.second = 2;
 }
 
 void Player::CancelLastMove()

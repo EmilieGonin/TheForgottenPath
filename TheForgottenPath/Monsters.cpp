@@ -16,8 +16,6 @@ Golem::Golem()
 	m_behaviour = Behaviour::Static;
 	m_icon = 'G';
 	m_color = 13;		// Magenta clair
-	m_pos.first = 5;
-	m_pos.second = 8;
 }
 
 void Golem::OnDeath(GameManager* gm)
@@ -46,8 +44,6 @@ Reaper::Reaper() // Faucheur
 	m_stats[Stat::MAXPA] = 2;
 	m_icon = 'F';
 	m_color = 4;		// Rouge foncé
-	m_pos.first = 7;
-	m_pos.second = 7;
 }
 
 void Reaper::OnDeath(GameManager* gm)
@@ -70,8 +66,6 @@ Wraith::Wraith() // Spectre
 	m_behaviour = Behaviour::Flee;
 	m_icon = 'S';
 	m_color = 3;		// Bleu clair
-	m_pos.first = 8;
-	m_pos.second = 2;
 }
 
 void Wraith::OnDeath(GameManager* gm)

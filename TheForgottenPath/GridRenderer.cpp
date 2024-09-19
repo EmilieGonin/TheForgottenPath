@@ -5,8 +5,10 @@ GridRenderer::GridRenderer(ConsoleRenderer* console)
     m_gm = GameManager::GetInstance();
     m_consoleRenderer = console;
     m_levelEditor = new LevelEditor();
+    int currentLevel = m_gm->GetCurrentLevel();
 
-    std::vector<std::string> level = m_levelEditor->GetLevel(0);
+    std::vector<std::string> level = m_levelEditor->GetLevel(currentLevel);
+    LevelData levelData = m_levelEditor->GetLevelData(currentLevel);
 
     m_gridHeight = level.size();
     m_gridWidth = level[0].size();
@@ -18,11 +20,11 @@ GridRenderer::GridRenderer(ConsoleRenderer* console)
     //m_grid = vector<vector<char>>(GRID_HEIGHT, vector<char>(GRID_WIDTH, m_cellDatas[CellType::Empty].first));
 
     //InitWalls();
-    //SpawnMonsters();
-    //SpawnPlayer();
-    //InitRandomElement(NB_OBSTACLES, CellType::Obstacle);
-    //InitRandomElement(NB_CHESTS, CellType::Chest);
-    //InitRandomElement(NB_TRAPS, CellType::Trap);
+    SpawnMonsters();
+    SpawnPlayer();
+    InitRandomElement(levelData.m_randomObstacles, CellType::Obstacle);
+    InitRandomElement(levelData.m_randomChests, CellType::Chest);
+    InitRandomElement(levelData.m_randomTraps, CellType::Trap);
 }
 
 bool GridRenderer::IsBlockedCell(pair<int, int> coord)
@@ -30,10 +32,10 @@ bool GridRenderer::IsBlockedCell(pair<int, int> coord)
     int x = coord.first;
     int y = coord.second;
 
-    return m_grid[x][y] != m_cellDatas[CellType::Empty].first
-        && m_grid[x][y] != m_cellDatas[CellType::ValidMove].first
-        && m_grid[x][y] != m_cellDatas[CellType::Chest].first
-        && m_grid[x][y] != m_cellDatas[CellType::Trap].first;
+    return m_grid[y][x] != m_cellDatas[CellType::Empty].first
+        && m_grid[y][x] != m_cellDatas[CellType::ValidMove].first
+        && m_grid[y][x] != m_cellDatas[CellType::Chest].first
+        && m_grid[y][x] != m_cellDatas[CellType::Trap].first;
 }
 
 bool GridRenderer::IsEntityIcon(char icon)
@@ -84,12 +86,31 @@ void GridRenderer::SpawnMonsters()
 {
     for (Monster* m : m_gm->GetMonsters())
     {
-        if (m->IsDead()) continue;
-        m_grid[m->GetPos().first][m->GetPos().second] = m->GetIcon();
+        for (int y = 0; y < m_grid.size(); ++y)
+        {
+            for (int x = 0; x < m_grid[y].size(); ++x)
+            {
+                if (m_grid[y][x] == m->GetIcon())
+                {
+                    m->SetPos(std::make_pair(x, y));
+                    return;
+                }
+            }
+        }
     }
 }
 
 void GridRenderer::SpawnPlayer()
 {
-    m_grid[m_gm->GetPlayer()->GetPos().first][m_gm->GetPlayer()->GetPos().second] = m_gm->GetPlayer()->GetIcon();
+    for (int y = 0; y < m_grid.size(); ++y)
+    {
+        for (int x = 0; x < m_grid[y].size(); ++x)
+        {
+            if (m_grid[y][x] == m_gm->GetPlayer()->GetIcon())
+            {
+                m_gm->GetPlayer()->SetPos(std::make_pair(x, y));
+                return;
+            }
+        }
+    }
 }
