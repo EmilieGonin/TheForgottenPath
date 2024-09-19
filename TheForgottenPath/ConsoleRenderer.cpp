@@ -89,8 +89,8 @@ void ConsoleRenderer::RenderValidMovementCells()
 
     int pm = m_gm->GetPlayer()->GetStat(Stat::PM);
 
-    int playerY = m_gm->GetPlayer()->GetPos().first;
-    int playerX = m_gm->GetPlayer()->GetPos().second;
+    int playerX = m_gm->GetPlayer()->GetPos().first;
+    int playerY = m_gm->GetPlayer()->GetPos().second;
 
     // Boucle pour parcourir les cases autour du joueur
     for (int offsetX = -pm; offsetX <= pm; ++offsetX)

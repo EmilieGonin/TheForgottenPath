@@ -62,7 +62,7 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
     int x = nextDestination.first;
     int y = nextDestination.second;
 
-    char cellIcon = m_consoleRenderer->GetGrid()[x][y];
+    char cellIcon = m_consoleRenderer->GetGrid()[y][x];
 
     if (m_consoleRenderer->IsBlockedCell(nextDestination))
     {
@@ -71,7 +71,7 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
             nextDestination = GetNextDestination(GetPathToPlayer(e->GetPos(), true), e->GetPos());
             x = nextDestination.first;
             y = nextDestination.second;
-            cellIcon = m_consoleRenderer->GetGrid()[x][y];
+            cellIcon = m_consoleRenderer->GetGrid()[y][x];
 
             if (m_consoleRenderer->IsBlockedCell(nextDestination)) canMove = false;
         }
@@ -93,8 +93,8 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
         return false;
     }
 
-    m_consoleRenderer->GetGrid()[previousPos.first][previousPos.second] = emptyIcon;
-    m_consoleRenderer->GetGrid()[x][y] = e->GetIcon();
+    m_consoleRenderer->GetGrid()[previousPos.second][previousPos.first] = emptyIcon;
+    m_consoleRenderer->GetGrid()[y][x] = e->GetIcon();
     e->Move(x, y);
     m_consoleRenderer->Render();
     return true;
@@ -121,9 +121,9 @@ Entity* EntityRenderer::GetCloseEntity(Entity* entityChecking)
         int newX = posToCheck.first + direction.first;
         int newY = posToCheck.second + direction.second;
 
-        if (newX >= 0 && newY >= 0 && newX < m_consoleRenderer->GetGrid().size() && newY < m_consoleRenderer->GetGrid()[0].size())
+        if (newX >= 0 && newY >= 0 && newX < m_consoleRenderer->GetGrid()[0].size() && newY < m_consoleRenderer->GetGrid().size())
         {
-            char cellIcon = m_consoleRenderer->GetGrid()[newX][newY];
+            char cellIcon = m_consoleRenderer->GetGrid()[newY][newX];
             char playerIcon = m_gm->GetPlayer()->GetIcon();
 
             if (entityChecking != m_gm->GetPlayer() && cellIcon == m_gm->GetPlayer()->GetIcon())
@@ -153,16 +153,16 @@ pair<int, int> EntityRenderer::GetNextDestination(Direction d, pair<int, int> po
 
     switch (d)
     {
-    case Direction::Up:
+    case Direction::Left:
         x -= 1;
         break;
-    case Direction::Down:
+    case Direction::Right:
         x += 1;
         break;
-    case Direction::Right:
+    case Direction::Down:
         y += 1;
         break;
-    case Direction::Left:
+    case Direction::Up:
         y -= 1;
         break;
     }
@@ -179,11 +179,11 @@ Direction EntityRenderer::GetPathToPlayer(pair<int, int> monsterPos, bool revers
 
     if (std::abs(diffX) > std::abs(diffY))
     {
-        return (diffX > 0) ? Direction::Down : Direction::Up;
+        return (diffX > 0) ? Direction::Right : Direction::Left;
     }
     else
     {
-        return (diffY > 0) ? Direction::Right : Direction::Left;
+        return (diffY > 0) ? Direction::Down : Direction::Up;
     }
 }
 
@@ -196,10 +196,10 @@ Direction EntityRenderer::GetPathAwayFromPlayer(pair<int, int> monsterPos, bool 
 
     if (std::abs(diffX) > std::abs(diffY))
     {
-        return (diffX > 0) ? Direction::Up : Direction::Down;
+        return (diffX > 0) ? Direction::Left : Direction::Right;
     }
     else
     {
-        return (diffY > 0) ? Direction::Left : Direction::Right;
+        return (diffY > 0) ? Direction::Up : Direction::Down;
     }
 }
