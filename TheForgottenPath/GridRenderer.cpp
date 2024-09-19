@@ -56,7 +56,7 @@ void GridRenderer::InitWalls()
         {
             if (row == 0 || row == m_gridHeight - 1 || col == 0 || col == m_gridWidth - 1)
             {
-                m_grid[row][col] = m_cellDatas[CellType::Wall].first;
+                m_grid[row][col] = m_cellDatas[CellType::VerticalWall].first;
             }
         }
     }
