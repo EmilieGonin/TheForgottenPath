@@ -42,8 +42,8 @@ Reaper::Reaper() // Faucheur
 	m_stats[Stat::MAXATK] = 25;
 	m_stats[Stat::PM] = 3;
 	m_stats[Stat::MAXPM] = 3;
-	m_stats[Stat::PA] = 1;
-	m_stats[Stat::MAXPA] = 1;
+	m_stats[Stat::PA] = 2;
+	m_stats[Stat::MAXPA] = 2;
 	m_icon = 'F';
 	m_color = 4;		// Rouge foncé
 	m_pos.first = 7;
