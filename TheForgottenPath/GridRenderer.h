@@ -11,8 +11,8 @@ using std::map;
 
 class ConsoleRenderer;
 
-#define GRID_WIDTH 15
-#define GRID_HEIGHT 15
+#define GRID_WIDTH 15       // Largeur de la grille
+#define GRID_HEIGHT 15      // Hauteur de la grille
 
 enum class CellType
 {
@@ -51,12 +51,12 @@ private:
 
     map<CellType, pair<char, int>> m_cellDatas    // Icon & Color
     {
-        { CellType::Empty, std::make_pair('.', 7) },        // Couleur par défaut (gris clair)
-        { CellType::Wall, std::make_pair('X', 7) },
-        { CellType::ValidMove, std::make_pair('*', 14) },   // Jaune clair
-        { CellType::Obstacle, std::make_pair('#', 8) },     // Gris foncé
-        { CellType::Chest, std::make_pair('=', 6) },        // Jaune foncé
-        { CellType::Trap, std::make_pair('!', 12) }         // Rouge clair
+        { CellType::Empty, std::make_pair('.', 7) },        // Icone et couleur des cases vides (Couleur par défaut (gris clair))
+        { CellType::Wall, std::make_pair('X', 7) },         // Icone et couleur des murs
+        { CellType::ValidMove, std::make_pair('*', 14) },   // Icone et couleur des cases de mouvement valides (Jaune clair)
+        { CellType::Obstacle, std::make_pair('#', 8) },     // Icone et couleur des obstacles (Gris foncé)
+        { CellType::Chest, std::make_pair('=', 6) },        // Icone et couleur des coffres (Jaune foncé)
+        { CellType::Trap, std::make_pair('!', 12) }         // Icone et couleur des pièges (Rouge clair)
     };
 
     map<pair<int, int>, Chest*> m_chests;
