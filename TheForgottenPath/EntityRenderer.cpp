@@ -53,10 +53,10 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
 {
     char emptyIcon = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
     char chestIcon = m_consoleRenderer->GetCellDatas()[CellType::Chest].first;
+    char trapIcon = m_consoleRenderer->GetCellDatas()[CellType::Trap].first;
 
     pair<int, int> previousPos = e->GetPos();
     bool canMove = true;
-    bool chestOpened = false;
 
     pair<int, int> nextDestination = GetNextDestination(d, e->GetPos());
     int x = nextDestination.first;
@@ -82,9 +82,13 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
         if (e == m_gm->GetPlayer())
         {
             m_consoleRenderer->GetChests()[nextDestination]->Open(e, m_consoleRenderer);
-            chestOpened = true;
         }
         else canMove = false;
+    }
+    else if (cellIcon == trapIcon)
+    {
+        e->SetStat(Stat::HP, -TRAP_DAMAGE);
+        if (e == m_gm->GetPlayer()) m_consoleRenderer->SetLog("You took " + std::to_string(TRAP_DAMAGE) + " damages from trap !");
     }
 
     if (!canMove)

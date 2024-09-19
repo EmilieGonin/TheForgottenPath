@@ -25,6 +25,7 @@ GridRenderer::GridRenderer(ConsoleRenderer* console)
     InitRandomElement(levelData.m_randomObstacles, CellType::Obstacle);
     InitRandomElement(levelData.m_randomChests, CellType::Chest);
     InitRandomElement(levelData.m_randomTraps, CellType::Trap);
+    SpawnChests();
 }
 
 bool GridRenderer::IsBlockedCell(pair<int, int> coord)
@@ -76,8 +77,6 @@ void GridRenderer::InitRandomElement(int nb, CellType type)
         {
             m_grid[r][c] = m_cellDatas[type].first;
             ++elementAdded;
-
-            if (type == CellType::Chest) m_chests[std::make_pair(r, c)] = new Chest();
         }
     }
 }
@@ -117,6 +116,20 @@ void GridRenderer::SpawnPlayer()
             {
                 m_gm->GetPlayer()->SetPos(std::make_pair(x, y));
                 return;
+            }
+        }
+    }
+}
+
+void GridRenderer::SpawnChests()
+{
+    for (int y = 0; y < m_grid.size(); ++y)
+    {
+        for (int x = 0; x < m_grid[y].size(); ++x)
+        {
+            if (m_grid[y][x] == m_cellDatas[CellType::Chest].first)
+            {
+                m_chests[std::make_pair(x, y)] = new Chest();
             }
         }
     }

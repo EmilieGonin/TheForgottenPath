@@ -59,6 +59,7 @@ public:
     void InitRandomElement(int nb, CellType type);
     void SpawnMonsters();
     void SpawnPlayer();
+    void SpawnChests();
 
 private:
     int m_gridWidth;
