@@ -6,6 +6,8 @@ Entity::Entity()
 	m_icon = ' ';
 	m_color = 7;
 	m_behaviour = Behaviour::Follow;
+	m_pos.first = 0;
+	m_pos.second = 0;
 }
 
 void Entity::SetPos(pair<int, int> pos)

@@ -16,8 +16,9 @@ struct LevelData
 class LevelEditor
 {
 public:
-	vector<string> GetLevel(int level) const { return m_levels[level]; }
+	vector<string>& GetLevel(int level) { return m_levels[level]; }
 	LevelData GetLevelData(int level) const { return m_levelsData[level]; }
+	int GetLevelNumber() const { return m_levels.size(); }
 
 private:
 	vector<vector<string>> m_levels
