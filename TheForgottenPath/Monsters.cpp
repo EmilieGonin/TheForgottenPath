@@ -8,7 +8,7 @@ Golem::Golem()
 	m_stats[Stat::MAXHP] = 100;
 	m_stats[Stat::DEF] = 10;
 	m_stats[Stat::ATK] = 8;
-	m_stats[Stat::ATK] = 12;
+	m_stats[Stat::MAXATK] = 12;
 	m_stats[Stat::PM] = 0;
 	m_stats[Stat::MAXPM] = 0;
 	m_stats[Stat::PA] = 1;
@@ -28,7 +28,7 @@ void Golem::OnDeath(GameManager* gm)
 int Golem::TakeDamage(Entity* attacker)
 {
 	int rand = std::rand() % 100;
-	if (rand > 20) return Entity::TakeDamage(attacker);
+	if (rand > 15) return Entity::TakeDamage(attacker);
 	return 0;
 }
 
@@ -39,7 +39,7 @@ Reaper::Reaper() // Faucheur
 	m_stats[Stat::MAXHP] = 75;
 	m_stats[Stat::DEF] = 5;
 	m_stats[Stat::ATK] = 20;
-	m_stats[Stat::ATK] = 25;
+	m_stats[Stat::MAXATK] = 25;
 	m_stats[Stat::PM] = 3;
 	m_stats[Stat::MAXPM] = 3;
 	m_stats[Stat::PA] = 2;
@@ -62,6 +62,7 @@ Wraith::Wraith() // Spectre
 	m_stats[Stat::MAXHP] = 60;
 	m_stats[Stat::DEF] = 3;
 	m_stats[Stat::ATK] = 7;
+	m_stats[Stat::MAXATK] = 7;
 	m_stats[Stat::PM] = 4;
 	m_stats[Stat::MAXPM] = 4;
 	m_stats[Stat::PA] = 1;
