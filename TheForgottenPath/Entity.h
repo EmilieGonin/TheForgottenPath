@@ -21,7 +21,6 @@ enum class Stat
 	PM,		// Points de déplacement
 	MAXHP,
 	MAXATK,
-	MAXDEF,
 	MAXPA,
 	MAXPM
 };
@@ -55,7 +54,7 @@ public:
 	Behaviour GetBehaviour() const { return m_behaviour; }
 	pair<int, int> GetPos() const { return m_pos; }
 
-	void SetStat(Stat stat, int amount) { m_stats[stat] += amount; }
+	void SetStat(Stat stat, int amount);
 	void SetPos(pair<int, int>);
 
 	bool IsDead() { return m_stats[Stat::HP] <= 0; }

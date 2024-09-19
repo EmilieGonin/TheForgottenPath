@@ -138,6 +138,8 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="Skills.cpp" />
     <ClCompile Include="TheForgottenPath.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +156,8 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Skill.h" />
+    <ClInclude Include="Skills.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -5,6 +5,9 @@
 #include "BattleState.h"
 #include "Battle.h"
 
+#define KEY_S 0x53
+#define KEY_H 0x48
+
 class PlayerTurn : public BattleState
 {
 public:
