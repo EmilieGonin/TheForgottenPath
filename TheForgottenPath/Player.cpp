@@ -6,8 +6,6 @@ Player::Player()
 	m_icon = '@';
 	m_color = 2;	// Vert clair
 
-	m_previousDirection = Direction::None;
-
 	m_stats[Stat::MAXHP] = 150;
 	m_stats[Stat::HP] = m_stats[Stat::MAXHP];
 	m_stats[Stat::DEF] = 5;
@@ -19,15 +17,10 @@ Player::Player()
 	Respawn();
 }
 
-void Player::SetPreviousDirection(Direction d)
-{
-	m_previousDirection = d;
-}
-
 void Player::OnEndTurn()
 {
 	Entity::OnEndTurn();
-	m_previousDirection = Direction::None;
+	while (!m_previousDirections.empty()) m_previousDirections.pop();
 }
 
 void Player::Respawn()
@@ -39,5 +32,5 @@ void Player::Respawn()
 void Player::CancelLastMove()
 {
 	m_stats[Stat::PM] += 2;
-	m_previousDirection = Direction::None;
+	m_previousDirections.pop();
 }

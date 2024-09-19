@@ -59,7 +59,7 @@ public:
 	void SetPos(pair<int, int>);
 
 	bool IsDead() { return m_stats[Stat::HP] <= 0; }
-	bool HasEnoughPM() { return m_stats[Stat::PM] > 0; }
+	virtual bool HasEnoughPM() { return m_stats[Stat::PM] > 0; }
 	bool HasEnoughPA() { return m_stats[Stat::PA] > 0; }
 
 	void Move(int, int);

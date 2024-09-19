@@ -20,6 +20,7 @@ public:
     void Render();
     void SetLog(string s) { m_log = s; }
     map<Stat, string> GetStatsTitle() const { return m_statsTitle; }
+    void ResetPreviousMovementCells();
 
     // Grid Renderer Getters
     vector<vector<char>>& GetGrid() { return m_gridRenderer->GetGrid(); }

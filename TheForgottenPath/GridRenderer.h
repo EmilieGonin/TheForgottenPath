@@ -18,6 +18,7 @@ class ConsoleRenderer;
 #define ICON_CORNER '+'
 #define ICON_DOOR '_'
 #define ICON_VALID_MOVE '*'
+#define ICON_PREVIOUS_MOVE 'o'
 #define ICON_OBSTACLE '#'
 #define ICON_CHEST '='
 #define ICON_TRAP '!'
@@ -25,6 +26,7 @@ class ConsoleRenderer;
 #define COLOR_YELLOW_DARK 6
 #define COLOR_GREY_LIGHT 7
 #define COLOR_GREY_DARK 8
+#define COLOR_GREEN 10
 #define COLOR_RED_LIGHT 12
 #define COLOR_YELLOW_LIGHT 14
 
@@ -36,6 +38,7 @@ enum class CellType
     Corner,
     Door,
     ValidMove,
+    PreviousMove,
     Obstacle,
     Chest,
     Trap
@@ -73,8 +76,9 @@ private:
         { CellType::VerticalWall, std::make_pair(ICON_VERTICAL_WALL, COLOR_GREY_LIGHT) },       // Icone et couleur des murs verticaux
         { CellType::HorizontalWall, std::make_pair(ICON_HORIZONTAL_WALL, COLOR_GREY_LIGHT) },   // Icone et couleur des murs horizontaux
         { CellType::Corner, std::make_pair(ICON_CORNER, COLOR_GREY_LIGHT) },                    // Icone et couleur des coins
-        { CellType::Door, std::make_pair(ICON_DOOR, COLOR_GREY_LIGHT)},                          // Icone et couleur des portes
+        { CellType::Door, std::make_pair(ICON_DOOR, COLOR_GREY_LIGHT)},                         // Icone et couleur des portes
         { CellType::ValidMove, std::make_pair(ICON_VALID_MOVE, COLOR_YELLOW_LIGHT) },           // Icone et couleur des cases de mouvement valides (Jaune clair)
+        { CellType::PreviousMove, std::make_pair(ICON_PREVIOUS_MOVE, COLOR_GREEN) },            // Icone et couleur des cases de mouvement valides (Jaune clair)
         { CellType::Obstacle, std::make_pair(ICON_OBSTACLE, COLOR_GREY_DARK) },                 // Icone et couleur des obstacles (Gris foncé)
         { CellType::Chest, std::make_pair(ICON_CHEST, COLOR_YELLOW_DARK) },                     // Icone et couleur des coffres (Jaune foncé)
         { CellType::Trap, std::make_pair(ICON_TRAP, COLOR_RED_LIGHT) }                          // Icone et couleur des pièges (Rouge clair)
