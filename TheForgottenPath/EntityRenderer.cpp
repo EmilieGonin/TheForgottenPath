@@ -93,7 +93,7 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
     else if (cellIcon == trapIcon)
     {
         e->SetStat(Stat::HP, -TRAP_DAMAGE);
-        if (e == m_gm->GetPlayer()) m_consoleRenderer->SetLog("You took " + std::to_string(TRAP_DAMAGE) + " damages from trap !");
+        if (e == m_gm->GetPlayer()) m_consoleRenderer->SetLog("You took " + std::to_string(TRAP_DAMAGE) + "\n" "                                               " + "damages from trap !");
     }
     else if (cellIcon == previousMoveIcon) cancelMove = true;
 

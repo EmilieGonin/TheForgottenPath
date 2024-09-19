@@ -156,12 +156,14 @@ void ConsoleRenderer::RenderEntityStats(Entity* e)
     cout << RenderSpaces(49);
     cout << m_statsTitle[Stat::PM] << " : " << e->GetStat(Stat::PM) << "/" << e->GetStat(Stat::MAXPM) << "     ";
     cout << m_statsTitle[Stat::PA] << " : " << e->GetStat(Stat::PA) << "/" << e->GetStat(Stat::MAXPA) << "\n";
-    cout << RenderSpaces(45);
-    cout << "+---------------------------+" << "\n";
 }
 
 void ConsoleRenderer::RenderAvailableActions(Entity* monster)
 {
+    cout << RenderSpaces(45) << "+---------------------------+" << "\n";
+    cout << RenderSpaces(45) << "|          Actions          |" << "\n";
+    cout << RenderSpaces(45) << "+---------------------------+" << "\n";
+
     cout << RenderSpaces(45) << "|  End Turn";
     cout << "   " << ">>>" << "    " << "SPACE" << "  |" << "\n";
 
@@ -172,6 +174,16 @@ void ConsoleRenderer::RenderAvailableActions(Entity* monster)
         cout << RenderSpaces(45) << "|  Attack";
         cout << "    " << ">>>" << "    " << "ENTER" << "   |" << "\n";
     }
+
+    cout << RenderSpaces(45) << "+---------------------------+" << "\n";
+    cout << RenderSpaces(45) << "|          Skills           |" << "\n";
+    cout << RenderSpaces(45) << "+---------------------------+" << "\n";
+    
+    cout << RenderSpaces(45) << "|  Shield";
+    cout << "   " << ">>>" << "  " << "S | Ready" << "  |" << "\n";
+
+    cout << RenderSpaces(45) << "|  Heal";
+    cout << "     " << ">>>" << "  " << "H | Ready" << "  |" << "\n";
 
     cout << RenderSpaces(45);
     cout << "+---------------------------+" << "\n";
