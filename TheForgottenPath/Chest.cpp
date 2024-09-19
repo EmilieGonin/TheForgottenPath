@@ -14,9 +14,6 @@ void Chest::Open(Entity* e, ConsoleRenderer* console)
 	case Stat::ATK:
 		e->SetStat(Stat::MAXATK, m_amount);
 		break;
-	case Stat::DEF:
-		e->SetStat(Stat::MAXDEF, m_amount);
-		break;
 	case Stat::PM:
 		e->SetStat(Stat::MAXPM, m_amount);
 		break;
@@ -54,7 +51,6 @@ int Chest::SetAmount()
 	case Stat::ATK:
 	case Stat::DEF:
 	case Stat::MAXATK:
-	case Stat::MAXDEF:
 		amount = std::rand() % 5 + 1;
 		break;
 	case Stat::PM:
