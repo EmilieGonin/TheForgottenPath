@@ -45,7 +45,6 @@ private:
         { Stat::PM, "PM" },
         { Stat::MAXHP, "MAXHP" },
         { Stat::MAXATK, "MAXATK" },
-        { Stat::MAXDEF, "MAXDEF" },
         { Stat::MAXPA, "MAXPA" },
         { Stat::MAXPM, "MAXPM" }
     };

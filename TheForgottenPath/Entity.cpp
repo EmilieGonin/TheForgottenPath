@@ -10,6 +10,16 @@ Entity::Entity()
 	m_pos.second = 0;
 }
 
+void Entity::SetStat(Stat stat, int amount)
+{
+	m_stats[stat] += amount;
+
+	if (stat == Stat::HP && m_stats[stat] > m_stats[Stat::MAXHP])
+	{
+		m_stats[stat] = m_stats[Stat::MAXHP];
+	}
+}
+
 void Entity::SetPos(pair<int, int> pos)
 {
 	m_pos = pos;
