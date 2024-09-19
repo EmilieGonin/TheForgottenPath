@@ -6,10 +6,26 @@
 #include "GameManager.h"
 #include "Chest.h"
 
+using std::vector;
+using std::map;
+
 class ConsoleRenderer;
 
-#define GRID_WIDTH 15
-#define GRID_HEIGHT 15
+#define GRID_WIDTH 15       // Largeur de la grille
+#define GRID_HEIGHT 15      // Hauteur de la grille
+
+#define ICON_EMPTY '.'
+#define ICON_WALL 'X'
+#define ICON_VALID_MOVE '*'
+#define ICON_OBSTACLE '#'
+#define ICON_CHEST '='
+#define ICON_TRAP '!'
+
+#define COLOR_YELLOW_DARK 6
+#define COLOR_GREY_LIGHT 7
+#define COLOR_GREY_DARK 8
+#define COLOR_RED_LIGHT 12
+#define COLOR_YELLOW_LIGHT 14
 
 enum class CellType
 {
@@ -26,11 +42,11 @@ class GridRenderer
 public:
     GridRenderer(ConsoleRenderer* console);
 
-    std::vector<std::vector<char>>& GetGrid() { return m_grid; }
-    std::map<CellType, std::pair<char, int>> GetCellDatas() const { return m_cellDatas; }
-    std::map<std::pair<int, int>, Chest*> GetChests() const { return m_chests; }
+    vector<vector<char>>& GetGrid() { return m_grid; }
+    map<CellType, pair<char, int>> GetCellDatas() const { return m_cellDatas; }
+    map<pair<int, int>, Chest*> GetChests() const { return m_chests; }
 
-    bool IsBlockedCell(std::pair<int, int> coord);
+    bool IsBlockedCell(pair<int, int> coord);
     bool IsEntityIcon(char icon);
 
     void InitWalls();
@@ -39,19 +55,24 @@ public:
     void SpawnPlayer();
 
 private:
-    std::vector<std::vector<char>> m_grid;
 
-    std::map<CellType, std::pair<char, int>> m_cellDatas // Icon & Color
+    const int NB_OBSTACLES = 20;    // Nombre d'obstacles
+    const int NB_CHESTS = 3;        // Nombre de coffres
+    const int NB_TRAPS = 5;         // Nombre de pièges
+
+    vector<vector<char>> m_grid;
+
+    map<CellType, pair<char, int>> m_cellDatas    // Icon & Color
     {
-        { CellType::Empty, std::make_pair('.', 7) },        // Couleur par défaut (gris clair)
-        { CellType::Wall, std::make_pair('X', 7) },
-        { CellType::ValidMove, std::make_pair('*', 14) },   // Jaune clair
-        { CellType::Obstacle, std::make_pair('#', 8) },     // Gris foncé
-        { CellType::Chest, std::make_pair('=', 6) },        // Jaune foncé
-        { CellType::Trap, std::make_pair('!', 12) }         // Rouge clair
+        { CellType::Empty, std::make_pair(ICON_EMPTY, COLOR_GREY_LIGHT) },              // Icone et couleur des cases vides (Couleur par défaut (gris clair))
+        { CellType::Wall, std::make_pair(ICON_WALL, COLOR_GREY_LIGHT) },                // Icone et couleur des murs
+        { CellType::ValidMove, std::make_pair(ICON_VALID_MOVE, COLOR_YELLOW_LIGHT) },   // Icone et couleur des cases de mouvement valides (Jaune clair)
+        { CellType::Obstacle, std::make_pair(ICON_OBSTACLE, COLOR_GREY_DARK) },         // Icone et couleur des obstacles (Gris foncé)
+        { CellType::Chest, std::make_pair(ICON_CHEST, COLOR_YELLOW_DARK) },             // Icone et couleur des coffres (Jaune foncé)
+        { CellType::Trap, std::make_pair(ICON_TRAP, COLOR_RED_LIGHT) }                  // Icone et couleur des pièges (Rouge clair)
     };
 
-    std::map<std::pair<int, int>, Chest*> m_chests;
+    map<pair<int, int>, Chest*> m_chests;
 
     GameManager* m_gm;
     ConsoleRenderer* m_consoleRenderer;

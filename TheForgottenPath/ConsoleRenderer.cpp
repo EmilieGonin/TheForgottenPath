@@ -69,16 +69,16 @@ void ConsoleRenderer::SetConsoleColor(int color)
     SetConsoleTextAttribute(hConsole, color);
 }
 
-std::string ConsoleRenderer::RenderSpaces(int nb)
+string ConsoleRenderer::RenderSpaces(int nb)
 {
-    std::string render;
+    string render;
     for (size_t i = 0; i < nb; i++) render += " ";
     return render;
 }
 
-std::string ConsoleRenderer::RenderLineBreaks(int nb)
+string ConsoleRenderer::RenderLineBreaks(int nb)
 {
-    std::string render;
+    string render;
     for (size_t i = 0; i < nb; i++) render += "\n";
     return render;
 }
