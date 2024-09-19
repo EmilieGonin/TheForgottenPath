@@ -130,7 +130,6 @@ void GridRenderer::SpawnChests()
             if (m_grid[y][x] == m_cellDatas[CellType::Chest].first)
             {
                 m_chests[std::make_pair(x, y)] = new Chest();
-                return;
             }
         }
     }
