@@ -8,6 +8,16 @@ Player::Player()
 	Respawn();
 
 	m_previousDirection = Direction::None;
+
+	m_stats[Stat::MAXHP] = 150;
+	m_stats[Stat::HP] = m_stats[Stat::MAXHP];
+	m_stats[Stat::DEF] = 5;
+	m_stats[Stat::ATK] = 15;
+	m_stats[Stat::MAXATK] = 20;
+	m_stats[Stat::MAXPM] = 3;
+	m_stats[Stat::MAXPA] = 2;
+
+	Respawn();
 }
 
 void Player::SetPreviousDirection(Direction d)
@@ -23,15 +33,8 @@ void Player::OnEndTurn()
 
 void Player::Respawn()
 {
-	m_stats[Stat::HP] = 150;
-	m_stats[Stat::MAXHP] = 150;
-	m_stats[Stat::DEF] = 5;
-	m_stats[Stat::ATK] = 15;
-	m_stats[Stat::MAXATK] = 20;
-	m_stats[Stat::PM] = 3;
-	m_stats[Stat::MAXPM] = 3;
-	m_stats[Stat::PA] = 2;
-	m_stats[Stat::MAXPA] = 2;
+	m_stats[Stat::PM] = m_stats[Stat::MAXPM];
+	m_stats[Stat::PA] = m_stats[Stat::MAXPA];
 }
 
 void Player::CancelLastMove()
