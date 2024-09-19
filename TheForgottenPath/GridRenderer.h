@@ -16,6 +16,7 @@ class ConsoleRenderer;
 #define ICON_VERTICAL_WALL '|'
 #define ICON_HORIZONTAL_WALL '-'
 #define ICON_CORNER '+'
+#define ICON_DOOR '_'
 #define ICON_VALID_MOVE '*'
 #define ICON_OBSTACLE '#'
 #define ICON_CHEST '='
@@ -33,6 +34,7 @@ enum class CellType
     VerticalWall,
     HorizontalWall,
     Corner,
+    Door,
     ValidMove,
     Obstacle,
     Chest,
@@ -71,6 +73,7 @@ private:
         { CellType::VerticalWall, std::make_pair(ICON_VERTICAL_WALL, COLOR_GREY_LIGHT) },       // Icone et couleur des murs verticaux
         { CellType::HorizontalWall, std::make_pair(ICON_HORIZONTAL_WALL, COLOR_GREY_LIGHT) },   // Icone et couleur des murs horizontaux
         { CellType::Corner, std::make_pair(ICON_CORNER, COLOR_GREY_LIGHT) },                    // Icone et couleur des coins
+        { CellType::Door, std::make_pair(ICON_DOOR, COLOR_GREY_LIGHT)},                          // Icone et couleur des portes
         { CellType::ValidMove, std::make_pair(ICON_VALID_MOVE, COLOR_YELLOW_LIGHT) },           // Icone et couleur des cases de mouvement valides (Jaune clair)
         { CellType::Obstacle, std::make_pair(ICON_OBSTACLE, COLOR_GREY_DARK) },                 // Icone et couleur des obstacles (Gris foncé)
         { CellType::Chest, std::make_pair(ICON_CHEST, COLOR_YELLOW_DARK) },                     // Icone et couleur des coffres (Jaune foncé)
