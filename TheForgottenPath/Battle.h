@@ -19,6 +19,7 @@ public:
 	void Update();
 
 	bool BattleIsOver();
+	bool BattleIsWin();
 	bool TurnIsOver();
 
 private:
