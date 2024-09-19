@@ -27,16 +27,22 @@ void PlayerTurn::Update(Battle* battle)
 
 			int damage = target->TakeDamage(p);
 
+			string s = " " + p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + "   it loses " + std::to_string(static_cast<int>(damage)) + " HP";
+			battle->GetRenderer()->SetLog(s);
+			battle->GetRenderer()->Render();
+
 			if (target->IsDead())
 			{
 				battle->GetRenderer()->RemoveEntity(target);
 				target->OnDeath(battle->GetGM());
-			}
+				Utilities::Wait(500);
 
-			string s = " " + p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + "   it loses " + std::to_string(static_cast<int>(damage)) + " HP";
-			battle->GetRenderer()->SetLog(s);
-			battle->GetRenderer()->Render();
-			Utilities::Wait(500);
+				if (battle->BattleIsWin())
+				{
+					battle->SetState(Win::GetInstance());
+					return;
+				}
+			}
 
 		}
 	}
@@ -121,24 +127,10 @@ void EndCheck::Enter(Battle* battle)
 		battle->SetState(Lose::GetInstance());
 		return;
 	}
-	else
+	else if (battle->BattleIsWin())
 	{
-		bool win = true;
-
-		for (Monster* m : battle->GetGM()->GetMonsters())
-		{
-			if (!m->IsDead())
-			{
-				win = false;
-				break;
-			}
-		}
-
-		if (win)
-		{
-			battle->SetState(Win::GetInstance());
-			return;
-		}
+		battle->SetState(Win::GetInstance());
+		return;
 	}
 	
 	
