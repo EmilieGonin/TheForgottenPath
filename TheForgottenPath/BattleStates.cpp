@@ -31,7 +31,7 @@ void PlayerTurn::Update(Battle* battle)
 				target->OnDeath(battle->GetGM());
 			}
 
-			std::string s = " " + p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + "  it loses " + std::to_string(static_cast<int>(damage)) + " HP";
+			string s = " " + p->GetName() + " attacks " + target->GetName() + "," + "\n" + "                                              " + "   it loses " + std::to_string(static_cast<int>(damage)) + " HP";
 			battle->GetRenderer()->SetLog(s);
 			battle->GetRenderer()->Render();
 			Utilities::Wait(500);
@@ -98,7 +98,7 @@ void EnemyTurn::Attack(Battle* battle)
 	Player* p = battle->GetGM()->GetPlayer();
 
 	p->TakeDamage(m);
-	std::string s = " " + m->GetName() + " attacks " + p->GetName() + "," + "\n" + "                                              " + "  it loses " + std::to_string(static_cast<int>(m->GetStat(Stat::ATK))) + " HP";
+	string s = " " + m->GetName() + " attacks " + p->GetName() + "," + "\n" + "                                              " + "   it loses " + std::to_string(static_cast<int>(m->GetStat(Stat::ATK))) + " HP";
 	battle->GetRenderer()->SetLog(s);
 	battle->GetRenderer()->Render();
 	Utilities::Wait(500);
@@ -148,7 +148,7 @@ BattleState& EndCheck::GetInstance()
 
 void Win::Enter(Battle* battle)
 {
-	std::string s = "You win !";
+	string s = "You win !";
 	battle->GetRenderer()->SetLog(s);
 	battle->GetRenderer()->Render();
 	Utilities::Wait(500);
@@ -166,7 +166,7 @@ BattleState& Win::GetInstance()
 
 void Lose::Enter(Battle* battle)
 {
-	std::string s = "You lose !";
+	string s = "You lose !";
 	battle->GetRenderer()->SetLog(s);
 	battle->GetRenderer()->Render();
 	Utilities::Wait(500);

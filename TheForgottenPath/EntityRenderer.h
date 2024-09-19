@@ -19,13 +19,13 @@ public:
 	void RemoveEntity(Entity*);
 
     Entity* GetCloseEntity(Entity*);
-	std::pair<int, int> GetNextDestination(Direction d, std::pair<int, int> pos);
+	pair<int, int> GetNextDestination(Direction d, pair<int, int> pos);
 
-	Direction GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse);
-	Direction GetPathAwayFromPlayer(std::pair<int, int> monsterPos, bool reverse);
+	Direction GetPathToPlayer(pair<int, int> monsterPos, bool reverse);
+	Direction GetPathAwayFromPlayer(pair<int, int> monsterPos, bool reverse);
 
 private:
-    std::map<int, Direction> m_keyDirections
+    map<int, Direction> m_keyDirections
     {
         { VK_UP, Direction::Up },
         { VK_DOWN, Direction::Down },
@@ -33,7 +33,7 @@ private:
         { VK_RIGHT, Direction::Right }
     };
 
-    std::map<Direction, Direction> m_reverseDirections
+    map<Direction, Direction> m_reverseDirections
     {
         { Direction::Up, Direction::Down },
         { Direction::Down, Direction::Up },
@@ -41,7 +41,7 @@ private:
         { Direction::Right, Direction::Left }
     };
 
-    std::map<int, bool> m_keyStates;
+    map<int, bool> m_keyStates;
 
     GameManager* m_gm;
     ConsoleRenderer* m_consoleRenderer;

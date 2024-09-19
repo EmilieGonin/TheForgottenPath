@@ -10,13 +10,13 @@ Chest::Chest()
 void Chest::Open(Entity* e, ConsoleRenderer* console)
 {
 	e->SetStat(m_stat, m_amount);
-	std::string s = "Chest opened ! +" + std::to_string(static_cast<int>(m_amount)) + " " + console->GetStatsTitle()[m_stat];
+	string s = "Chest opened ! +" + std::to_string(static_cast<int>(m_amount)) + " " + console->GetStatsTitle()[m_stat];
 	console->SetLog(s);
 }
 
 Stat Chest::SetRandomStat()
 {
-	std::vector<Stat> possibleStats;
+	vector<Stat> possibleStats;
 
 	for (auto statData : GameManager::GetInstance()->GetPlayer()->GetStats())
 	{

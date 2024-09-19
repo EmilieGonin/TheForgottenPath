@@ -5,17 +5,17 @@ GridRenderer::GridRenderer(ConsoleRenderer* console)
     m_gm = GameManager::GetInstance();
     m_consoleRenderer = console;
 
-    m_grid = std::vector<std::vector<char>>(GRID_HEIGHT, std::vector<char>(GRID_WIDTH, m_cellDatas[CellType::Empty].first));
+    m_grid = vector<vector<char>>(GRID_HEIGHT, vector<char>(GRID_WIDTH, m_cellDatas[CellType::Empty].first));
 
     InitWalls();
     SpawnMonsters();
     SpawnPlayer();
-    InitRandomElement(20, CellType::Obstacle);
-    InitRandomElement(3, CellType::Chest);
-    InitRandomElement(5, CellType::Trap);
+    InitRandomElement(NB_OBSTACLES, CellType::Obstacle);
+    InitRandomElement(NB_CHESTS, CellType::Chest);
+    InitRandomElement(NB_TRAPS, CellType::Trap);
 }
 
-bool GridRenderer::IsBlockedCell(std::pair<int, int> coord)
+bool GridRenderer::IsBlockedCell(pair<int, int> coord)
 {
     int x = coord.first;
     int y = coord.second;

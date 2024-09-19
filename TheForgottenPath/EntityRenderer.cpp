@@ -54,11 +54,11 @@ bool EntityRenderer::MoveEntity(Direction d, Entity* e)
     char emptyIcon = m_consoleRenderer->GetCellDatas()[CellType::Empty].first;
     char chestIcon = m_consoleRenderer->GetCellDatas()[CellType::Chest].first;
 
-    std::pair<int, int> previousPos = e->GetPos();
+    pair<int, int> previousPos = e->GetPos();
     bool canMove = true;
     bool chestOpened = false;
 
-    std::pair<int, int> nextDestination = GetNextDestination(d, e->GetPos());
+    pair<int, int> nextDestination = GetNextDestination(d, e->GetPos());
     int x = nextDestination.first;
     int y = nextDestination.second;
 
@@ -107,9 +107,9 @@ void EntityRenderer::RemoveEntity(Entity* e)
 
 Entity* EntityRenderer::GetCloseEntity(Entity* entityChecking)
 {
-    std::pair<int, int> posToCheck = entityChecking->GetPos();
+    pair<int, int> posToCheck = entityChecking->GetPos();
 
-    const std::pair<int, int> directions[] = {
+    const pair<int, int> directions[] = {
         { 0, 1 },  // droite
         { 1, 0 },  // bas
         { 0, -1 }, // gauche
@@ -146,7 +146,7 @@ Entity* EntityRenderer::GetCloseEntity(Entity* entityChecking)
     return nullptr;
 }
 
-std::pair<int, int> EntityRenderer::GetNextDestination(Direction d, std::pair<int, int> pos)
+pair<int, int> EntityRenderer::GetNextDestination(Direction d, pair<int, int> pos)
 {
     int x = pos.first;
     int y = pos.second;
@@ -170,9 +170,9 @@ std::pair<int, int> EntityRenderer::GetNextDestination(Direction d, std::pair<in
     return std::make_pair(x, y);
 }
 
-Direction EntityRenderer::GetPathToPlayer(std::pair<int, int> monsterPos, bool reverse)
+Direction EntityRenderer::GetPathToPlayer(pair<int, int> monsterPos, bool reverse)
 {
-    std::pair<int, int> playerPos = m_gm->GetPlayer()->GetPos();
+    pair<int, int> playerPos = m_gm->GetPlayer()->GetPos();
 
     int diffX = reverse ? playerPos.second - monsterPos.second : playerPos.first - monsterPos.first;
     int diffY = reverse ? playerPos.first - monsterPos.first : playerPos.second - monsterPos.second;
@@ -187,9 +187,9 @@ Direction EntityRenderer::GetPathToPlayer(std::pair<int, int> monsterPos, bool r
     }
 }
 
-Direction EntityRenderer::GetPathAwayFromPlayer(std::pair<int, int> monsterPos, bool reverse)
+Direction EntityRenderer::GetPathAwayFromPlayer(pair<int, int> monsterPos, bool reverse)
 {
-    std::pair<int, int> playerPos = m_gm->GetPlayer()->GetPos();
+    pair<int, int> playerPos = m_gm->GetPlayer()->GetPos();
 
     int diffX = reverse ? monsterPos.first - playerPos.first : playerPos.first - monsterPos.first;
     int diffY = reverse ? monsterPos.second - playerPos.second : playerPos.second - monsterPos.second;

@@ -18,14 +18,14 @@ public:
     ConsoleRenderer();
 
     void Render();
-    void SetLog(std::string s) { m_log = s; }
-    std::map<Stat, std::string> GetStatsTitle() const { return m_statsTitle; }
+    void SetLog(string s) { m_log = s; }
+    map<Stat, string> GetStatsTitle() const { return m_statsTitle; }
 
     // Grid Renderer Getters
     vector<vector<char>>& GetGrid() { return m_gridRenderer->GetGrid(); }
-    std::map<CellType, std::pair<char, int>> GetCellDatas() const { return m_gridRenderer->GetCellDatas(); }
-    std::map<std::pair<int, int>, Chest*> GetChests() const { return m_gridRenderer->GetChests(); }
-    bool IsBlockedCell(std::pair<int, int> coord) { return m_gridRenderer->IsBlockedCell(coord); }
+    map<CellType, pair<char, int>> GetCellDatas() const { return m_gridRenderer->GetCellDatas(); }
+    map<pair<int, int>, Chest*> GetChests() const { return m_gridRenderer->GetChests(); }
+    bool IsBlockedCell(pair<int, int> coord) { return m_gridRenderer->IsBlockedCell(coord); }
 
     // Entity Renderer Getters
     void PlayerController() { m_entityRenderer->MovePlayer(); }
@@ -34,9 +34,9 @@ public:
     void RemoveEntity(Entity* e) { m_entityRenderer->RemoveEntity(e); }
 
 private:
-    std::string m_log;
+    string m_log;
 
-    std::map<Stat, std::string> m_statsTitle
+    map<Stat, string> m_statsTitle
     {
         { Stat::HP, "HP" },
         { Stat::ATK, "ATK" },
@@ -53,8 +53,8 @@ private:
     void ClearConsole() { std::system("cls"); }
     void SetConsoleColor(int color);
 
-    std::string RenderSpaces(int nb);
-    std::string RenderLineBreaks(int nb);
+    string RenderSpaces(int nb);
+    string RenderLineBreaks(int nb);
 
     void RenderValidMovementCells();
     void ResetValidMovementCells();

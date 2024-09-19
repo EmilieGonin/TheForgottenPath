@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Monsters.h"
 
+using std::vector;
+
 class GameManager
 {
 public:
@@ -12,7 +14,7 @@ public:
 	static GameManager* GetInstance();
 
 	Player* GetPlayer() const { return m_player; }
-	std::vector<Monster*> GetMonsters() const { return m_monsters; }
+	vector<Monster*> GetMonsters() const { return m_monsters; }
 	int GetLevelsRemaning() const { return m_levelsRemaining; }
 
 	bool GameIsOver() const { return m_levelsRemaining <= 0; }
@@ -25,6 +27,6 @@ public:
 private:
 	static GameManager* m_instance;
 	Player* m_player;
-	std::vector<Monster*> m_monsters;
+	vector<Monster*> m_monsters;
 	int m_levelsRemaining;
 };
