@@ -23,13 +23,19 @@ void Entity::Move(int x, int y)
 void Entity::OnEndTurn()
 {
 	m_stats[Stat::PM] = m_stats[Stat::MAXPM];
+	m_stats[Stat::PA] = m_stats[Stat::MAXPA];
 }
 
 void Entity::OnDeath(GameManager* gm) { }
 
-void Entity::StopTurnEarly()
+void Entity::StopMovementEarly()
 {
 	m_stats[Stat::PM] = 0;
+}
+
+void Entity::StopActionEarly()
+{
+	m_stats[Stat::PA] = 0;
 }
 
 int Entity::TakeDamage(Entity* attacker)

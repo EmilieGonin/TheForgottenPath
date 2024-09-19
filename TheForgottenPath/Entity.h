@@ -60,9 +60,11 @@ public:
 
 	bool IsDead() { return m_stats[Stat::HP] <= 0; }
 	bool HasEnoughPM() { return m_stats[Stat::PM] > 0; }
+	bool HasEnoughPA() { return m_stats[Stat::PA] > 0; }
 
 	void Move(int, int);
-	void StopTurnEarly();
+	void StopMovementEarly();
+	void StopActionEarly();
 	virtual void OnEndTurn();
 	virtual void OnDeath(GameManager* gm);
 	virtual int TakeDamage(Entity* attacker);

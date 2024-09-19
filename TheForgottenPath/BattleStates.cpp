@@ -21,8 +21,10 @@ void PlayerTurn::Update(Battle* battle)
 		Player* p = battle->GetGM()->GetPlayer();
 		Entity* target = battle->GetRenderer()->GetCloseEntity(battle->GetGM()->GetPlayer());
 
-		if (target != nullptr)
+		if (target != nullptr && p->GetStat(Stat::PA) > 0)
 		{
+			p->SetStat(Stat::PA, -1);
+
 			int damage = target->TakeDamage(p);
 
 			if (target->IsDead())
@@ -36,7 +38,6 @@ void PlayerTurn::Update(Battle* battle)
 			battle->GetRenderer()->Render();
 			Utilities::Wait(500);
 
-			battle->SetState(EndCheck::GetInstance());
 		}
 	}
 
@@ -80,7 +81,12 @@ void EnemyTurn::Enter(Battle* battle)
 					break;
 				}
 			}
-		} while (m->HasEnoughPM());
+			else
+			{
+				m->StopActionEarly();
+			}
+
+		} while (m->HasEnoughPM() || m->HasEnoughPA());
 	}
 
 	battle->SetState(EndCheck::GetInstance());
@@ -97,11 +103,15 @@ void EnemyTurn::Attack(Battle* battle)
 	Monster* m = battle->GetTurnMonster();
 	Player* p = battle->GetGM()->GetPlayer();
 
-	int damage = p->TakeDamage(m);
-	string s = " " + m->GetName() + " attacks " + p->GetName() + "," + "\n" + "                                              " + "   it loses " + std::to_string(static_cast<int>(damage)) + " HP";
-	battle->GetRenderer()->SetLog(s);
-	battle->GetRenderer()->Render();
-	Utilities::Wait(500);
+	while (m->GetStat(Stat::PA) > 0)
+	{
+		m->SetStat(Stat::PA, -1);
+		int damage = p->TakeDamage(m);
+		string s = " " + m->GetName() + " attacks " + p->GetName() + "," + "\n" + "                                              " + "   it loses " + std::to_string(static_cast<int>(damage)) + " HP";
+		battle->GetRenderer()->SetLog(s);
+		battle->GetRenderer()->Render();
+		Utilities::Wait(500);
+	}
 }
 
 void EndCheck::Enter(Battle* battle)
