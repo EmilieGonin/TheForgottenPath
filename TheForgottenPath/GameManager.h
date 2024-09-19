@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Monsters.h"
 
+#define TRAP_DAMAGE 15
+
 using std::vector;
 
 class GameManager

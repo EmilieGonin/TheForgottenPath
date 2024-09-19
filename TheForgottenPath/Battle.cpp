@@ -31,6 +31,28 @@ bool Battle::BattleIsOver()
 	return m_currentState == &Win::GetInstance() || m_currentState == &Lose::GetInstance();
 }
 
+bool Battle::BattleIsWin()
+{
+	bool win = true;
+
+	for (Monster* m : GetGM()->GetMonsters())
+	{
+		if (!m->IsDead())
+		{
+			win = false;
+			break;
+		}
+	}
+
+	return win;
+
+	if (win)
+	{
+		SetState(Win::GetInstance());
+		return true;
+	}
+}
+
 bool Battle::TurnIsOver()
 {
 	m_turnIndex++;
