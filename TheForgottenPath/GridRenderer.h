@@ -5,14 +5,12 @@
 
 #include "GameManager.h"
 #include "Chest.h"
+#include "LevelEditor.h"
 
 using std::vector;
 using std::map;
 
 class ConsoleRenderer;
-
-#define GRID_WIDTH 15       // Largeur de la grille
-#define GRID_HEIGHT 15      // Hauteur de la grille
 
 #define ICON_EMPTY '.'
 #define ICON_WALL 'X'
@@ -43,6 +41,8 @@ public:
     GridRenderer(ConsoleRenderer* console);
 
     vector<vector<char>>& GetGrid() { return m_grid; }
+    int GetGridWidth() const { return m_gridWidth; }
+    int GetGridHeight() const { return m_gridHeight; }
     map<CellType, pair<char, int>> GetCellDatas() const { return m_cellDatas; }
     map<pair<int, int>, Chest*> GetChests() const { return m_chests; }
 
@@ -60,6 +60,9 @@ private:
     const int NB_CHESTS = 3;        // Nombre de coffres
     const int NB_TRAPS = 5;         // Nombre de pièges
 
+    int m_gridWidth;
+    int m_gridHeight;
+
     vector<vector<char>> m_grid;
 
     map<CellType, pair<char, int>> m_cellDatas    // Icon & Color
@@ -76,4 +79,5 @@ private:
 
     GameManager* m_gm;
     ConsoleRenderer* m_consoleRenderer;
+    LevelEditor* m_levelEditor;
 };

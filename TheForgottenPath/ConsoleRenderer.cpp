@@ -28,7 +28,7 @@ void ConsoleRenderer::Render()
     }
 
     // Calcul des marges pour centrer la grille
-    int margin_left = (console_width - GRID_WIDTH * 2) / 2; // *2 car chaque cellule est suivie d'un espace
+    int margin_left = (console_width - m_gridRenderer->GetGridWidth() * 2) / 2; // *2 car chaque cellule est suivie d'un espace
 
     for (const auto& row : GetGrid())
     {
@@ -102,7 +102,7 @@ void ConsoleRenderer::RenderValidMovementCells()
             int newY = playerY + offsetY;
 
             // Check que les coords sont valides et que la cellule est dans la grille
-            if (newX >= 0 && newX < GRID_WIDTH && newY >= 0 && newY < GRID_HEIGHT)
+            if (newX >= 0 && newX < m_gridRenderer->GetGridWidth() && newY >= 0 && newY < m_gridRenderer->GetGridHeight())
             {
                 // Calcule la distance
                 if (abs(offsetX) + abs(offsetY) <= pm)
@@ -120,9 +120,9 @@ void ConsoleRenderer::RenderValidMovementCells()
 
 void ConsoleRenderer::ResetValidMovementCells()
 {
-    for (int row = 0; row < GRID_HEIGHT; ++row)
+    for (int row = 0; row < m_gridRenderer->GetGridHeight(); ++row)
     {
-        for (int col = 0; col < GRID_WIDTH; ++col)
+        for (int col = 0; col < m_gridRenderer->GetGridWidth(); ++col)
         {
             if (GetGrid()[row][col] == GetCellDatas()[CellType::ValidMove].first)
             {
