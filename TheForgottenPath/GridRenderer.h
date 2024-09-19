@@ -58,17 +58,15 @@ public:
     bool IsBlockedCell(pair<int, int> coord);
     bool IsEntityIcon(char icon);
 
-    void InitWalls();
     void InitRandomElement(int nb, CellType type);
     void SpawnMonsters();
     void SpawnPlayer();
     void SpawnChests();
 
 private:
+    vector<vector<char>> m_grid;
     int m_gridWidth;
     int m_gridHeight;
-
-    vector<vector<char>> m_grid;
 
     map<CellType, pair<char, int>> m_cellDatas    // Icon & Color
     {
