@@ -26,3 +26,26 @@ public:
 
 	void OnDeath(GameManager* gm) override;
 };
+
+class Titan : public Monster
+{
+public:
+	Titan();
+};
+
+class Mastiff : public Monster
+{
+public:
+	Mastiff();
+
+	void OnDeath(GameManager* gm) override;
+};
+
+class Ethereal : public Monster
+{
+public:
+	Ethereal();
+
+	void OnDeath(GameManager* gm) override;
+	int TakeDamage(Entity* attacker) override;
+};

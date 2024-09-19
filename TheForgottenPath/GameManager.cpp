@@ -43,6 +43,9 @@ void GameManager::StartNewBattle()
 	m_monsters.push_back(new Golem());
 	m_monsters.push_back(new Reaper());
 	m_monsters.push_back(new Wraith());
+	m_monsters.push_back(new Titan());
+	m_monsters.push_back(new Mastiff());
+	m_monsters.push_back(new Ethereal());
 }
 
 void GameManager::WinBattle()
