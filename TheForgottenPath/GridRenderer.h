@@ -14,6 +14,19 @@ class ConsoleRenderer;
 #define GRID_WIDTH 15       // Largeur de la grille
 #define GRID_HEIGHT 15      // Hauteur de la grille
 
+#define ICON_EMPTY '.'
+#define ICON_WALL 'X'
+#define ICON_VALID_MOVE '*'
+#define ICON_OBSTACLE '#'
+#define ICON_CHEST '='
+#define ICON_TRAP '!'
+
+#define COLOR_YELLOW_DARK 6
+#define COLOR_GREY_LIGHT 7
+#define COLOR_GREY_DARK 8
+#define COLOR_RED_LIGHT 12
+#define COLOR_YELLOW_LIGHT 14
+
 enum class CellType
 {
     Empty,
@@ -51,12 +64,12 @@ private:
 
     map<CellType, pair<char, int>> m_cellDatas    // Icon & Color
     {
-        { CellType::Empty, std::make_pair('.', 7) },        // Icone et couleur des cases vides (Couleur par défaut (gris clair))
-        { CellType::Wall, std::make_pair('X', 7) },         // Icone et couleur des murs
-        { CellType::ValidMove, std::make_pair('*', 14) },   // Icone et couleur des cases de mouvement valides (Jaune clair)
-        { CellType::Obstacle, std::make_pair('#', 8) },     // Icone et couleur des obstacles (Gris foncé)
-        { CellType::Chest, std::make_pair('=', 6) },        // Icone et couleur des coffres (Jaune foncé)
-        { CellType::Trap, std::make_pair('!', 12) }         // Icone et couleur des pièges (Rouge clair)
+        { CellType::Empty, std::make_pair(ICON_EMPTY, COLOR_GREY_LIGHT) },              // Icone et couleur des cases vides (Couleur par défaut (gris clair))
+        { CellType::Wall, std::make_pair(ICON_WALL, COLOR_GREY_LIGHT) },                // Icone et couleur des murs
+        { CellType::ValidMove, std::make_pair(ICON_VALID_MOVE, COLOR_YELLOW_LIGHT) },   // Icone et couleur des cases de mouvement valides (Jaune clair)
+        { CellType::Obstacle, std::make_pair(ICON_OBSTACLE, COLOR_GREY_DARK) },         // Icone et couleur des obstacles (Gris foncé)
+        { CellType::Chest, std::make_pair(ICON_CHEST, COLOR_YELLOW_DARK) },             // Icone et couleur des coffres (Jaune foncé)
+        { CellType::Trap, std::make_pair(ICON_TRAP, COLOR_RED_LIGHT) }                  // Icone et couleur des pièges (Rouge clair)
     };
 
     map<pair<int, int>, Chest*> m_chests;
